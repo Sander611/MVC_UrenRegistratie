@@ -1,0 +1,16 @@
+﻿@model QienUrenMVC.Models.HoursPerDayModel
+
+@*@foreach (var item in Model)*@
+
+    <tr>
+        @Html.HiddenFor(m => @Model.HoursPerDayId)
+        <td>@Html.DisplayNameFor(model => model.Day)1</td>
+        <td>@Html.TextBoxFor(model => model.Hours)2</td>
+        <td>@Html.TextBoxFor(model => model.ClientId)3</td>
+        <td>@Html.TextBoxFor(model => model.IsSick)4</td>
+        <td>@Html.TextBoxFor(model => model.OverTimeHours)5</td>
+        <td>@Html.TextBoxFor(model => model.IsLeave)6</td>
+        <td>@Html.TextBoxFor(model => model.Other)7</td>
+        <td>@Html.TextBoxFor(model => model.Reasoning)8</td>
+    </tr>
+

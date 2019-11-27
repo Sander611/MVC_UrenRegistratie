@@ -1,0 +1,26 @@
+﻿@model IEnumerable<QienUrenMVC.Models.HoursPerDayModel>
+@{
+    ViewData["Title"] = "HoursRegistration";
+}
+
+<h1>UrenRegistratie</h1>
+
+<form asp-controller="Employee" asp-action="HoursRegistration" method="post">
+
+    <table width="600px">
+        <thead>
+            <tr>
+                <th>Dag</th>
+                <th>Uren</th>
+                <th>Opdrachtgever</th>
+                <th>Ziek</th>
+                <th>Overtime</th>
+                <th>Leave</th>
+                <th>Other</th>
+                <th>Reasoning</th>
+            </tr>
+        </thead>
+        @Html.EditorForModel()
+    </table>
+    <button type="submit">Bewaren</button>
+</form>

@@ -1,0 +1,86 @@
+﻿@model QienUrenMVC.Models.ClientModel
+
+@{
+    ViewData["Title"] = "Client Details";
+
+}
+<html>
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        border: 0;
+        text-align: center;
+    }
+
+    table {
+        margin-top: 100px;
+        width: 80%;
+        border: 0;
+    }
+
+    .button {
+        border: none;
+        background-color: #9A33F8;
+        padding: 14px 40px;
+        margin: 100px 5px;
+        color: black;
+        margin-top: 100px;
+        margin-top: 50%;
+            position:absolute;
+    bottom: 5%;
+    right:20%;
+    }
+
+    #header {
+    background-color: #9A33F8;
+    text-align: center;
+    padding: 60px;
+    margin-top:50px;
+    font-size: 16px;
+    }
+
+    th, td {
+        padding: 40px;
+    }
+</style>
+
+<div>
+    <tabel id="header">
+    <tbody>
+        <tr>
+        @Model.CompanyName
+        </tr>
+    </tbody>
+        </div>
+<div class="container">
+    <h3></h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Company Name</td>
+                <td>@Model.CompanyName</td>
+            </tr>
+            <tr>
+                <td>Contact person 1</td>
+                <td>@Model.ClientName1</td>
+            </tr>
+            <tr>
+                <td>Contact email</td>
+                <td>@Model.ClientEmail1</td>
+            </tr>
+            <tr>
+                <td>Contact person 2</td>
+                <td>@Model.ClientName2</td>
+            </tr>
+            <tr>
+                <td>Contact email</td>
+                <td>@Model.ClientEmail2</td>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div>
+    <a href="#" class="button">Opslaan</a>
+</div>
+</html>

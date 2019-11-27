@@ -1,0 +1,79 @@
+﻿@model QienUrenMVC.Models.ClientModel
+
+@{
+    ViewData["Title"] = "Nieuwe opdrachtgever aanmaken";
+
+}
+<div class="container">
+    <table id="opdrachgeverAnmaken">
+        <tr>
+            <th>Nieuwe opdrachtgever aanmaken</th>
+        </tr>
+    </table>
+</div>
+<hr style="margin-top:30px; margin-bottom:30px;" />
+<div>
+    <form asp-controller="Client" asp-action="CreateClient" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div style="color:#9A33F8">
+            <h3>Gegevens</h3>
+        </div>
+        <div class="row" style="margin-top:50px;">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="CompanyName"></label>
+                    <input class="form-control" asp-for="CompanyName" />
+                    <span asp-validation-for="CompanyName"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:30px;">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="AccountId"></label>
+                    <input class="form-control" asp-for="AccountId" />
+                    <span asp-validation-for="AccountId"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:30px;">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="ClientName1"></label>
+                    <input class="form-control" asp-for="ClientName1" />
+                    <span asp-validation-for="ClientName1"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="ClientEmail1"></label>
+                    <input class="form-control" asp-for="ClientEmail1" />
+                    <span asp-validation-for="ClientEmail1"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:40px;">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="ClientName2"></label>
+                    <input class="form-control" asp-for="ClientName2" />
+                    <span asp-validation-for="ClientName2"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="ClientEmail2"></label>
+                    <input class="form-control" asp-for="ClientEmail2" />
+                    <span asp-validation-for="ClientEmail2"></span>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top:40px;" class="form-group">
+            <input type="submit" value="Opslaan" class="btn btn-primary" />
+        </div>
+        <p>
+            <a href="GetAllClients" class="button">Terug</a>
+        </p>
+    </form>
+</div>

@@ -1,0 +1,260 @@
+﻿@model IEnumerable<QienUrenMVC.Models.AdminTaskModel>
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+
+    <div class="row">
+
+        <div style="border: 3px solid #9A33F8;" class="col-md-2 rounded">
+
+            <img style="margin-bottom:10px; text-align:center; width:180px; height:180px;" class="img-fluid" src="~/Images/ProfileImages/admin-icon.svg" />
+
+            <p style="text-align:center;">Ingelogd als:</p>
+
+            <p style="text-align:center;"><i>Admin</i></p>
+            <hr />
+            <ul style="padding-left:20px;">
+                <li>
+                    <a style="text-align:center;" asp-controller="Admin" asp-action="AccountOverzicht">Accountbeheer</a>
+                </li>
+                <li>
+                    <a style="text-align:center;" asp-controller="Client" asp-action="GetAllClients">Werkgevers</a>
+                </li>
+                <li>
+                    <a style="text-align:center;" asp-controller="Admin" asp-action="">Overzicht uren</a>
+                </li>
+                <li>
+                    <a style="text-align:center;" asp-controller="Admin" asp-action="">Mutatieformulier</a>
+                </li>
+            </ul>
+            
+         
+        </div>
+
+        <div class="col-md-1">
+
+        </div>
+
+
+        <div class="col-md-8">
+            <div style="margin-top:10px;" class="row">
+                <div class="col">
+                    <h1 style="text-align:center; margin-bottom:20px; background-color: #9A33F8; color: white;">Takenlijst</h1>
+
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FullName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Info)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HandInTime)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.stateClientCheck)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FullName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Info)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HandInTime)
+                                    </td>
+                                    @if (item.stateClientCheck == 1)
+                                    {
+                                        <td align=center>
+                                            <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" />
+                                        </td>
+                                    }
+                                    else if (item.stateClientCheck == 2)
+                                    {
+                                        <td align=center>
+                                            <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" />
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            In afwachting..
+                                        </td>
+
+
+                                    }
+                                    <td>
+                                        @Html.ActionLink("Controleren", "Controleren", new { formId = item.formId, accountId = item.accountId, fullName = item.FullName, month = item.Month, year = item.Year })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <hr />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-7">
+                    <h3 style="text-align:center; background-color: #9A33F8; color: white;">Totaal uren 2019</h3>
+                    <table style="font-size:10px;" class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Maand
+                                </th>
+                                <th>
+                                    Trainees
+                                </th>
+                                <th>
+                                    Medewerkers
+                                </th>
+                                <th>
+                                    Sr. Developers
+                                </th>
+                                <th>
+                                    Totaal
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Januari</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+                            </tr>
+                            <tr>
+                                <td>Februari</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+
+                            </tr>
+                            <tr>
+                                <td>Maart</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+
+                            </tr>
+                            <tr>
+                                <td>April</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+
+                            </tr>
+                            <tr>
+                                <td>Mei</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+
+                            </tr>
+                            <tr>
+                                <td>Juni</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+
+                            </tr>
+                            <tr>
+                                <td>Juli</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+
+                            </tr>
+                            <tr>
+                                <td>Augustus</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+
+                            </tr>
+                            <tr>
+                                <td>September</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+
+                            </tr>
+                            <tr>
+                                <td>Oktober</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+
+                            </tr>
+                            <tr>
+                                <td>November</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+
+                            </tr>
+                            <tr>
+                                <td>December</td>
+                                <td>345</td>
+                                <td>548</td>
+                                <td>245</td>
+                                <td>1138</td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-sm-1">
+
+                </div>
+
+                <div class="col-sm-4">
+                    <h3 style="text-align:center; background-color: #9A33F8; color: white;">Mail Service</h3>
+
+                    <div class="form-group">
+                        <label for="sel1">Mail naar:</label>
+                        <select class="form-control" id="sel1">
+                            <option>Iedereen</option>
+                            <option>Trainees</option>
+                            <option>Werknemers</option>
+                            <option>Senior Developers</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <textarea value="" rows="16" cols="21" style="resize: none;"></textarea>
+                    </div>
+
+                    <input type="submit" value="Verstuur" class="btn btn-primary" />
+                </div>
+            </div>
+
+        </div>
+    </div>

@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - UrenProjectQien</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/Dashboard.css" />
+</head>
+<body>
+    <header>
+
+        <div class="topbar">
+            <div class="qienlogo"><img src="~/Images/QienLogo.png" height="100" /></div>
+            <div class="floatingright">
+                <div class="dropdown">
+                    <button class="navbarbutton">
+                        <span class="normal"><img src="~/Images/button.png" /></span>
+                        <span class="hover"><img src="~/Images/button-hover.png" /></span>
+                    </button>
+                    <div class="dropdown-content">
+                        <div class="dropdownsingleitem">
+                            <a asp-area="" asp-controller="Home" asp-action="Index">Personalia <br />wijzingen</a>
+                        </div>
+                        <div class="dropdownsingleitem">
+                            <a asp-area="" asp-controller="Home" asp-action="Index">Uren <br />registeren</a>
+                        </div>
+                        <div class="dropdownsingleitem">
+                            <a asp-area="" asp-controller="Home" asp-action="Privacy">Uitloggen</a>
+                            <partial name="_LoginPartial" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+    <div class="Emp-container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2019 - UrenProjectQien - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

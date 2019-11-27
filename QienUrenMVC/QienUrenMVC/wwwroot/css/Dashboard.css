@@ -1,0 +1,47 @@
+﻿.Emp-container {
+    
+    
+
+}
+
+
+.wrapper {
+    float: left;
+    height: 1000px;
+    width: 300px;
+    background-color: #9A33F8;
+    border-color:black;
+    margin-top:15px;
+    
+}
+
+.profile {
+    background-color: #9A33F8;
+    
+}
+
+#takenlijst{
+    padding-top:150px;
+    margin-left:100px;
+
+}
+
+#personalia{
+    padding-top:200px;
+    
+}
+
+
+#takenheader {
+    background-color: #9A33F8;
+    margin-right:600px;
+    
+}
+
+#headerrow{
+    background-color: lightgray;
+}
+
+h2{
+    color:white;
+}

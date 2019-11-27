@@ -1,0 +1,91 @@
+﻿@model QienUrenMVC.Models.ClientModel
+
+@{
+    ViewData["Title"] = "EditClient";
+}
+
+<h1 style="text-align:center">Opdrachtgever gegevens aanpassen</h1>
+<hr />
+<div class="row">
+    <div>
+        <form asp-action="UpdateClient">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" value="@Model.ClientId" name="ClientId" />
+
+            <div class="row">
+                <div style="margin-top:10px;" class="col-md-8">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label asp-for="CompanyName" class="control-label"></label>
+                                <input asp-for="CompanyName" class="form-control" />
+                                <span asp-validation-for="CompanyName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label asp-for="AccountId" class="control-label"></label>
+                                <input asp-for="AccountId" class="form-control" />
+                                <span asp-validation-for="AccountId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label asp-for="ClientName1" class="control-label"></label>
+                                <input asp-for="ClientName1" class="form-control" />
+                                <span asp-validation-for="ClientName1" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label asp-for="ClientEmail1" class="control-label"></label>
+                                <input asp-for="ClientEmail1" class="form-control" />
+                                <span asp-validation-for="ClientEmail1" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label asp-for="ClientName2" class="control-label"></label>
+                                <input asp-for="ClientName2" class="form-control" />
+                                <span asp-validation-for="ClientName2" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label asp-for="ClientEmail2" class="control-label"></label>
+                                <input asp-for="ClientEmail2" class="form-control" />
+                                <span asp-validation-for="ClientName2" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+            <div style="margin-bottom:10px;" class="row">
+                <div class="col-sm-2 offset-sm-10">
+                    <div style="text-align:center">
+                        <a asp-action="GetAllClients">Terug</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2 offset-sm-10">
+                    <div style="text-align:center" class="form-group">
+                        <input type="submit" value="Opslaan" class="btn btn-primary" />
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

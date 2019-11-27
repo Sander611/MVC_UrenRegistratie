@@ -1,0 +1,244 @@
+﻿@model QienUrenMVC.Models.AccountModelCreateView
+
+@{
+    ViewData["Title"] = "CreateEmployee";
+}
+
+<h1 style="text-align:center">Nieuw account aanmaken</h1>
+
+<hr style="margin-top:30px; margin-bottom:30px;" />
+<div>
+    <div>
+        <form method="post" enctype="multipart/form-data" asp-action="CreateEmployee">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div style="color:#9A33F8">
+                <h3>Account Info</h3>
+            </div>
+            <div id="MostImportantFields" style="border: 3px solid #9A33F8; padding: 10px">
+                <div class="row">
+                    <div style="text-align:center" class="col-md-6 offset-md-3">
+                        <img style="width:180px; height:auto" class="img-fluid" src="~/Images/user-circle-solid.svg" alt="Profielfoto" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-4 offset-md-4">
+                        <div class="custom-file">
+                            <input asp-for="ProfileImage" class="form-control custom-file-input" />
+
+                            <label class="custom-file-label">Upload Profielfoto</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:50px;">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="FirstName" class="control-label"></label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="LastName" class="control-label"></label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="HashedPassword" class="control-label"></label>
+                            <input asp-for="HashedPassword" class="form-control" />
+                            <span asp-validation-for="HashedPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="HashedPassword" class="control-label"></label>
+                            <input asp-for="HashedPassword" class="form-control" />
+                            <span asp-validation-for="HashedPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="margin-top:30px; margin-bottom:30px;" />
+
+            <div style="color:#9A33F8">
+                <h3>Persoonlijke Info</h3>
+            </div>
+            <div id="PersonalInfoFields" style="border: 3px solid #9A33F8; padding: 10px">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="DateOfBirth" class="control-label"></label>
+                            <input asp-for="DateOfBirth" class="form-control" />
+                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="MobilePhone" class="control-label"></label>
+                            <input asp-for="MobilePhone" class="form-control" />
+                            <span asp-validation-for="MobilePhone" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <label asp-for="IBAN" class="control-label"></label>
+                            <input asp-for="IBAN" class="form-control" />
+                            <span asp-validation-for="IBAN" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr style="margin-top:30px; margin-bottom:30px;" />
+
+            <div style="color:#9A33F8">
+                <h3>Adresgegevens</h3>
+            </div>
+            <div id="LivingInfoFields" style="border: 3px solid #9A33F8; padding: 10px">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <label asp-for="Address" class="control-label"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="ZIP" class="control-label"></label>
+                            <input asp-for="ZIP" class="form-control" />
+                            <span asp-validation-for="ZIP" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="City" class="control-label"></label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="margin-top:30px; margin-bottom:30px;" />
+
+            <div style="color:#9A33F8">
+                <h3>Rol van de Gebruiker</h3>
+            </div>
+            <div id="UserRoleFields" style="border: 3px solid #9A33F8; padding: 10px">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input id="checkTrainee" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsTrainee" /> @Html.DisplayNameFor(model => model.IsTrainee)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input id="checkQienEmployee" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsQienEmployee" /> @Html.DisplayNameFor(model => model.IsQienEmployee)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input id="checkSeniorDeveloper" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsSeniorDeveloper" /> @Html.DisplayNameFor(model => model.IsSeniorDeveloper)
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <hr style="margin-top:30px; margin-bottom:30px;" />
+
+            <div style="color:#9A33F8">
+                <h3>Account Actief Stellen</h3>
+            </div>
+
+            <div id="UserActiveField" style="border: 3px solid #9A33F8; padding: 10px">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input id="createAccountActiveCheck" onclick="showMessageActiveStatus()" class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                            </label>
+                        </div>
+                    </div>
+                    <div style="display:none" id="WarningSign" class="col-md-1">
+                        <img style="width:20px; height:auto" class="img-fluid" src="~/Images/exclamation-solid.svg" alt="WarningSign" />
+                    </div>
+                    <div style="display:none" id="ExtraInfoActiveStatus" class="col">
+                        <p style="color:lightcoral; font-size:10px"> Wanneer een account op actief wordt gezet geeft dit de gebruiker recht om in te loggen en te navigeren door de website. </p>
+                        <p style="color:lightcoral; font-size:10px"> Het Account wordt automatisch actief gesteld wanneer de gebruiker zijn/haar wachtwoord aanpast na de eerste keer inloggen. </p>
+                        <p style="color:lightcoral; font-size:10px"> Voor een trainee wordt het account automatisch op inactief gesteld na een periode van gedurende één jaar.</p>
+                    </div>
+                </div>
+            </div>
+
+
+            @*<div class="form-group">
+            <label asp-for="AccountId" class="control-label"></label>
+            <input asp-for="AccountId" class="form-control" />
+            <span asp-validation-for="AccountId" class="text-danger"></span>
+        </div>*@
+
+
+            @*<div class="form-group">
+            <label asp-for="CreationDate" class="control-label"></label>
+            <input asp-for="CreationDate" class="form-control" />
+            <span asp-validation-for="CreationDate" class="text-danger"></span>
+        </div>*@
+
+
+            @section Scripts{
+                <script>
+                    $(document).ready(function () {
+                        $('.custom-file-input').on("change", function () {
+                            //console.log($(this).val());
+                            var filename = $(this).val().split("\\").pop();
+                            $(this).next('.custom-file-label').html(filename);
+                        });
+                    });
+                </script>
+            }
+
+            <div style="margin-top:30px;" class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="AccountOverzicht">Back to List</a>
+</div>
+

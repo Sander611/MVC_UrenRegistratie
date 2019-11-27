@@ -1,0 +1,46 @@
+﻿@model IEnumerable<QienUrenMVC.Models.ClientModel>
+
+@{
+    ViewData["Title"] = "Opdrachtgevers lijst";
+
+}
+
+
+<p>
+    <a href="createClient" class="button">Nieuwe opdrachtgever</a>
+
+</p>
+<table style="width:100%;">
+    <thead>
+        <tr>
+            <th>Bedrijf</th>
+            <th>Contactperson 1</th>
+            <th>Contactperson 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.CompanyName
+                </td>
+                <td>
+                    @item.ClientName1
+                </td>
+                <td>
+                    @item.ClientName2
+                </td>
+                <td>
+                    @Html.ActionLink("Gegevens", "ClientDetails", new { Id = item.ClientId })
+                </td>
+                <td>
+                    @Html.ActionLink("Wijzigingen", "UpdateClient", new { id = item.ClientId })
+                </td>
+                <td>
+                    @Html.ActionLink("Verwijderen", "DeleteClient", new { id = item.ClientId }, new {onclick =  "return confirm('Weet u zeker dat u dit account wilt verwijderen?');"})
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

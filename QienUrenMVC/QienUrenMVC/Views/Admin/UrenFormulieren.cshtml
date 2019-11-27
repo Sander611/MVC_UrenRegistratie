@@ -1,0 +1,91 @@
+﻿@model IEnumerable<QienUrenMVC.Models.HoursFormModel>
+
+@{
+    ViewData["Title"] = "UrenFormulieren";
+}
+
+<h1 style="text-align:center">Uren Formulieren van @ViewBag.currUser</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FormId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateSend)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateDue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectMonth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAcceptedClient)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsLocked)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FormId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateSend)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateDue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectMonth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAcceptedClient)
+            </td>
+            @if (item.IsLocked == true)
+            {
+                <td align=center>
+                    <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" />
+                </td>
+            }
+            else if (item.IsLocked == false)
+            {
+                <td align=center>
+                    <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" />
+                </td>
+            }
+            <td>
+                @Html.ActionLink("Inzien", "Controleren", new { formId = item.FormId, accountId = item.AccountId, fullName = @ViewBag.currUser, month = item.ProjectMonth, year = item.Year })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

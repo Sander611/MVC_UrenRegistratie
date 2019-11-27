@@ -1,0 +1,128 @@
+﻿@model QienUrenMVC.Models.EmployeeDashboardModel;
+
+
+@{
+    ViewData["Title"] = "EmployeeDashboard";
+    Layout = "_LayoutEmployee";
+}
+
+    <div class="wrapper">
+        <table id="profile">
+            <tbody>
+                <tr>
+                    <img src="~/Images/QienLogo.png" height="150" width="150" />
+                </tr>
+                <tr>
+                        @if(Model.Account.IsTrainee == true)
+                        {
+                            <h2>Trainee</h2>
+                        }
+                        else if(Model.Account.IsQienEmployee == true)
+                        {
+                            <h2>Medewerker</h2>
+                        }
+                        else
+                        {
+                            <h2>Senior Ontwikkelaar</h2>
+                        }
+                </tr>
+                <tr>
+                    <h2>@Model.Account.FirstName @Model.Account.LastName</h2>
+                </tr>
+                <tr>
+                    <h2>[Werkgever]</h2>
+                </tr>
+                <tr>
+                    
+                </tr>
+            </tbody>    
+        </table>
+    </div>
+
+        <div class="Emp-container">
+            <div id="takenlijst">
+                <h1 id="takenheader">Takenlijst</h1>
+                <table width="60%">
+                    <thead>
+
+                        <tr id="headerrow">
+                            <th>Taak</th>
+                            <th>Deadline</th>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        @foreach (var hourform in Model.Forms)
+                        {
+                            <tr>
+                                <td>
+                                    Uren registratie @hourform.ProjectMonth @hourform.Year.ToString()
+                                </td>
+                                <td>
+                                    @hourform.DateDue
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Uren Invoeren", "HoursRegistration",new { formId = hourform.FormId});
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="personalia">
+                <h1 id="takenheader">Peronalia</h1>
+                <table border="1">
+                    <tbody>
+                            <tr>
+                                <td>Voornaam</td>
+                                <td>@Model.Account.FirstName</td>
+
+                            </tr>
+                            <tr>
+                                <td>Achternaam</td>
+                                <td>@Model.Account.LastName</td>
+
+                            </tr>
+
+                            <tr>
+                                <td>Adres</td>
+                                <td>@Model.Account.Address</td>
+                            </tr>
+
+                            <tr>
+                                <td>Postcode</td>
+                                <td>@Model.Account.ZIP</td>
+                            </tr>
+
+                            <tr>
+                                <td>Stad</td>
+                                <td>@Model.Account.City</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="nieuws">
+                <h1 id="takenheader">Nieuws</h1>
+                <table>
+                    <tbody>
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            <tr>
+                                <td>Urenregistratie is goed gekeurd door Admin </td>
+
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    
+    
