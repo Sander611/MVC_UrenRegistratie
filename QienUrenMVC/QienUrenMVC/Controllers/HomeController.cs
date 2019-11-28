@@ -18,9 +18,10 @@ namespace QienUrenMVC.Controllers
             _logger = logger;
         }
 
+        //autoredirect works 
         public IActionResult Index()
         {
-            return View();
+            return Redirect("Identity/Account/Login");
         }
 
         public IActionResult Privacy()
