@@ -13,7 +13,7 @@ namespace QienUrenMVC.Models
         [Required]
         public int ClientId { get; set; }
 
-        public int AccountId { get; set; }
+        public string AccountId { get; set; }
 
         public string CompanyName { get; set; }
 
