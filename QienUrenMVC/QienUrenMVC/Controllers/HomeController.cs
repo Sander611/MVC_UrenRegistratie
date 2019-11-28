@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using QienUrenMVC.Data;
 using QienUrenMVC.Models;
+
 
 namespace QienUrenMVC.Controllers
 {
@@ -34,12 +36,13 @@ namespace QienUrenMVC.Controllers
 
         public IActionResult Index()
         {
-            var id = GetCurrentUserId();
-            List<AccountModel> user = _userManager.GetRolesAsync(id);
 
-            if (User.IsInRole("Admin") == true)
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+
+            if (currentUser.IsInRole("Admin") == true)
             {
-                return Redirect("Admin/Dashboard");
+                return RedirectToRoute(new { controller = "Admin", action = "Dashboard" });
             }
             if (User.IsInRole("Employee") == true)
             {

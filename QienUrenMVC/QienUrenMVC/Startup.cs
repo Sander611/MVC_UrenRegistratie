@@ -39,7 +39,7 @@ namespace QienUrenMVC
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<UserIdentity, RoleIdentity>(options =>
+            services.AddIdentity<UserIdentity, RoleIdentity>(options => 
             {
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedAccount = true;
