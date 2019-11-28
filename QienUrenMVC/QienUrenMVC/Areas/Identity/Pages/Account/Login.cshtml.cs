@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using QienUrenMVC.Data;
+using QienUrenMVC.Models;
 
 namespace QienUrenMVC.Areas.Identity.Pages.Account
 {
@@ -22,6 +23,8 @@ namespace QienUrenMVC.Areas.Identity.Pages.Account
         private readonly SignInManager<UserIdentity> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly AccountModel accountmodel;
+
 
         public LoginModel(SignInManager<UserIdentity> signInManager, 
             ILogger<LoginModel> logger,
@@ -74,6 +77,13 @@ namespace QienUrenMVC.Areas.Identity.Pages.Account
 
             ReturnUrl = returnUrl;
         }
+        private Task<UserIdentity> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+        public async Task<string> GetCurrentUserId()
+        {
+            UserIdentity user = await GetCurrentUserAsync();
+            return user?.Id;
+        }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
@@ -87,7 +97,27 @@ namespace QienUrenMVC.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    // Resolve the user via their 
+                    //var user = await _userManager.FindByEmailAsync(Input.Email);
+                    //var roles = await _userManager.GetRolesAsync(user);
+
+                    //var currentuser = GetCurrentUserId();
+                    //var userRoles = await _userManager.GetRolesAsync(currentuser.Result);
+
                     return LocalRedirect(returnUrl);
+
+                    //if (User.IsInRole("Admin") == true)
+                    //{
+                    //    return RedirectToAction("Dashboard", "Admin");
+                    //}
+                    //if (User.IsInRole("Employee") == true)
+                    //{
+                    //    return RedirectToAction("Dashboard", "Employee");
+
+
+
+                    //}
                 }
                 if (result.RequiresTwoFactor)
                 {
