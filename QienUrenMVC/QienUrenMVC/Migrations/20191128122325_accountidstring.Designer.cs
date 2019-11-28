@@ -10,8 +10,8 @@ using QienUrenMVC.Data;
 namespace QienUrenMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191126222200_changesUserIdentity")]
-    partial class changesUserIdentity
+    [Migration("20191128122325_accountidstring")]
+    partial class accountidstring
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -236,8 +236,8 @@ namespace QienUrenMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
+                    b.Property<string>("AccountId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClientEmail1")
                         .IsRequired()

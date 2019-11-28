@@ -30,7 +30,16 @@ namespace QienUrenMVC.Models
         [DisplayName("Geboortedatum")]
         public DateTime? DateOfBirth { get; set; }
 
-        public string HashedPassword { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [DisplayName("Wachtwoord")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [DisplayName("Herhaal wachtwoord")]
+        [Compare("Password",
+                ErrorMessage = "Wachtwoord en herhaling wachtwoord zijn niet hetzelfde.")]
+        public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Een Adres is verplicht")]
         [DisplayName("Adres")]

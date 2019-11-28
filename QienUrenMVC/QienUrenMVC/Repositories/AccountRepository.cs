@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using QienUrenMVC.Data;
 using QienUrenMVC.Models;
 using System;
@@ -11,8 +12,11 @@ namespace QienUrenMVC.Repositories
     public class AccountRepository : IAccountRepository
     {
         private readonly ApplicationDbContext repositoryContext;
-        public AccountRepository(ApplicationDbContext context)
+        private readonly UserManager<UserIdentity> _userManager;
+
+        public AccountRepository(UserManager<UserIdentity> userManager, ApplicationDbContext context)
         {
+            _userManager = userManager;
             this.repositoryContext = context;
         }
 
@@ -49,6 +53,8 @@ namespace QienUrenMVC.Repositories
 
         public async Task<AccountModel> AddNewAccount(AccountModel account)
         {
+
+            
             UserIdentity accountEntity = new UserIdentity
             {
                 FirstName = account.FirstName,
@@ -67,23 +73,21 @@ namespace QienUrenMVC.Repositories
                 IsQienEmployee = account.IsQienEmployee,
                 IsSeniorDeveloper = account.IsSeniorDeveloper,
                 IsTrainee = account.IsTrainee,
-                //UserName
-                //NormalizedUserName
-                //NormalizedEmail
-                //EmailConfirmed
-                //PasswordHash
+                UserName = account.Email,
+                EmailConfirmed = true,
+                LockoutEnabled = true
                 //SecurityStamp
                 //ConcurrencyStamp
                 //PhoneNumberConfirmed
                 //TwoFactorEnabled
                 //LockoutEnd
-                //LockoutEnabled
                 //AccessFailedCount
                 //Discriminator
 
             };
 
-            repositoryContext.UserIdentity.Add(accountEntity);
+            var result = await _userManager.CreateAsync(accountEntity, account.HashedPassword);
+            //repositoryContext.UserIdentity.Add(accountEntity);
 
 
             await repositoryContext.SaveChangesAsync();

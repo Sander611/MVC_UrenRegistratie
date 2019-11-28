@@ -50,7 +50,12 @@ namespace QienUrenMVC.Migrations
                     City = table.Column<string>(nullable: true),
                     IBAN = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: true),
-                    ProfileImage = table.Column<string>(nullable: true)
+                    ProfileImage = table.Column<string>(nullable: true),
+                    IsAdmin = table.Column<bool>(nullable: true),
+                    IsTrainee = table.Column<bool>(nullable: true),
+                    IsQienEmployee = table.Column<bool>(nullable: true),
+                    IsSeniorDeveloper = table.Column<bool>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -81,7 +86,7 @@ namespace QienUrenMVC.Migrations
                 {
                     FormId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AccountId = table.Column<int>(nullable: false),
+                    AccountId = table.Column<string>(nullable: false),
                     DateSend = table.Column<DateTime>(nullable: true),
                     DateDue = table.Column<DateTime>(nullable: true),
                     TotalHours = table.Column<int>(nullable: false),
