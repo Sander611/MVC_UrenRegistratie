@@ -3,126 +3,154 @@
 
 @{
     ViewData["Title"] = "EmployeeDashboard";
-    Layout = "_LayoutEmployee";
 }
 
-    <div class="wrapper">
-        <table id="profile">
+
+
+<div class="row">
+    <div style="border: 3px solid #9A33F8;" class="col-md-2 rounded">
+        <img style="margin-bottom:10px; text-align:center; width:180px; height:180px;" class="img-fluid" src="~/Images/ProfileImages/admin-icon.svg" />
+        <table>
             <tbody>
                 <tr>
-                    <img src="~/Images/QienLogo.png" height="150" width="150" />
+                    @if (Model.Account.IsTrainee == true)
+                    {
+                        <p style="text-align:center;">Trainee</p>
+                    }
+                    else if (Model.Account.IsQienEmployee == true)
+                    {
+                        <p style="text-align:center;">Medewerker</p>
+                    }
+                    else
+                    {
+                        <p style="text-align:center;">Senior Ontwikkelaar</p>
+                    }
                 </tr>
                 <tr>
-                        @if(Model.Account.IsTrainee == true)
-                        {
-                            <h2>Trainee</h2>
-                        }
-                        else if(Model.Account.IsQienEmployee == true)
-                        {
-                            <h2>Medewerker</h2>
-                        }
-                        else
-                        {
-                            <h2>Senior Ontwikkelaar</h2>
-                        }
+                    <p style="text-align:center;"> @Model.Account.FirstName @Model.Account.LastName</p>
                 </tr>
-                <tr>
-                    <h2>@Model.Account.FirstName @Model.Account.LastName</h2>
-                </tr>
-                <tr>
-                    <h2>[Werkgever]</h2>
-                </tr>
-                <tr>
-                    
-                </tr>
-            </tbody>    
+            </tbody>
         </table>
     </div>
 
-        <div class="Emp-container">
-            <div id="takenlijst">
-                <h1 id="takenheader">Takenlijst</h1>
-                <table width="60%">
-                    <thead>
+    <div>
+        <div class="col-md-1"></div>
+    </div>
 
-                        <tr id="headerrow">
-                            <th>Taak</th>
-                            <th>Deadline</th>
+    <div class="col-md-8">
+        <div style="margin-top:10px;" class="row">
+            <div class="col">
 
+                <table class="table">
+                    <thead style="margin-bottom:20px; font-size:30px; text-align:center; background-color: #9A33F8; color: white;">
+                        <tr>
+                            <th colspan="3">Takenlijst</th>
                         </tr>
                     </thead>
-
-
+                    <thead class="headertable">
+                        <tr>
+                            <th>Taak</th>
+                            <th>Deadline</th>
+                            <th>Invullen</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         @foreach (var hourform in Model.Forms)
                         {
                             <tr>
-                                <td>
+                                <td class="tablerow">
                                     Uren registratie @hourform.ProjectMonth @hourform.Year.ToString()
                                 </td>
-                                <td>
+                                <td class="tablerow">
                                     @hourform.DateDue
                                 </td>
-                                <td>
-                                    @Html.ActionLink("Uren Invoeren", "HoursRegistration",new { formId = hourform.FormId});
+                                <td class="tablerow">
+                                    @Html.ActionLink("Uren Invoeren", "HoursRegistration", new { formId = hourform.FormId });
                                 </td>
                             </tr>
                         }
-
                     </tbody>
                 </table>
             </div>
+        </div>
 
-            <div id="personalia">
-                <h1 id="takenheader">Peronalia</h1>
-                <table border="1">
-                    <tbody>
-                            <tr>
-                                <td>Voornaam</td>
-                                <td>@Model.Account.FirstName</td>
-
-                            </tr>
-                            <tr>
-                                <td>Achternaam</td>
-                                <td>@Model.Account.LastName</td>
-
-                            </tr>
-
-                            <tr>
-                                <td>Adres</td>
-                                <td>@Model.Account.Address</td>
-                            </tr>
-
-                            <tr>
-                                <td>Postcode</td>
-                                <td>@Model.Account.ZIP</td>
-                            </tr>
-
-                            <tr>
-                                <td>Stad</td>
-                                <td>@Model.Account.City</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="nieuws">
-                <h1 id="takenheader">Nieuws</h1>
+        <div class="row">
+            <div class="col-sm-5">
+                <h3 style="text-align:center; background-color: #9A33F8; font-size: 30px; color: white;">Personalia</h3>
                 <table>
                     <tbody>
-                        @for (int i = 0; i < 5; i++)
+                        <tr>
+                            <td style="font-weight:bold;">Voornaam</td>
+                            <td style="text-align:left; padding-left:65px;">@Model.Account.FirstName</td>
+
+                        </tr>
+                        <tr>
+                            <td style="font-weight:bold;">Achternaam</td>
+                            <td style="text-align:left; padding-left:65px">@Model.Account.LastName</td>
+
+                        </tr>
+
+                        <tr>
+                            <td style="font-weight:bold;">Adres</td>
+                            <td style="text-align:left; padding-left:65px;">@Model.Account.Address</td>
+                        </tr>
+
+                        <tr>
+                            <td style="font-weight:bold;">Postcode</td>
+                            <td style="text-align:left; padding-left:65px;">@Model.Account.ZIP</td>
+                        </tr>
+
+                        <tr>
+                            <td style="font-weight:bold;">Stad</td>
+                            <td style="text-align:left; padding-left:65px;">@Model.Account.City</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"> @Html.ActionLink("Personalia aanpasssen", "EmployeePersonalia", new { accountID = Model.Account.AccountId })</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-sm-2"></div>
+            <div class="col-sm-5">
+                <h3 style="text-align:center; background-color: #9A33F8; font-size: 30px; color: white;">Nieuws</h3>
+                <table>
+                    <tbody>
+                        @for (int i = 0; i < 3; i++)
                         {
                             <tr>
-                                <td>Urenregistratie is goed gekeurd door Admin </td>
-
+                                <td>Urenregistratie is goedgekeurd</td>
                             </tr>
 
                         }
                     </tbody>
                 </table>
             </div>
-
         </div>
-    
-    
+    </div>
+</div>
+
+
+
+
+
+
+@*<div class="nieuws">
+            <h1 id="takenheader">Nieuws</h1>
+            <table>
+                <tbody>
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        <tr>
+                            <td>Urenregistratie is goed gekeurd door Admin </td>
+
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>*@
+
+
