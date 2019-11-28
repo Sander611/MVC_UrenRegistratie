@@ -1,7 +1,7 @@
 ﻿@model QienUrenMVC.Models.ClientModel
 
 @{
-    ViewData["Title"] = "EditClient";
+    ViewData["Title"] = "Gegevens aanpassen";
 }
 
 <h1 style="text-align:center">Opdrachtgever gegevens aanpassen</h1>
@@ -10,6 +10,7 @@
     <div>
         <form asp-action="UpdateClient">
             <div asp-validation-summary="All" class="text-danger"></div>
+
             <input type="hidden" value="@Model.ClientId" name="ClientId" />
 
             <div class="row">
@@ -23,14 +24,14 @@
                             </div>
                         </div>
 
-                        <div class="col">
+                        @*<div class="col">
                             <div class="form-group">
                                 <label asp-for="AccountId" class="control-label"></label>
                                 <input asp-for="AccountId" class="form-control" />
                                 <span asp-validation-for="AccountId" class="text-danger"></span>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
 
                     <div class="row">
                         <div class="col">

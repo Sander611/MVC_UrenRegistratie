@@ -11,8 +11,8 @@ namespace QienUrenMVC.Data
     {
         [Key]
         public int ClientId { get; set; }
-        [ForeignKey("AspNetUsers")]
-        public string AccountId { get; set; }
+        //[ForeignKey("AspNetUsers")]
+        //public string AccountId { get; set; }
         [Required]
         public string CompanyName { get; set; }
         [Required]

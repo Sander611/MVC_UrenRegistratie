@@ -27,7 +27,6 @@ namespace QienUrenMVC.Repositories
                     ClientId = client.ClientId,
                     ClientEmail1 = client.ClientEmail1,
                     ClientEmail2 = client.ClientEmail2,
-                    AccountId = client.AccountId,
                     ClientName1 = client.ClientName1,
                     ClientName2 = client.ClientName2,
                     CompanyName = client.CompanyName
@@ -44,7 +43,6 @@ namespace QienUrenMVC.Repositories
                 ClientId = oneClient.ClientId,
                 ClientEmail1 = oneClient.ClientEmail1,
                 ClientEmail2 = oneClient.ClientEmail2,
-                AccountId = oneClient.AccountId,
                 ClientName1 = oneClient.ClientName1,
                 ClientName2 = oneClient.ClientName2,
                 CompanyName = oneClient.CompanyName
@@ -57,7 +55,6 @@ namespace QienUrenMVC.Repositories
             {
                 ClientEmail1 = clientModel.ClientEmail1,
                 ClientEmail2 = clientModel.ClientEmail2,
-                AccountId = clientModel.AccountId,
                 ClientName1 = clientModel.ClientName1,
                 ClientName2 = clientModel.ClientName2,
                 CompanyName = clientModel.CompanyName
@@ -78,7 +75,6 @@ namespace QienUrenMVC.Repositories
             Client clientEntity = context.Clients.Single(p => p.ClientId == client.ClientId);
             clientEntity.ClientEmail1 = client.ClientEmail1;
             clientEntity.ClientEmail2 = client.ClientEmail2;
-            clientEntity.AccountId = client.AccountId;
             clientEntity.ClientName1 = client.ClientName1;
             clientEntity.ClientName2 = client.ClientName2;
             clientEntity.CompanyName = client.CompanyName;
