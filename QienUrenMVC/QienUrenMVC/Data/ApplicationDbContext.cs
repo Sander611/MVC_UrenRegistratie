@@ -13,7 +13,6 @@ namespace QienUrenMVC.Data
         {
         }
 
-        //public DbSet<Account> Accounts { get; set; }
 
         public DbSet<Client> Clients { get; set; }
 
@@ -24,6 +23,7 @@ namespace QienUrenMVC.Data
         public DbSet<UserIdentity> UserIdentity { get; set; }
 
         public DbSet<RoleIdentity> RoleIdentity { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
