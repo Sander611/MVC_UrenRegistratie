@@ -78,8 +78,8 @@ namespace QienUrenMVC.Controllers
             return View(allFormsForAccount);
         }
 
-        [HttpDelete]
-        public async Task<RedirectToRouteResult> DeleteAccount(string accountID)
+
+        public async Task<IActionResult> DeleteAccount(string accountID)
         {
 
             string succesfull = accountRepo.RemoveAccount(accountID);
@@ -145,7 +145,7 @@ namespace QienUrenMVC.Controllers
                     LastName = model.LastName,
                     Email = model.Email,
                     DateOfBirth = model.DateOfBirth,
-                    HashedPassword = model.HashedPassword,
+                    HashedPassword = model.Password,
                     Address = model.Address,
                     ZIP = model.ZIP,
                     MobilePhone = model.MobilePhone,

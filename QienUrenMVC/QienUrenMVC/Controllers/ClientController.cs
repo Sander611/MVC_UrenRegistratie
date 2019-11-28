@@ -51,7 +51,7 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> CreateClient(ClientModel newClient)
         {
             ClientModel client = await clientRepo.CreateNewClient(newClient);
-            return View(client);
+            return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
 
         [HttpGet]
@@ -72,10 +72,9 @@ namespace QienUrenMVC.Controllers
             return View(updatedClient);
         }
 
-        [HttpGet("{id}")]
         public async Task<RedirectToRouteResult> DeleteClient(int id)
         {
-            var client = clientRepo.GetById(id);
+            var client = await clientRepo.GetById(id);
             if (client == null)
             {
                 throw new Exception("Cannot delete the client because it doesn't exist");
