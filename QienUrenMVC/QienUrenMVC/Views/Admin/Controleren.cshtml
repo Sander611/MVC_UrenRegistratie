@@ -1,30 +1,23 @@
 ﻿@model IEnumerable<QienUrenMVC.Models.HoursPerDayModel>
-
 @{
     ViewData["Title"] = "Controleren";
 }
 
-    <div class="row">
-  
-            <div class="col-sm" style="text-align:center">
-                <img style="display: inline-block; padding-right: 10px; width: 35px; height:auto;" src="~/Images/arrow-circle-left-solid.svg" />
-            </div>
-            <div class="col-sm" style="text-align:center">
-                <h1>@ViewBag.month (@ViewBag.year)</h1>
-                <h2 style="text-align:center">@ViewBag.fullName</h2>
-            </div>
-            
-            <div class="col-sm" style="text-align:center">
-                <img style="display: inline-block; padding-left: 10px; width: 35px; height:auto;" src="~/Images/arrow-circle-right-solid.svg" />
-            </div>
-        
+<div class="row">
+
+    <div class="col-sm" style="text-align:center">
+        <h1>@ViewBag.month (@ViewBag.year)</h1>
+        <h2 style="text-align:center">@ViewBag.fullName</h2>
     </div>
 
-<table class="table">
-    <thead>
+
+</div>
+
+<table class="table table-hover">
+    <thead style="background-color:#9A33F8;">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Day) 
+                @Html.DisplayNameFor(model => model.Day)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Hours)
@@ -49,36 +42,68 @@
             </th>
         </tr>
     </thead>
-    <tbody>
-@foreach(var item in Model)
-{
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Day) - @Html.DisplayFor(modelItem => item.Month)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hours)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OverTimeHours)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsLeave)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsSick)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Training)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Other)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Reasoning)
-            </td>
-        </tr>
-}
+    <tbody style="background-color:rgba(154, 51, 248, 0.12)">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Day) - @Html.DisplayFor(modelItem => item.Month)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OverTimeHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsLeave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsSick)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Training)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Other)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reasoning)
+                </td>
+            </tr>
+        }
+        @using (Html.BeginForm("AddComment", "Admin"))
+        {
+            <tr>
+                <td>
+                    <input type="text" style="width:300px; height:100px; text-align:start;" />
+
+                </td>
+                <td>
+                    <button asp-action="Approve" asp-controller="Admin">Goedkeuren</button>
+                </td>
+                <td>
+                    <button asp-action="Disapprove" asp-controller="Admin">Afkeuren</button>
+                </td>
+
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+
+                <td>
+                    <label style="font-weight:bold">Reden:</label>
+                </td>
+                <td>
+                    <textarea disabled style="width:300px; height:100px; resize:none">
+                        Uren kloppen niet
+                    </textarea>
+                </td>
+
+            </tr>
+        }
     </tbody>
 </table>
 
