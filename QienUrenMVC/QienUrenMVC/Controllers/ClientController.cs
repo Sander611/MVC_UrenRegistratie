@@ -51,7 +51,7 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> CreateClient(ClientModel newClient)
         {
             ClientModel client = await clientRepo.CreateNewClient(newClient);
-            return View(client);
+            return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
 
         [HttpGet]
