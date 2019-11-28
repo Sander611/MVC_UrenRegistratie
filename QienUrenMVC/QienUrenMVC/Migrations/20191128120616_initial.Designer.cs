@@ -10,7 +10,7 @@ using QienUrenMVC.Data;
 namespace QienUrenMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191126214727_initial")]
+    [Migration("20191128120616_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -269,8 +269,9 @@ namespace QienUrenMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
+                    b.Property<string>("AccountId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DateDue")
                         .HasColumnType("datetime2");
@@ -382,6 +383,21 @@ namespace QienUrenMVC.Migrations
 
                     b.Property<string>("IBAN")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsQienEmployee")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSeniorDeveloper")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsTrainee")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");

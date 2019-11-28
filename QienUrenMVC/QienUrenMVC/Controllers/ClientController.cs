@@ -48,10 +48,10 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<ClientModel> CreateClient(ClientModel newClient)
+        public async Task<IActionResult> CreateClient(ClientModel newClient)
         {
             ClientModel client = await clientRepo.CreateNewClient(newClient);
-            return client;
+            return View(client);
         }
 
         [HttpGet]

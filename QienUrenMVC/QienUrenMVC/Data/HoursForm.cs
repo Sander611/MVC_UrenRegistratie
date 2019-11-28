@@ -10,7 +10,7 @@ namespace QienUrenMVC.Data
     {
         [Key]
         public int FormId { get; set; }
-        [ForeignKey("Account")]
+        [ForeignKey("AspNetUsers")]
         [Required]
         public string AccountId { get; set; }
         public DateTime? DateSend { get; set; }
