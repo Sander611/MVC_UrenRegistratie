@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using QienUrenMVC.Data;
 using QienUrenMVC.Models;
+
 
 namespace QienUrenMVC.Controllers
 {
@@ -18,10 +23,36 @@ namespace QienUrenMVC.Controllers
             _logger = logger;
         }
 
-        //autoredirect works 
-        public IActionResult Index()
+        private readonly UserManager<UserIdentity> _userManager;
+        private readonly SignInManager<UserIdentity> _signInManager;
+
+        private Task<UserIdentity> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+        public async Task<string> GetCurrentUserId()
         {
-            return Redirect("Identity/Account/Login");
+            UserIdentity user = await GetCurrentUserAsync();
+            return user?.Id;
+        }
+
+        public IActionResult Index(string accountId)
+        {
+
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+
+            if (currentUser.IsInRole("Admin") == true)
+            {
+                return RedirectToRoute(new { controller = "Admin", action = "Dashboard" });
+            }
+            if (User.IsInRole("Employee") == true)
+            {
+
+                return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = User.FindFirstValue(ClaimTypes.NameIdentifier) });
+            }
+            else
+            {
+                return Redirect("Identity/Account/Login");
+            }
         }
 
         public IActionResult Privacy()

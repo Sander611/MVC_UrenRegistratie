@@ -36,12 +36,12 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EmployeeDashboard()
+        public async Task<IActionResult> EmployeeDashboard(string accountId)
         {
 
-            AccountModel result = await accountRepo.GetOneAccount("2");
+            AccountModel result = await accountRepo.GetOneAccount(accountId);
 
-            List<HoursFormModel> result1 = await hoursformRepo.getAllFormPerAccount("2");
+            List<HoursFormModel> result1 = await hoursformRepo.getAllFormPerAccount(accountId);
 
 
             AccountModel accountInfo = new AccountModel()
@@ -114,6 +114,51 @@ namespace QienUrenMVC.Controllers
 
             return View(model);
 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateFormForAccount(HoursFormModel hoursformModel)
+        {
+
+            hoursformModel.AccountId = "dfe8f40b-558f-4ca2-8af1-72a703c44df3";
+            hoursformModel.DateSend = DateTime.Now;
+            hoursformModel.TotalHours = 100;
+            hoursformModel.ProjectMonth = "november";
+            hoursformModel.Year = 2019;
+            hoursformModel.IsAcceptedClient = 1;
+            hoursformModel.IsLocked = false;
+            hoursformModel.CommentAdmin = "blabla";
+            hoursformModel.CommentClient = "blabla";
+
+            var result = await hoursformRepo.CreateNewForm(hoursformModel);
+
+            return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EmployeePersonalia(string accountId)
+        {
+            AccountModel accountUser = await accountRepo.GetOneAccount(accountId);
+            return View(accountUser);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EmployeePersonalia(AccountModel updatedAccount)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
+                if (existingAccount == null)
+                {
+                    return View(updatedAccount);
+                }
+                AccountModel acc = await accountRepo.UpdateAccount(updatedAccount);
+
+                return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" });
+            }
+
+            return View(updatedAccount);
         }
     }
 }

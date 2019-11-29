@@ -4,13 +4,6 @@
     ViewData["Title"] = "Nieuwe opdrachtgever aanmaken";
 
 }
-<div class="container">
-    <table id="opdrachgeverAnmaken">
-        <tr>
-            <th>Nieuwe opdrachtgever aanmaken</th>
-        </tr>
-    </table>
-</div>
 <hr style="margin-top:30px; margin-bottom:30px;" />
 <div>
     <form asp-controller="Client" asp-action="CreateClient" method="post">
@@ -28,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="margin-top:30px;">
+        @*<div class="row" style="margin-top:30px;">
             <div class="col">
                 <div class="form-group">
                     <label asp-for="AccountId"></label>
@@ -36,7 +29,7 @@
                     <span asp-validation-for="AccountId"></span>
                 </div>
             </div>
-        </div>
+        </div>*@
         <div class="row" style="margin-top:30px;">
             <div class="col">
                 <div class="form-group">
