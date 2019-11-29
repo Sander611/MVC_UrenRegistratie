@@ -168,6 +168,28 @@ namespace QienUrenMVC.Controllers
             return View(model);
         }
 
+        
+        [HttpGet]
+        public async Task<IActionResult> YearOverview(int Year)
+        {
+            List<string> allTraineesIds = await accountRepo.GetAccountIdsByRole("Trainee");
+            List<string> allEmployeesIds = await accountRepo.GetAccountIdsByRole("Employee");
+            List<string> allSoftwareDevelopersIds = await accountRepo.GetAccountIdsByRole("SoftwareDeveloper");
+
+            List<YearOverviewModel> OverviewList = await hoursformRepo.GetYearOverviews(Year, allTraineesIds, allEmployeesIds, allSoftwareDevelopersIds);
+
+            return View(OverviewList);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> FormsForYear(int year, string month)
+        {
+            List<HoursFormModel> specificFormsForDate = await hoursformRepo.GetFormsForYearAndMonth(year, month);
+            ViewBag.Year = year;
+            ViewBag.Month = month;
+            return View(specificFormsForDate);
+        }
+
 
 
     }
