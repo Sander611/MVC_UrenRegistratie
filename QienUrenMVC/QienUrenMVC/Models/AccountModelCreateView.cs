@@ -9,7 +9,7 @@ namespace QienUrenMVC.Models
 {
     public class AccountModelCreateView
     {
-        public int AccountId { get; set; }
+        public string AccountId { get; set; }
 
         [Required(ErrorMessage = "Een voornaam is verplicht")]
         [DisplayName("Naam")]

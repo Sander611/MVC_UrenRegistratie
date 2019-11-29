@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using System.Text;
 
 namespace QienUrenMVC.Controllers
 {
@@ -143,6 +144,7 @@ namespace QienUrenMVC.Controllers
 
                 AccountModel newAccount = new AccountModel()
                 {
+                    AccountId = model.AccountId,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
@@ -161,14 +163,26 @@ namespace QienUrenMVC.Controllers
                     IsSeniorDeveloper = model.IsSeniorDeveloper,
                     IsTrainee = model.IsTrainee
                 };
+                DateTime? date = DateTime.Now;
+                DateTime now = DateTime.Now;
+                var startDate = new DateTime(now.Year, now.Month, 1);
+                var endDate = startDate.AddMonths(1).AddDays(35 );
+
                 AccountModel acc = await accountRepo.AddNewAccount(newAccount);
+
+                HoursFormModel newHoursForm = new HoursFormModel()
+                {
+                    AccountId = acc.AccountId,
+                    Year = DateTime.Now.Year,
+                    ProjectMonth = date.Value.ToString("MMMM"),
+                    IsAcceptedClient = 0,
+                    DateDue = endDate
+            };
+                await hoursformRepo.CreateNewForm(newHoursForm);
                 return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
 
             }
             return View(model);
         }
-
-
-
     }
 }
