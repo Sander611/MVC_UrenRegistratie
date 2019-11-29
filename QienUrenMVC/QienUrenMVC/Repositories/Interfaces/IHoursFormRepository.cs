@@ -15,6 +15,6 @@ namespace QienUrenMVC.Repositories
         Task<List<AdminTaskModel>> GetAllClientAcceptedForms();
         Task<List<HoursFormModel>> getAllFormPerAccount(string accountId);
 
-        Task<List<HoursFormModel>> RemoveAllFormPerAccount(string accountId);
+        Task RemoveAllFormPerAccount(string accountId);
     }
 }

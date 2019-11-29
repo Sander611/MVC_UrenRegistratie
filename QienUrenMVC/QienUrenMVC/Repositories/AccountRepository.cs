@@ -87,7 +87,7 @@ namespace QienUrenMVC.Repositories
             };
 
             var result = await _userManager.CreateAsync(accountEntity, account.HashedPassword);
-            //repositoryContext.UserIdentity.Add(accountEntity);
+            repositoryContext.UserIdentity.Add(accountEntity);
 
 
             await repositoryContext.SaveChangesAsync();

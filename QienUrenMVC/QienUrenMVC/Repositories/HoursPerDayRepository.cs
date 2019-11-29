@@ -70,6 +70,15 @@ namespace QienUrenMVC.Repositories
             return allDaysForFormId;
         }
 
+        public async Task RemoveAllDaysForForm(int formId)
+        {
+            var allDaysForFormId = await context.HoursPerDays.Where(p => p.FormId == formId).ToListAsync();
+            foreach (var day in allDaysForFormId)
+            {
+                context.HoursPerDays.Remove(day);
+            }
+
+        }
 
 
 

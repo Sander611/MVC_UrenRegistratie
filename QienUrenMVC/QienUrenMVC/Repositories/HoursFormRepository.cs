@@ -92,24 +92,17 @@ namespace QienUrenMVC.Repositories
             return formPerUser;
         }
 
-        public async Task<List<HoursFormModel>> RemoveAllFormPerAccount(string accountId)
+        public async Task RemoveAllFormPerAccount(string accountId)
         {
             var formEntities = await context.HoursForms.Where(p => p.AccountId == accountId).ToListAsync();
-            List<HoursFormModel> formPerUser = new List<HoursFormModel>();
 
-            foreach(var form in formEntities)
+            foreach (var form in formEntities)
             {
-                formPerUser.Remove(new HoursFormModel
-                {
-                    FormId = form.FormId,
-                    AccountId = form.AccountId,
-                    DateDue = form.DateDue,
-                    ProjectMonth = form.ProjectMonth,
-                    Year = form.Year
-                });
+                context.HoursForms.Remove(form);
+                
             }
 
-            return formPerUser;
+            await context.SaveChangesAsync();
         }
 
         //new hoursform
