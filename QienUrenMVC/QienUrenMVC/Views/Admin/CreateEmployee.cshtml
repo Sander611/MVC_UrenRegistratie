@@ -12,6 +12,7 @@
 <div>
     <div>
         <form method="post" enctype="multipart/form-data" asp-action="CreateEmployee">
+            @Html.HiddenFor(m => m.AccountId)
             <div asp-validation-summary="All" class="text-danger"></div>
 
             <div style="color:#9A33F8">
