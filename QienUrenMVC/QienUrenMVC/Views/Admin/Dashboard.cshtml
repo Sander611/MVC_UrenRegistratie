@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Dashboard";
-            Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 
 }
 
@@ -25,7 +25,7 @@
                     <a style="text-align:center;" asp-controller="Client" asp-action="GetAllClients">Werkgevers</a>
                 </li>
                 <li>
-                    <a style="text-align:center;" asp-controller="Admin" asp-action="">Overzicht uren</a>
+                    <a style="text-align:center;" asp-controller="Admin" asp-action="YearOverview"  asp-route-Year="@DateTime.Now.Year">Overzicht uren</a>
                 </li>
                 <li>
                     <a style="text-align:center;" asp-controller="Admin" asp-action="">Mutatieformulier</a>

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
 using Microsoft.AspNetCore.Authorization;
-using System.Text;
 
 namespace QienUrenMVC.Controllers
 {
@@ -144,7 +143,6 @@ namespace QienUrenMVC.Controllers
 
                 AccountModel newAccount = new AccountModel()
                 {
-                    AccountId = model.AccountId,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Email = model.Email,
@@ -163,26 +161,36 @@ namespace QienUrenMVC.Controllers
                     IsSeniorDeveloper = model.IsSeniorDeveloper,
                     IsTrainee = model.IsTrainee
                 };
-                DateTime? date = DateTime.Now;
-                DateTime now = DateTime.Now;
-                var startDate = new DateTime(now.Year, now.Month, 1);
-                var endDate = startDate.AddMonths(1).AddDays(35 );
-
                 AccountModel acc = await accountRepo.AddNewAccount(newAccount);
-
-                HoursFormModel newHoursForm = new HoursFormModel()
-                {
-                    AccountId = acc.AccountId,
-                    Year = DateTime.Now.Year,
-                    ProjectMonth = date.Value.ToString("MMMM"),
-                    IsAcceptedClient = 0,
-                    DateDue = endDate
-            };
-                await hoursformRepo.CreateNewForm(newHoursForm);
                 return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
 
             }
             return View(model);
         }
+
+        
+        [HttpGet]
+        public async Task<IActionResult> YearOverview(int Year)
+        {
+            List<string> allTraineesIds = await accountRepo.GetAccountIdsByRole("Trainee");
+            List<string> allEmployeesIds = await accountRepo.GetAccountIdsByRole("Employee");
+            List<string> allSoftwareDevelopersIds = await accountRepo.GetAccountIdsByRole("SoftwareDeveloper");
+
+            List<YearOverviewModel> OverviewList = await hoursformRepo.GetYearOverviews(Year, allTraineesIds, allEmployeesIds, allSoftwareDevelopersIds);
+
+            return View(OverviewList);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> FormsForYear(int year, string month)
+        {
+            List<HoursFormModel> specificFormsForDate = await hoursformRepo.GetFormsForYearAndMonth(year, month);
+            ViewBag.Year = year;
+            ViewBag.Month = month;
+            return View(specificFormsForDate);
+        }
+
+
+
     }
 }

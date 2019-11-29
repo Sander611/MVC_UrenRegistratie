@@ -209,5 +209,24 @@ namespace QienUrenMVC.Repositories
             }
             return PersonaliaPerUser;
         }
+
+        public async Task<List<string>> GetAccountIdsByRole(string role)
+        {
+            List<string> ids = new List<string>();
+
+            if (role == "Trainee") {
+                ids = await repositoryContext.UserIdentity.Where(p => p.IsTrainee == true).Select(m => m.Id).ToListAsync();
+            }
+            else if (role == "Employee") {
+                ids = await repositoryContext.UserIdentity.Where(p => p.IsQienEmployee == true).Select(m => m.Id).ToListAsync();
+            }
+            else if (role == "SoftwareDeveloper") {
+                ids = await repositoryContext.UserIdentity.Where(p => p.IsSeniorDeveloper == true).Select(m => m.Id).ToListAsync();
+            }
+
+            return ids;
+
+
+        }
     }
 }
