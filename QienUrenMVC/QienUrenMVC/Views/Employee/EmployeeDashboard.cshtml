@@ -1,4 +1,6 @@
 ﻿@model QienUrenMVC.Models.EmployeeDashboardModel;
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<UserIdentity> UserManager;
 
 
 @{
@@ -7,15 +9,14 @@
     Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 
 }
-
-
-
+@Html.HiddenFor(model => model.Account.AccountId);
 <div class="row">
     <div style="border: 3px solid #9A33F8;" class="col-md-2 rounded">
         <img style="margin-bottom:10px; text-align:center; width:180px; height:180px;" class="img-fluid" src="~/Images/ProfileImages/admin-icon.svg" />
         <table>
             <tbody>
                 <tr>
+
                     @if (Model.Account.IsTrainee == true)
                     {
                         <p style="text-align:center;">Trainee</p>
@@ -62,6 +63,7 @@
                         {
                             <tr>
                                 <td class="tablerow">
+
                                     Uren registratie @hourform.ProjectMonth @hourform.Year.ToString()
                                 </td>
                                 <td class="tablerow">

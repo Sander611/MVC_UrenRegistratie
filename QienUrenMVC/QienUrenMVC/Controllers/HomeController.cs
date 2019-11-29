@@ -34,7 +34,7 @@ namespace QienUrenMVC.Controllers
             return user?.Id;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string accountId)
         {
 
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
@@ -46,7 +46,8 @@ namespace QienUrenMVC.Controllers
             }
             if (User.IsInRole("Employee") == true)
             {
-                return Redirect("Employee/Dashboard");
+
+                return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = User.FindFirstValue(ClaimTypes.NameIdentifier) });
             }
             else
             {

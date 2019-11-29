@@ -36,12 +36,12 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EmployeeDashboard()
+        public async Task<IActionResult> EmployeeDashboard(string accountId)
         {
 
-            AccountModel result = await accountRepo.GetOneAccount("dfe8f40b-558f-4ca2-8af1-72a703c44df3");
+            AccountModel result = await accountRepo.GetOneAccount(accountId);
 
-            List<HoursFormModel> result1 = await hoursformRepo.getAllFormPerAccount("dfe8f40b-558f-4ca2-8af1-72a703c44df3");
+            List<HoursFormModel> result1 = await hoursformRepo.getAllFormPerAccount(accountId);
 
 
             AccountModel accountInfo = new AccountModel()
