@@ -92,6 +92,26 @@ namespace QienUrenMVC.Repositories
             return formPerUser;
         }
 
+        public async Task<List<HoursFormModel>> RemoveAllFormPerAccount(string accountId)
+        {
+            var formEntities = await context.HoursForms.Where(p => p.AccountId == accountId).ToListAsync();
+            List<HoursFormModel> formPerUser = new List<HoursFormModel>();
+
+            foreach(var form in formEntities)
+            {
+                formPerUser.Remove(new HoursFormModel
+                {
+                    FormId = form.FormId,
+                    AccountId = form.AccountId,
+                    DateDue = form.DateDue,
+                    ProjectMonth = form.ProjectMonth,
+                    Year = form.Year
+                });
+            }
+
+            return formPerUser;
+        }
+
         //new hoursform
         //public async Task<HoursForm> createHoursForm(HoursFormModel hoursFormModel, int clientId)
         //{
@@ -252,5 +272,6 @@ namespace QienUrenMVC.Repositories
 
             return hoursFormModel;
         }
+
     }
 }

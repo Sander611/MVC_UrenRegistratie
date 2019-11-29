@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
-using Microsoft.AspNetCore.Authorization;
 
 namespace QienUrenMVC.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
 
