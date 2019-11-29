@@ -9,6 +9,14 @@
     Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 
 }
+
+@using (Html.BeginForm("CreateFormForAccount", "Employee", FormMethod.Post))
+{
+    
+    <input type="submit" value="Aanmaken" />
+}
+
+
 @Html.HiddenFor(model => model.Account.AccountId);
 <div class="row">
     <div style="border: 3px solid #9A33F8;" class="col-md-2 rounded">
