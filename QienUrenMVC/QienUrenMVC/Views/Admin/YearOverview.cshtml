@@ -1,0 +1,67 @@
+﻿@model IEnumerable<QienUrenMVC.Models.YearOverviewModel>
+
+@{
+    ViewData["Title"] = "JaarOverzicht";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1 style="text-align:center">Jaar overzicht</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Month)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoursTrainee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoursEmployee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoursSoftwareDev)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalHours)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Month)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.HoursTrainee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoursEmployee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoursSoftwareDev)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalHours)
+            </td>
+
+            <td>
+                @Html.ActionLink("Alle Formulieren", "FormsForYear", new {year = item.Year, month = item.Month })
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
