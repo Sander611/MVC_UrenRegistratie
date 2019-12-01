@@ -91,7 +91,7 @@ namespace QienUrenMVC.Repositories
 
 
             await repositoryContext.SaveChangesAsync();
-
+            account.AccountId = accountEntity.Id;
             return account;
 
 
