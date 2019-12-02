@@ -67,5 +67,9 @@ namespace QienUrenMVC.Areas.Identity.Pages.Account
 
             return Page();
         }
+
+       
+
+        
     }
 }

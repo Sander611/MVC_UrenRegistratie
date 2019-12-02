@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using QienUrenMVC.Data;
 using QienUrenMVC.Models;
 using System;
@@ -21,7 +22,11 @@ namespace QienUrenMVC.Repositories
         {
             this.hoursperday = hoursperday;
         }
-
+        private readonly Client client;
+        public HoursPerDayRepository(Client client)
+        {
+            this.client = client;
+        }
 
         public async Task<List<HoursPerDayModel>> Update(List<HoursPerDayModel> daychangeList)
         {
@@ -64,21 +69,23 @@ namespace QienUrenMVC.Repositories
                     Other = day.Other,
                     OverTimeHours = day.OverTimeHours,
                     ClientId = day.ClientId,
-                    HoursPerDayId = day.HoursPerDayId
+                    HoursPerDayId = day.HoursPerDayId,
                 });
 
             return allDaysForFormId;
         }
 
-        public async Task RemoveAllDaysForForm(int formId)
+        public  IEnumerable<SelectListItem> GetClientList()
         {
-            var allDaysForFormId = await context.HoursPerDays.Where(p => p.FormId == formId).ToListAsync();
-
-            foreach (var day in allDaysForFormId)
-            {
-                context.HoursPerDays.Remove(day);
-            }
-
+                 List<SelectListItem> clients = context.Clients.AsNoTracking()
+                     .OrderBy(n => n.CompanyName)
+                     .Select(n =>
+                     new SelectListItem
+                     {
+                         Value = Convert.ToString(n.ClientId),
+                         Text = n.CompanyName
+                     }).ToList();
+                return new SelectList(clients, "Value", "Text");
         }
 
 
@@ -111,42 +118,41 @@ namespace QienUrenMVC.Repositories
 
 
 
+    //public async Task<List<HoursPerDay>> GetAllDaysFromOneForm(int formId)
+    //{
+    //    var form = await context.HoursPerDays.SingleAsync(p => p.FormId == formId);
+    //    return new List<HoursPerDay>
+    //    {
 
-        //public async Task<List<HoursPerDay>> GetAllDaysFromOneForm(int formId)
-        //{
-        //    var form = await context.HoursPerDays.SingleAsync(p => p.FormId == formId);
-        //    return new List<HoursPerDay>
-        //    {
-
-        //    };
-        //}
-
+    //    };
+    //}
 
 
-        //public async Task<HoursPerDay> SaveADay(HoursPerDay dayedit)
-        //{
-        //    HoursPerDay newHoursPerDay = new HoursPerDay()
-        //    {
-        //        HoursPerDayId = dayedit.HoursPerDayId,
 
-        //        ClientId = dayedit.ClientId,
-        //        Day = dayedit.Day,
-        //        Month = dayedit.Month,
-        //        Other = dayedit.Other,
-        //        Hours = dayedit.Hours,
-        //        FormId = dayedit.FormId,
-        //        Training = dayedit.Training,
-        //        Year = dayedit.Year,
-        //        IsLeave = dayedit.IsLeave,
-        //        IsSick = dayedit.IsSick,
-        //        ProjectDay = dayedit.ProjectDay,
-        //        OverTimeHours = dayedit.OverTimeHours,
-        //        Reasoning = dayedit.Reasoning
-        //    };
+    //public async Task<HoursPerDay> SaveADay(HoursPerDay dayedit)
+    //{
+    //    HoursPerDay newHoursPerDay = new HoursPerDay()
+    //    {
+    //        HoursPerDayId = dayedit.HoursPerDayId,
 
-        //    context.HoursPerDays.Add(newHoursPerDay);
-        //    await context.SaveChangesAsync();
-        //    return dayedit;
-        //}
-    }
+    //        ClientId = dayedit.ClientId,
+    //        Day = dayedit.Day,
+    //        Month = dayedit.Month,
+    //        Other = dayedit.Other,
+    //        Hours = dayedit.Hours,
+    //        FormId = dayedit.FormId,
+    //        Training = dayedit.Training,
+    //        Year = dayedit.Year,
+    //        IsLeave = dayedit.IsLeave,
+    //        IsSick = dayedit.IsSick,
+    //        ProjectDay = dayedit.ProjectDay,
+    //        OverTimeHours = dayedit.OverTimeHours,
+    //        Reasoning = dayedit.Reasoning
+    //    };
+
+    //    context.HoursPerDays.Add(newHoursPerDay);
+    //    await context.SaveChangesAsync();
+    //    return dayedit;
+    //}
+}
 }

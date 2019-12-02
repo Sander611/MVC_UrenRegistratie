@@ -7,7 +7,8 @@
 <tr>
     <td>@Model.Day - @Model.Month</td>
     <td>@Html.TextBoxFor(model => model.Hours)</td>
-    <td><input asp-for="ClientId" /></td>
+    @*<td><input asp-for="ClientId" /></td>*@
+    <td><select asp-for="ClientId" asp-items="ViewBag.CompanyNames"></select></td>
     @*<td>@Html.TextBoxFor(model => model.ClientId)</td>*@
     <td>@Html.TextBoxFor(model => model.IsSick)</td>
     <td>@Html.TextBoxFor(model => model.OverTimeHours)</td>
