@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Hosting;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MimeKit;
 using Newtonsoft.Json;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
@@ -25,13 +26,17 @@ namespace QienUrenMVC.Controllers
         private readonly IClientRepository clientRepo;
         private readonly IHoursFormRepository hoursformRepo;
         private readonly IHoursPerDayRepository hoursperdayRepo;
+        private readonly IWebHostEnvironment hostingEnvironment;
+
 
         public EmployeeController(
+                                IWebHostEnvironment hostingEnvironment,
                                 IAccountRepository AccountRepo,
                                 IClientRepository ClientRepo,
                                 IHoursFormRepository HoursFormRepo,
                                 IHoursPerDayRepository HoursPerDayRepo)
         {
+            this.hostingEnvironment = hostingEnvironment;
             accountRepo = AccountRepo;
             clientRepo = ClientRepo;
             hoursformRepo = HoursFormRepo;
@@ -85,7 +90,7 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model, bool versturen)
+        public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model)
         {
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
@@ -95,26 +100,6 @@ namespace QienUrenMVC.Controllers
                 List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
                 return View(model);
             }
-            if(versturen == true)
-            {
-                var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
-                message.To.Add(new MailboxAddress($"{} {acc.LastName}", acc.Email));
-                message.Subject = "New account was created";
-                message.Body = new TextPart("plain")
-                {
-                    Text = "I am using MailKit"
-                };
-                using (var client = new SmtpClient())
-                {
-                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    client.Connect("Smtp.gmail.com", 587, false);
-                    client.Authenticate("GroepTweeQien@gmail.com", "Groep2Qien!");
-                    client.Send(message);
-                    client.Disconnect(true);
-                }
-                return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
-            }
 
             return View(model);
 
@@ -123,8 +108,7 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFormForAccount(HoursFormModel hoursformModel)
         {
-
-            hoursformModel.AccountId = "2216e96f-5268-4fd7-8179-515474fdac1c";
+            hoursformModel.AccountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             hoursformModel.DateSend = DateTime.Now;
             hoursformModel.TotalHours = 100;
             hoursformModel.ProjectMonth = "november";
@@ -143,63 +127,77 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> EmployeePersonalia(string accountId)
         {
             AccountModel accountUser = await accountRepo.GetOneAccount(accountId);
-            return View(accountUser);
+            EmployeeUpdateAccountModel tempacc = new EmployeeUpdateAccountModel()
+            {
+                FirstName = accountUser.FirstName,
+                LastName = accountUser.LastName,
+                HashedPassword = accountUser.HashedPassword,
+                Email = accountUser.Email,
+                DateOfBirth = accountUser.DateOfBirth,
+                Address = accountUser.Address,
+                ZIP = accountUser.ZIP,
+                MobilePhone = accountUser.MobilePhone,
+                City = accountUser.City,
+                IBAN = accountUser.IBAN,
+                CreationDate = accountUser.CreationDate,
+                IsAdmin = accountUser.IsAdmin,
+                IsActive = accountUser.IsActive,
+                IsQienEmployee = accountUser.IsQienEmployee,
+                IsSeniorDeveloper = accountUser.IsSeniorDeveloper,
+                IsTrainee = accountUser.IsTrainee
+            };
+            ViewBag.imageurl = accountUser.ProfileImage;
+            
+            return View(tempacc);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EmployeePersonalia(AccountModel updatedAccount)
+        public async Task<IActionResult> EmployeePersonalia(EmployeeUpdateAccountModel updatedAccount)
         {
 
             if (ModelState.IsValid)
             {
                 var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
+                string uniqueFilename = "";
+                if (updatedAccount.ProfileImage != null)
+                {
+                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
+                    uniqueFilename = Guid.NewGuid().ToString() + "_" + updatedAccount.ProfileImage.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFilename);
+                    updatedAccount.ProfileImage.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
                 if (existingAccount == null)
                 {
                     return View(updatedAccount);
                 }
-                AccountModel acc = await accountRepo.UpdateAccount(updatedAccount);
+                AccountModel acc = new AccountModel()
+                {
+                    FirstName = updatedAccount.FirstName,
+                    LastName = updatedAccount.LastName,
+                    Email = updatedAccount.Email,
+                    DateOfBirth = updatedAccount.DateOfBirth,
+                    Address = updatedAccount.Address,
+                    ZIP = updatedAccount.ZIP,
+                    MobilePhone = updatedAccount.MobilePhone,
+                    City = updatedAccount.City,
+                    IBAN = updatedAccount.IBAN,
+                    CreationDate = updatedAccount.CreationDate,
+                    ProfileImage = uniqueFilename,
+                    IsAdmin = updatedAccount.IsAdmin,
+                    IsActive = updatedAccount.IsActive,
+                    IsQienEmployee = updatedAccount.IsQienEmployee,
+                    IsSeniorDeveloper = updatedAccount.IsSeniorDeveloper,
+                    IsTrainee = updatedAccount.IsTrainee
+                };
+                    
+                    await accountRepo.UpdateAccount(acc, uniqueFilename);
+                ViewBag.imageurl = uniqueFilename;
 
                 return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" });
             }
 
             return View(updatedAccount);
         }
-        public async Task<IActionResult> SturenNaarKlant(string email, string subject, string textMessage, string htmlMessage)
-        {
-            try
-            {
-                var message = new MimeMessage();
 
-                message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
-
-                message.To.Add(new MailboxAddress(email));
-
-                message.Subject = subject;
-
-                var builder = new BodyBuilder
-                {
-                    TextBody = textMessage,
-                    HtmlBody = htmlMessage
-                };
-
-                message.Body = builder.ToMessageBody();
-
-                using (var client = new SmtpClient())
-                {
-                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    client.Connect("Smtp.gmail.com", 587, false);
-                    client.Authenticate("GroepTweeQien@gmail.com", "Groep2Qien!");
-                    client.Send(message);
-                    client.Disconnect(true);
-                }
-            }
-
-            catch (Exception ex)
-            {
-                // TODO: handle exception
-                throw new InvalidOperationException(ex.Message);
-            }
-            }
-        }
     }
 }
