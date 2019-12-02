@@ -127,8 +127,28 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> EmployeePersonalia(string accountId)
         {
             AccountModel accountUser = await accountRepo.GetOneAccount(accountId);
+            EmployeeUpdateAccountModel tempacc = new EmployeeUpdateAccountModel()
+            {
+                FirstName = accountUser.FirstName,
+                LastName = accountUser.LastName,
+                HashedPassword = accountUser.HashedPassword,
+                Email = accountUser.Email,
+                DateOfBirth = accountUser.DateOfBirth,
+                Address = accountUser.Address,
+                ZIP = accountUser.ZIP,
+                MobilePhone = accountUser.MobilePhone,
+                City = accountUser.City,
+                IBAN = accountUser.IBAN,
+                CreationDate = accountUser.CreationDate,
+                IsAdmin = accountUser.IsAdmin,
+                IsActive = accountUser.IsActive,
+                IsQienEmployee = accountUser.IsQienEmployee,
+                IsSeniorDeveloper = accountUser.IsSeniorDeveloper,
+                IsTrainee = accountUser.IsTrainee
+            };
             ViewBag.imageurl = accountUser.ProfileImage;
-            return View(accountUser);
+            
+            return View(tempacc);
         }
 
         [HttpPost]
@@ -156,7 +176,6 @@ namespace QienUrenMVC.Controllers
                     LastName = updatedAccount.LastName,
                     Email = updatedAccount.Email,
                     DateOfBirth = updatedAccount.DateOfBirth,
-                    HashedPassword = updatedAccount.Password,
                     Address = updatedAccount.Address,
                     ZIP = updatedAccount.ZIP,
                     MobilePhone = updatedAccount.MobilePhone,
@@ -172,7 +191,7 @@ namespace QienUrenMVC.Controllers
                 };
                     
                     await accountRepo.UpdateAccount(acc, uniqueFilename);
-                
+                ViewBag.imageurl = uniqueFilename;
 
                 return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" });
             }
