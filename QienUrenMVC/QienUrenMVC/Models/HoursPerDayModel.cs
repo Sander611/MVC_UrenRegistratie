@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -38,6 +39,8 @@ namespace QienUrenMVC.Models
 
         public int? ClientId { get; set; }
 
+        public IEnumerable<SelectListItem> ClientNames { get; set; }
+        
         [DisplayName("Ziek")]
         public int IsSick { get; set; }
     }
