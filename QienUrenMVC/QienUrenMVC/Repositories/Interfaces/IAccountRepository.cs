@@ -12,7 +12,7 @@ namespace QienUrenMVC.Repositories
         Task<AccountModel> GetOneAccount(string accountId);
         Task<AccountModel> ModifyAccountActivity(string accountId, bool IsActive);
         string RemoveAccount(string accountId);
-        Task<AccountModel> UpdateAccount(AccountModel account);
+        Task<AccountModel> UpdateAccount(AccountModel account, string UniqueFilename);
         Task<List<AccountModel>> getPersonaliaFromAccount(string accountId);
 
         Task<List<string>> GetAccountIdsByRole(string role);

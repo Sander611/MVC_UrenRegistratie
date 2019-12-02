@@ -128,6 +128,31 @@ namespace QienUrenMVC.Repositories
 
         }
 
+        public async Task<AccountModel> UpdateOneAccount(string accountId)
+        {
+            UserIdentity account = await repositoryContext.UserIdentity.SingleAsync(p => p.Id == accountId);
+
+            return new EmployeeUpdateAccountModel
+            { AccountId = account.Id,
+                FirstName = account.FirstName,
+                LastName = account.LastName,
+                Email = account.Email,
+                DateOfBirth = account.DateOfBirth,
+                Address = account.Address,
+                ZIP = account.ZIP,
+                MobilePhone = account.PhoneNumber,
+                City = account.City,
+                IBAN = account.IBAN,
+                CreationDate = account.CreationDate,
+                ProfileImage = account.ProfileImage,
+                IsAdmin = account.IsAdmin,
+                IsActive = account.IsActive,
+                IsQienEmployee = account.IsQienEmployee,
+                IsSeniorDeveloper = account.IsSeniorDeveloper,
+                IsTrainee = account.IsTrainee
+            };
+    }
+
         public async Task<AccountModel> GetOneAccount(string accountId)
         {
             UserIdentity account = await repositoryContext.UserIdentity.SingleAsync(p => p.Id == accountId);
@@ -154,7 +179,7 @@ namespace QienUrenMVC.Repositories
             };
         }
 
-        public async Task<AccountModel> UpdateAccount(AccountModel account)
+        public async Task<AccountModel> UpdateAccount(AccountModel account, string uniqueFilename)
         {
             UserIdentity entity = repositoryContext.UserIdentity.Single(p => p.Id == account.AccountId);
             entity.FirstName = account.FirstName;
@@ -165,7 +190,7 @@ namespace QienUrenMVC.Repositories
             entity.DateOfBirth = account.DateOfBirth;
             entity.Email = account.Email;
             entity.IBAN = account.IBAN;
-            entity.ProfileImage = account.ProfileImage;
+            entity.ProfileImage = uniqueFilename;
             entity.ZIP = account.ZIP;
             entity.IsActive = account.IsActive;
             entity.IsAdmin = account.IsAdmin;

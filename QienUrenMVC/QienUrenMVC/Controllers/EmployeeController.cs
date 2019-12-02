@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -23,13 +25,17 @@ namespace QienUrenMVC.Controllers
         private readonly IClientRepository clientRepo;
         private readonly IHoursFormRepository hoursformRepo;
         private readonly IHoursPerDayRepository hoursperdayRepo;
+        private readonly IWebHostEnvironment hostingEnvironment;
+
 
         public EmployeeController(
+                                IWebHostEnvironment hostingEnvironment,
                                 IAccountRepository AccountRepo,
                                 IClientRepository ClientRepo,
                                 IHoursFormRepository HoursFormRepo,
                                 IHoursPerDayRepository HoursPerDayRepo)
         {
+            this.hostingEnvironment = hostingEnvironment;
             accountRepo = AccountRepo;
             clientRepo = ClientRepo;
             hoursformRepo = HoursFormRepo;
@@ -121,21 +127,52 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> EmployeePersonalia(string accountId)
         {
             AccountModel accountUser = await accountRepo.GetOneAccount(accountId);
+            ViewBag.imageurl = accountUser.ProfileImage;
             return View(accountUser);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EmployeePersonalia(AccountModel updatedAccount)
+        public async Task<IActionResult> EmployeePersonalia(EmployeeUpdateAccountModel updatedAccount)
         {
 
             if (ModelState.IsValid)
             {
                 var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
+                string uniqueFilename = "";
+                if (updatedAccount.ProfileImage != null)
+                {
+                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
+                    uniqueFilename = Guid.NewGuid().ToString() + "_" + updatedAccount.ProfileImage.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFilename);
+                    updatedAccount.ProfileImage.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
                 if (existingAccount == null)
                 {
                     return View(updatedAccount);
                 }
-                AccountModel acc = await accountRepo.UpdateAccount(updatedAccount);
+                AccountModel acc = new AccountModel()
+                {
+                    FirstName = updatedAccount.FirstName,
+                    LastName = updatedAccount.LastName,
+                    Email = updatedAccount.Email,
+                    DateOfBirth = updatedAccount.DateOfBirth,
+                    HashedPassword = updatedAccount.Password,
+                    Address = updatedAccount.Address,
+                    ZIP = updatedAccount.ZIP,
+                    MobilePhone = updatedAccount.MobilePhone,
+                    City = updatedAccount.City,
+                    IBAN = updatedAccount.IBAN,
+                    CreationDate = updatedAccount.CreationDate,
+                    ProfileImage = uniqueFilename,
+                    IsAdmin = updatedAccount.IsAdmin,
+                    IsActive = updatedAccount.IsActive,
+                    IsQienEmployee = updatedAccount.IsQienEmployee,
+                    IsSeniorDeveloper = updatedAccount.IsSeniorDeveloper,
+                    IsTrainee = updatedAccount.IsTrainee
+                };
+                    
+                    await accountRepo.UpdateAccount(acc, uniqueFilename);
+                
 
                 return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" });
             }
