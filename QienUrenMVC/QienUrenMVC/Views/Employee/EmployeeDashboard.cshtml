@@ -63,24 +63,53 @@
                         <tr>
                             <th>Taak</th>
                             <th>Deadline</th>
+                            <th>Status</th>
                             <th>Invullen</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var hourform in Model.Forms)
                         {
-                            <tr>
-                                <td class="tablerow">
+                        <tr>
+                            <td class="tablerow">
 
-                                    Uren registratie @hourform.ProjectMonth @hourform.Year.ToString()
-                                </td>
-                                <td class="tablerow">
-                                    @hourform.DateDue
+                                Uren registratie @hourform.ProjectMonth @hourform.Year.ToString()
+                            </td>
+                            <td class="tablerow">
+                                @hourform.DateDue
+                            </td>
+
+                            @if (hourform.IsAcceptedClient == 0)
+                            {
+                                <td align="left">
+                                    <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" /> Beschikbaar
                                 </td>
                                 <td class="tablerow">
                                     @Html.ActionLink("Uren Invoeren", "HoursRegistration", new { formid = hourform.FormId })
                                 </td>
-                            </tr>
+                            }
+
+                            else if (hourform.IsAcceptedClient == 1 || hourform.IsAcceptedClient == 2)
+                            {
+                                <td align="left">
+                                    <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In Afwachting
+                                </td>
+                                <td class="tablerow">
+                                    @Html.ActionLink("Uren inzien", "HoursRegistration", new { formid = hourform.FormId })
+                                </td>
+                            }
+
+                            else if (hourform.IsAcceptedClient == 4)
+                            {
+                                <td align="left">
+                                    <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" /> Afgekeurd
+                                </td>
+                                <td class="tablerow">
+                                    @Html.ActionLink("Uren Opnieuw Invoeren", "HoursRegistration", new { formid = hourform.FormId })
+                                </td>
+                            }
+
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -118,7 +147,7 @@
                             <td style="text-align:left; padding-left:65px;">@Model.Account.City</td>
                         </tr>
                         <tr>
-                            <td colspan="2"> @Html.ActionLink("Personalia aanpasssen", "EmployeePersonalia", new { accountID = Model.Account.AccountId })</td>
+                            <td colspan="2"> @Html.ActionLink("Personalia aanpassen", "EmployeePersonalia", new { accountID = Model.Account.AccountId })</td>
                         </tr>
                     </tbody>
                 </table>
