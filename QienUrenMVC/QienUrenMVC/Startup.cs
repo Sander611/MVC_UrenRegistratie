@@ -51,6 +51,7 @@ namespace QienUrenMVC
                 { 
                     options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+                    
                 });
 
             services.ConfigureApplicationCookie(options =>
