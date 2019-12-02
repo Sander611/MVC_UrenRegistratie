@@ -8,7 +8,7 @@
     <div>
         <form method="post" enctype="multipart/form-data" asp-action="EmployeePersonalia">
             <div asp-validation-summary="All" class="text-danger"></div>
-
+            @Html.HiddenFor(m => m.AccountId)
             <div style="color:#9A33F8">
                 <h3>Account Info</h3>
             </div>
@@ -20,16 +20,16 @@
                         </div>
                     </div>
                 </div>
-<br />
+                <br />
                 <div class="form-group row">
-                        <div class="col-md-4 offset-md-4">
-                            <div class="custom-file">
-                                <input asp-for="ProfileImage" class="form-control custom-file-input" />
+                    <div class="col-md-4 offset-md-4">
+                        <div class="custom-file">
+                            <input asp-for="ProfileImage" class="form-control custom-file-input" />
 
-                                <label class="custom-file-label">Upload Nieuwe Profielfoto</label>  
-                            </div>
+                            <label class="custom-file-label">Upload Nieuwe Profielfoto</label>
                         </div>
                     </div>
+                </div>
 
                 <div class="row" style="margin-top:50px;">
                     <div class="col">
