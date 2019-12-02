@@ -76,19 +76,10 @@ namespace QienUrenMVC.Repositories
                 UserName = account.Email,
                 EmailConfirmed = true,
                 LockoutEnabled = true
-                //SecurityStamp
-                //ConcurrencyStamp
-                //PhoneNumberConfirmed
-                //TwoFactorEnabled
-                //LockoutEnd
-                //AccessFailedCount
-                //Discriminator
-
             };
 
             var result = await _userManager.CreateAsync(accountEntity, account.HashedPassword);
-            //repositoryContext.UserIdentity.Add(accountEntity);
-
+            await _userManager.AddToRoleAsync(accountEntity, "Employee");
 
             await repositoryContext.SaveChangesAsync();
             account.AccountId = accountEntity.Id;
