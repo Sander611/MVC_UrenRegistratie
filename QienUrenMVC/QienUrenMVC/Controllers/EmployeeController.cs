@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
+using QienUrenMVC.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace QienUrenMVC.Controllers
 {
@@ -21,6 +23,9 @@ namespace QienUrenMVC.Controllers
         //{
         //    this.helper = helper;
         //}
+        private readonly UserManager<UserIdentity> _userManager;
+        private readonly SignInManager<UserIdentity> _signInManager;
+
 
         private readonly IAccountRepository accountRepo;
         private readonly IClientRepository clientRepo;
@@ -34,13 +39,19 @@ namespace QienUrenMVC.Controllers
                                 IAccountRepository AccountRepo,
                                 IClientRepository ClientRepo,
                                 IHoursFormRepository HoursFormRepo,
-                                IHoursPerDayRepository HoursPerDayRepo)
+                                IHoursPerDayRepository HoursPerDayRepo,
+                                UserManager<UserIdentity> userManager,
+                                SignInManager<UserIdentity> signinManager
+                                )
         {
             this.hostingEnvironment = hostingEnvironment;
             accountRepo = AccountRepo;
             clientRepo = ClientRepo;
             hoursformRepo = HoursFormRepo;
             hoursperdayRepo = HoursPerDayRepo;
+            _userManager = userManager;
+            _signInManager = signinManager;
+            
         }
 
         [HttpGet]
@@ -200,6 +211,42 @@ namespace QienUrenMVC.Controllers
             }
 
             return View(updatedAccount);
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if(user == null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                if(!result.Succeeded)
+                {
+                    foreach(var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    return View();
+                }
+
+                await _signInManager.RefreshSignInAsync(user);
+                return View("ChangePasswordConfirmation");
+            }
+
+            return View(model);
         }
 
     }
