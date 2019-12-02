@@ -265,6 +265,12 @@ namespace QienUrenMVC.Controllers
             return View(specificFormsForDate);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CheckControleren()
+        {
+            return View();
+        }
+
 
 
     }
