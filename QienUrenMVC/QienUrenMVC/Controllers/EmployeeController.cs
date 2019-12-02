@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -107,8 +108,7 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFormForAccount(HoursFormModel hoursformModel)
         {
-
-            hoursformModel.AccountId = "2216e96f-5268-4fd7-8179-515474fdac1c";
+            hoursformModel.AccountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             hoursformModel.DateSend = DateTime.Now;
             hoursformModel.TotalHours = 100;
             hoursformModel.ProjectMonth = "november";

@@ -12,6 +12,8 @@ namespace QienUrenMVC.Data
 
         [ForeignKey("Account")]
         public int FormId { get; set; }
+        public HoursForm Form { get; set; }
+
         [Required]
         public int Day { get; set; }
         [Required]
