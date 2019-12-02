@@ -64,7 +64,8 @@ namespace QienUrenMVC.Controllers
                     FormId = form.FormId,
                     DateDue = form.DateDue,
                     Year = form.Year,
-                    ProjectMonth = form.ProjectMonth
+                    ProjectMonth = form.ProjectMonth,
+                    IsAcceptedClient = form.IsAcceptedClient
                 });
             }
             EmployeeDashboardModel EDM = new EmployeeDashboardModel();
@@ -104,13 +105,13 @@ namespace QienUrenMVC.Controllers
 
             hoursformModel.AccountId = "2216e96f-5268-4fd7-8179-515474fdac1c";
             hoursformModel.DateSend = DateTime.Now;
-            hoursformModel.TotalHours = 100;
-            hoursformModel.ProjectMonth = "november";
+            hoursformModel.TotalHours = 563;
+            hoursformModel.ProjectMonth = "september";
             hoursformModel.Year = 2019;
-            hoursformModel.IsAcceptedClient = 1;
+            hoursformModel.IsAcceptedClient = 4;
             hoursformModel.IsLocked = false;
-            hoursformModel.CommentAdmin = "blabla";
-            hoursformModel.CommentClient = "blabla";
+            hoursformModel.CommentAdmin = "";
+            hoursformModel.CommentClient = "";
 
             var result = await hoursformRepo.CreateNewForm(hoursformModel);
 

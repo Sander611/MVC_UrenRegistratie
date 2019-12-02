@@ -80,8 +80,9 @@
 </div>
 
 <div>
-    @using (Html.BeginForm("CheckControleren", "Admin"))
+    @using (Html.BeginForm("CheckControleren", "Admin", FormMethod.Get))
     {
+       
         //CHECK HIER VOOR DE STATE EN DISABLE BUTTONS ALS STATE 0, 1, 2 OF 4 is.
         <div class="row">
             <div class="col-md-4">
@@ -94,8 +95,8 @@
 
             <div class="col-md-2" style="margin-top:40px; margin-bottom:40px;">
 
-                <button class="btn btn-success" type="submit" asp-action="Approval" asp-controller="Admin" asp-route-check="true" asp-route-id=@ViewBag.formId>Goedkeuren</button>
-                <button class="btn btn-danger" type="submit" asp-action="Approval" asp-controller="Admin" asp-route-check="false" asp-route-id=@ViewBag.formId>Afkeuren</button>
+                <input class="btn btn-success" type="submit" asp-action="CheckControleren" asp-controller="Admin" asp-route-id=@ViewBag.formId asp-route-keuring="true"/>
+                <input class="btn btn-danger" type="submit" asp-action="CheckControleren" asp-controller="Admin" asp-route-id=@ViewBag.formId asp-route-keuring="false"/>
 
             </div>
 
