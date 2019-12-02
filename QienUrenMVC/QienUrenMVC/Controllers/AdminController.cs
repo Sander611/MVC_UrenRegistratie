@@ -170,11 +170,52 @@ namespace QienUrenMVC.Controllers
                 DateTime? date = DateTime.Now;
                 var firstDay = new DateTime(day.Year, day.Month, 1);
                 int days = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+                var ProjectMonth = date.Value.ToString("MMMM").ToLower();
+
+                switch (ProjectMonth)
+                {
+                    case "January":
+                        ProjectMonth = "januari";
+                        break;
+                    case "February":
+                        ProjectMonth = "februari";
+                        break;
+                    case "March":
+                        ProjectMonth = "maart";
+                        break;
+                    case "April":
+                        ProjectMonth = "april";
+                        break;
+                    case "May":
+                        ProjectMonth = "mei";
+                        break;
+                    case "Juny":
+                        ProjectMonth = "juni";
+                        break;
+                    case "July":
+                        ProjectMonth = "juli";
+                        break;
+                    case "Augustus":
+                        ProjectMonth = "augustus";
+                        break;
+                    case "September":
+                        ProjectMonth = "september";
+                        break;
+                    case "Oktober":
+                        ProjectMonth = "oktober";
+                        break;
+                    case "November":
+                        ProjectMonth = "november";
+                        break;
+                    case "December":
+                        ProjectMonth = "december";
+                        break;
+                }
 
                 HoursFormModel hoursForm = new HoursFormModel()
                 {
                     AccountId = acc.AccountId,
-                    ProjectMonth = date.Value.ToString("MMMM"),
+                    ProjectMonth = ProjectMonth,
                     Year = DateTime.Now.Year,
                     DateDue = firstDay.AddDays(days + 5)
                 };
@@ -218,6 +259,7 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> FormsForYear(int year, string month)
         {
+          
             List<HoursFormModel> specificFormsForDate = await hoursformRepo.GetFormsForYearAndMonth(year, month);
             ViewBag.Year = year;
             ViewBag.Month = month;
