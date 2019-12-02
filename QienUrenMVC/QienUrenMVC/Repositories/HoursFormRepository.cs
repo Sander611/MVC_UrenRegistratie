@@ -265,5 +265,68 @@ namespace QienUrenMVC.Repositories
             return hoursFormModel;
         }
 
+        public async Task<List<YearOverviewModel>> GetYearOverviews(int year, List<string> Traineeids, List<string> Employeeids, List<string> SoftDevids)
+        {
+            List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
+            List<YearOverviewModel> yearOverviews = new List<YearOverviewModel>();
+            foreach (string month in months)
+            {
+                YearOverviewModel yom = new YearOverviewModel();
+                yom.Month = month;
+                yom.Year = year;
+                foreach (string id in Traineeids)
+                {
+                    int? hours = await context.HoursForms.Where(p => p.AccountId == id && p.Year == year && p.ProjectMonth == month).Select(m => m.TotalHours).SingleOrDefaultAsync();
+                    if (hours != null)
+                    {
+                        yom.HoursTrainee += Convert.ToInt32(hours);
+                        yom.TotalHours += Convert.ToInt32(hours);
+                    }
+                }
+                foreach (string id in Employeeids)
+                {
+                    int? hours = await context.HoursForms.Where(p => p.AccountId == id && p.Year == year && p.ProjectMonth == month).Select(m => m.TotalHours).SingleOrDefaultAsync();
+                    if (hours != null)
+                    {
+                        yom.HoursTrainee += Convert.ToInt32(hours);
+                        yom.TotalHours += Convert.ToInt32(hours);
+                    }
+                }
+                foreach (string id in SoftDevids)
+                {
+                    int? hours = await context.HoursForms.Where(p => p.AccountId == id && p.Year == year && p.ProjectMonth == month).Select(m => m.TotalHours).SingleOrDefaultAsync();
+                    if (hours != null)
+                    {
+                        yom.HoursTrainee += Convert.ToInt32(hours);
+                        yom.TotalHours += Convert.ToInt32(hours);
+                    }
+                }
+                yearOverviews.Add(yom);
+            }
+            return yearOverviews;
+        }
+
+        public async Task<List<HoursFormModel>> GetFormsForYearAndMonth(int year, string month)
+        {
+            List<HoursForm> formsEntities = await context.HoursForms.Where(p => p.Year == year && p.ProjectMonth == month).ToListAsync();
+            List<HoursFormModel> formsForYearandMonth = new List<HoursFormModel>();
+            foreach (var form in formsEntities)
+                formsForYearandMonth.Add(new HoursFormModel
+                {
+                    FormId = form.FormId,
+                    AccountId = form.AccountId,
+                    DateSend = form.DateSend,
+                    DateDue = form.DateDue,
+                    TotalHours = form.TotalHours,
+                    Year = form.Year,
+                    ProjectMonth = form.ProjectMonth,
+                    IsAcceptedClient = form.IsAcceptedClient,
+                    IsLocked = form.IsLocked,
+                    CommentAdmin = form.commentAdmin,
+                    CommentClient = form.commentClient
+                });
+            return formsForYearandMonth;
+        }
+
     }
 }
