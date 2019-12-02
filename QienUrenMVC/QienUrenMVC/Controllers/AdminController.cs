@@ -107,12 +107,13 @@ namespace QienUrenMVC.Controllers
 
             if (ModelState.IsValid)
             {
+                var UniqueFilename = "";
                 var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 if (existingAccount == null)
                 {
                     return View(updatedAccount);
                 }
-                AccountModel acc = await accountRepo.UpdateAccount(updatedAccount);
+                AccountModel acc = await accountRepo.UpdateAccount(updatedAccount, UniqueFilename);
 
                 return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
             }

@@ -95,6 +95,18 @@ namespace QienUrenMVC.Repositories
             return formPerUser;
         }
 
+        public async Task RemoveAllFormPerAccount(string accountId)
+        {
+            var daysforForm = await context.HoursPerDays.Where(p => p.Form.AccountId == accountId).ToListAsync();
+            var hourforms = await context.HoursForms.Where(p => p.AccountId == accountId).ToListAsync();
+
+            context.HoursPerDays.RemoveRange(daysforForm);
+            context.HoursForms.RemoveRange(hourforms);
+            
+
+            await context.SaveChangesAsync();
+        }
+
         //new hoursform
         //public async Task<HoursForm> createHoursForm(HoursFormModel hoursFormModel, int clientId)
         //{
@@ -260,7 +272,6 @@ namespace QienUrenMVC.Repositories
         {
             List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
             List<YearOverviewModel> yearOverviews = new List<YearOverviewModel>();
-
             foreach (string month in months)
             {
                 YearOverviewModel yom = new YearOverviewModel();
@@ -269,49 +280,39 @@ namespace QienUrenMVC.Repositories
                 foreach (string id in Traineeids)
                 {
                     int? hours = await context.HoursForms.Where(p => p.AccountId == id && p.Year == year && p.ProjectMonth == month).Select(m => m.TotalHours).SingleOrDefaultAsync();
-
-                    if (hours != null) 
+                    if (hours != null)
                     {
                         yom.HoursTrainee += Convert.ToInt32(hours);
                         yom.TotalHours += Convert.ToInt32(hours);
                     }
-
                 }
-
                 foreach (string id in Employeeids)
                 {
                     int? hours = await context.HoursForms.Where(p => p.AccountId == id && p.Year == year && p.ProjectMonth == month).Select(m => m.TotalHours).SingleOrDefaultAsync();
-                    
                     if (hours != null)
                     {
                         yom.HoursTrainee += Convert.ToInt32(hours);
                         yom.TotalHours += Convert.ToInt32(hours);
                     }
                 }
-
                 foreach (string id in SoftDevids)
                 {
                     int? hours = await context.HoursForms.Where(p => p.AccountId == id && p.Year == year && p.ProjectMonth == month).Select(m => m.TotalHours).SingleOrDefaultAsync();
-
                     if (hours != null)
                     {
                         yom.HoursTrainee += Convert.ToInt32(hours);
                         yom.TotalHours += Convert.ToInt32(hours);
                     }
                 }
-
                 yearOverviews.Add(yom);
             }
-
             return yearOverviews;
         }
 
         public async Task<List<HoursFormModel>> GetFormsForYearAndMonth(int year, string month)
         {
             List<HoursForm> formsEntities = await context.HoursForms.Where(p => p.Year == year && p.ProjectMonth == month).ToListAsync();
-
             List<HoursFormModel> formsForYearandMonth = new List<HoursFormModel>();
-
             foreach (var form in formsEntities)
                 formsForYearandMonth.Add(new HoursFormModel
                 {
@@ -327,8 +328,6 @@ namespace QienUrenMVC.Repositories
                     CommentAdmin = form.commentAdmin,
                     CommentClient = form.commentClient
                 });
-
-
             return formsForYearandMonth;
         }
 
@@ -341,6 +340,5 @@ namespace QienUrenMVC.Repositories
 
             await context.SaveChangesAsync();
         }
-
     }
 }

@@ -1,6 +1,7 @@
-﻿@model QienUrenMVC.Models.AccountModel
+﻿@model QienUrenMVC.Models.EmployeeUpdateAccountModel
 @{
     ViewData["Title"] = "Medewerker Personalia";
+                Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 }
 
 <div>
@@ -15,20 +16,20 @@
                 <div class="row">
                     <div style="text-align:center" class="col-md-6 offset-md-3">
                         <div>
-                            <img style="border: 3px solid #9A33F8; width:360px; height:360px;" class="img-fluid" src="~/Images/ProfileImages/@Model.ProfileImage" alt="Profielfoto" />
+                            <img style="border: 3px solid #9A33F8; width:360px; height:360px;" class="img-fluid" src="~/Images/ProfileImages/@ViewBag.imageurl" alt="Profielfoto" />
                         </div>
                     </div>
                 </div>
-
-                @*<div class="form-group row">
+<br />
+                <div class="form-group row">
                         <div class="col-md-4 offset-md-4">
                             <div class="custom-file">
                                 <input asp-for="ProfileImage" class="form-control custom-file-input" />
 
-                                <label class="custom-file-label">Upload Profielfoto</label>
+                                <label class="custom-file-label">Upload Nieuwe Profielfoto</label>  
                             </div>
                         </div>
-                    </div>*@
+                    </div>
 
                 <div class="row" style="margin-top:50px;">
                     <div class="col">
@@ -63,23 +64,6 @@
                             <label asp-for="Email" class="control-label"></label>
                             <input asp-for="Email" class="form-control" />
                             <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label asp-for="HashedPassword" class="control-label"></label>
-                            <input asp-for="HashedPassword" class="form-control" />
-                            <span asp-validation-for="HashedPassword" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label asp-for="HashedPassword" class="control-label"></label>
-                            <input asp-for="HashedPassword" class="form-control" />
-                            <span asp-validation-for="HashedPassword" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
