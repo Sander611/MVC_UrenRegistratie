@@ -130,6 +130,7 @@ namespace QienUrenMVC.Controllers
             AccountModel accountUser = await accountRepo.GetOneAccount(accountId);
             EmployeeUpdateAccountModel tempacc = new EmployeeUpdateAccountModel()
             {
+                AccountId = accountUser.AccountId,
                 FirstName = accountUser.FirstName,
                 LastName = accountUser.LastName,
                 HashedPassword = accountUser.HashedPassword,
@@ -173,6 +174,7 @@ namespace QienUrenMVC.Controllers
                 }
                 AccountModel acc = new AccountModel()
                 {
+                    AccountId = updatedAccount.AccountId,
                     FirstName = updatedAccount.FirstName,
                     LastName = updatedAccount.LastName,
                     Email = updatedAccount.Email,
@@ -194,7 +196,7 @@ namespace QienUrenMVC.Controllers
                     await accountRepo.UpdateAccount(acc, uniqueFilename);
                 ViewBag.imageurl = uniqueFilename;
 
-                return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" });
+                return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId});
             }
 
             return View(updatedAccount);
