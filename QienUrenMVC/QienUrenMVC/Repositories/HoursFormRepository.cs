@@ -16,6 +16,10 @@ namespace QienUrenMVC.Repositories
             this.context = context;
         }
 
+        public async Task<int> GetYearOfForm(int id)
+        {
+            return await context.HoursForms.Where(p => p.FormId == id).Select(m => m.Year).SingleOrDefaultAsync();
+        }
 
         //returning all hoursforms, ordered by account Id
         public async Task<List<HoursFormModel>> GetAllHoursForms()
@@ -309,15 +313,16 @@ namespace QienUrenMVC.Repositories
             return yearOverviews;
         }
 
-        public async Task<List<HoursFormModel>> GetFormsForYearAndMonth(int year, string month)
+        public async Task<List<FormsForMonthModel>> GetFormsForYearAndMonth(int year, string month)
         {
             List<HoursForm> formsEntities = await context.HoursForms.Where(p => p.Year == year && p.ProjectMonth == month).ToListAsync();
-            List<HoursFormModel> formsForYearandMonth = new List<HoursFormModel>();
+            List<FormsForMonthModel> formsForYearandMonth = new List<FormsForMonthModel>();
             foreach (var form in formsEntities)
-                formsForYearandMonth.Add(new HoursFormModel
+                formsForYearandMonth.Add(new FormsForMonthModel
                 {
                     FormId = form.FormId,
                     AccountId = form.AccountId,
+                    fullName = await context.UserIdentity.Where(p => p.Id == form.AccountId).Select(m => m.FirstName +" " + m.LastName).SingleOrDefaultAsync(),
                     DateSend = form.DateSend,
                     DateDue = form.DateDue,
                     TotalHours = form.TotalHours,
@@ -327,17 +332,24 @@ namespace QienUrenMVC.Repositories
                     IsLocked = form.IsLocked,
                     CommentAdmin = form.commentAdmin,
                     CommentClient = form.commentClient
-                });
+                }) ;
             return formsForYearandMonth;
         }
 
         public async Task ChangeState(int state, int id, string textAdmin, string textClient)
         {
-            HoursForm entity = context.HoursForms.Single(p => p.FormId == id);
+            HoursForm entity = await context.HoursForms.SingleAsync(p => p.FormId == id);
             entity.IsAcceptedClient = state;
             entity.commentAdmin = textAdmin;
             entity.commentClient = textClient;
 
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UpdateTotalHoursForm(int id, int totalHours)
+        {
+            HoursForm entity = await context.HoursForms.SingleAsync(p => p.FormId == id);
+            entity.TotalHours = totalHours;
             await context.SaveChangesAsync();
         }
     }

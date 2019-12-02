@@ -6,11 +6,11 @@
 
 }
 
-<h1 style="text-align:center">Uren Formulieren van @ViewBag.currUser</h1>
+<h1 style="text-align:center">Urenformulieren van @ViewBag.currUser</h1>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 
 <table class="table">
     <thead>
@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.FormId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AccountId)
+                Naam
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateSend)
@@ -52,7 +52,7 @@
                 @Html.DisplayFor(modelItem => item.FormId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AccountId)
+                @ViewBag.currUser
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateSend)
@@ -69,19 +69,53 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Year)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsAcceptedClient)
-            </td>
+
+
+
+
+            @if (item.IsAcceptedClient == 0)
+            {
+                <td align="left">
+                    <img style="width: 15px; height:auto;" src="~/Images/user-edit-solid.svg" /> Beschikbaar voor medewerker
+                </td>
+            }
+
+            else if (item.IsAcceptedClient == 1 || item.IsAcceptedClient == 2)
+            {
+                <td align="left">
+                    <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In Afwachting van keuring
+                </td>
+            }
+
+            else if (item.IsAcceptedClient == 3)
+            {
+                <td align="left">
+                    <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" /> Goedgekeurd door Admin
+                </td>
+            }
+
+            else if (item.IsAcceptedClient == 4)
+            {
+                <td align="left">
+                    <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" /> Afgekeurd door Admin
+                </td>
+            }
+
+
+
+
+
+
             @if (item.IsLocked == true)
             {
                 <td align=center>
-                    <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" />
+                    <img style="width: 15px; height:auto;" src="~/Images/lock-solid.svg" />
                 </td>
             }
             else if (item.IsLocked == false)
             {
                 <td align=center>
-                    <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" />
+                    <img style="width: 15px; height:auto;" src="~/Images/lock-open-solid.svg" />
                 </td>
             }
             <td>

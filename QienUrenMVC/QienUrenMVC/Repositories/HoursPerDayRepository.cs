@@ -70,6 +70,7 @@ namespace QienUrenMVC.Repositories
                     OverTimeHours = day.OverTimeHours,
                     ClientId = day.ClientId,
                     HoursPerDayId = day.HoursPerDayId,
+                    Reasoning = day.Reasoning
                 });
 
             return allDaysForFormId;

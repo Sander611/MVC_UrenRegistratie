@@ -56,7 +56,7 @@
                 <table class="table">
                     <thead style="margin-bottom:20px; font-size:30px; text-align:center; background-color: #9A33F8; color: white;">
                         <tr>
-                            <th colspan="3">Takenlijst</th>
+                            <th colspan="42" style="text-align:center;">Takenlijst</th>
                         </tr>
                     </thead>
                     <thead class="headertable">
@@ -82,7 +82,7 @@
                             @if (hourform.IsAcceptedClient == 0)
                             {
                                 <td align="left">
-                                    <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" /> Beschikbaar
+                                    <img style="width: 15px; height:auto;" src="~/Images/user-edit-solid.svg" /> Beschikbaar
                                 </td>
                                 <td class="tablerow">
                                     @Html.ActionLink("Uren Invoeren", "HoursRegistration", new { formid = hourform.FormId })

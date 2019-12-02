@@ -260,7 +260,8 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> FormsForYear(int year, string month)
         {
 
-            List<HoursFormModel> specificFormsForDate = await hoursformRepo.GetFormsForYearAndMonth(year, month);
+            List<FormsForMonthModel> specificFormsForDate = await hoursformRepo.GetFormsForYearAndMonth(year, month);
+            
             ViewBag.Year = year;
             ViewBag.Month = month;
             return View(specificFormsForDate);
