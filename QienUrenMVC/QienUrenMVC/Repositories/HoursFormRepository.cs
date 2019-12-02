@@ -94,13 +94,12 @@ namespace QienUrenMVC.Repositories
 
         public async Task RemoveAllFormPerAccount(string accountId)
         {
-            var formEntities = await context.HoursForms.Where(p => p.AccountId == accountId).ToListAsync();
+            var daysforForm = await context.HoursPerDays.Where(p => p.Form.AccountId == accountId).ToListAsync();
+            var hourforms = await context.HoursForms.Where(p => p.AccountId == accountId).ToListAsync();
 
-            foreach (var form in formEntities)
-            {
-                context.HoursForms.Remove(form);
-                
-            }
+            context.HoursPerDays.RemoveRange(daysforForm);
+            context.HoursForms.RemoveRange(hourforms);
+            
 
             await context.SaveChangesAsync();
         }
