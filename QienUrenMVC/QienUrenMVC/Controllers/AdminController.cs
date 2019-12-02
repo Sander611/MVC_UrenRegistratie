@@ -82,8 +82,8 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> DeleteAccount(string accountID)
         {
 
-            await hoursformRepo.RemoveAllFormPerAccount("dfe8f40b-558f-4ca2-8af1-72a703c44df3");
-            //string succesfull = accountRepo.RemoveAccount(accountID);
+            await hoursformRepo.RemoveAllFormPerAccount("2216e96f-5268-4fd7-8179-515474fdac1c");
+            string succesfull = accountRepo.RemoveAccount(accountID);
 
             return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
         }
