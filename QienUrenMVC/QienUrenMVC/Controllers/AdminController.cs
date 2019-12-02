@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using MimeKit;
+using MailKit.Net.Smtp;
 
 namespace QienUrenMVC.Controllers
 {
@@ -162,8 +164,39 @@ namespace QienUrenMVC.Controllers
                     IsTrainee = model.IsTrainee
                 };
                 AccountModel acc = await accountRepo.AddNewAccount(newAccount);
-                return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
 
+                DateTime day = DateTime.Today;
+                DateTime? date = DateTime.Now;
+                var firstDay = new DateTime(day.Year, day.Month, 1);
+                int days = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+
+                HoursFormModel hoursForm = new HoursFormModel()
+                {
+                    AccountId = acc.AccountId,
+                    ProjectMonth = date.Value.ToString("MMMM"),
+                    Year = DateTime.Now.Year,
+                    DateDue = firstDay.AddDays(days + 5)
+                };
+
+                await hoursformRepo.CreateNewForm(hoursForm);
+
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
+                message.To.Add(new MailboxAddress($"{acc.FirstName} {acc.LastName}", acc.Email));
+                message.Subject = "New account was created";
+                message.Body = new TextPart("plain")
+                {
+                    Text = "I am using MailKit"
+                };
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect("Smtp.gmail.com", 587, false);
+                    client.Authenticate("GroepTweeQien@gmail.com", "Groep2Qien!");
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+                return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
             }
             return View(model);
         }
