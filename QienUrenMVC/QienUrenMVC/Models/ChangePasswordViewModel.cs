@@ -12,17 +12,17 @@ namespace QienUrenMVC.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Huidig wachtwoord")]
         public string CurrentPassword { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Nieuw wachtwoord")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage ="The new password and confirmation password do not match.")]
+        [Display(Name = "Bevestig nieuw wachtwoord")]
+        [Compare("NewPassword", ErrorMessage ="Wachtwoorden komen niet overeen")]
         public string ConfirmPassword { get; set; }
 
 
