@@ -196,7 +196,7 @@ namespace QienUrenMVC.Controllers
                     await accountRepo.UpdateAccount(acc, uniqueFilename);
                 ViewBag.imageurl = uniqueFilename;
 
-                return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" });
+                return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId});
             }
 
             return View(updatedAccount);
