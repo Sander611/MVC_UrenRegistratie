@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
@@ -76,14 +77,17 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> HoursRegistration(int formid)
         {
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formid);
-
-
+            var clientList = hoursperdayRepo.GetClientList();
+            ViewBag.CompanyNames = clientList;
             return View(formsForId);
         }
 
         [HttpPost]
         public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model)
         {
+            var clientList = hoursperdayRepo.GetClientList();
+            ViewBag.CompanyNames = clientList;
+
             if (ModelState.IsValid)
             {
                 List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
@@ -138,5 +142,6 @@ namespace QienUrenMVC.Controllers
 
             return View(updatedAccount);
         }
+
     }
 }
