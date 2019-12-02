@@ -92,11 +92,11 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditAccount (string accountID)
+        public async Task<IActionResult> EditAccount(string accountID)
         {
             AccountModel userInfo = await accountRepo.GetOneAccount(accountID);
 
-            ViewBag.currUser = userInfo.FirstName +" "+ userInfo.LastName;
+            ViewBag.currUser = userInfo.FirstName + " " + userInfo.LastName;
 
             return View(userInfo);
         }
@@ -107,12 +107,13 @@ namespace QienUrenMVC.Controllers
 
             if (ModelState.IsValid)
             {
+                var UniqueFilename = "";
                 var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
-                if(existingAccount == null)
+                if (existingAccount == null)
                 {
                     return View(updatedAccount);
                 }
-                AccountModel acc = await accountRepo.UpdateAccount(updatedAccount);
+                AccountModel acc = await accountRepo.UpdateAccount(updatedAccount, UniqueFilename);
 
                 return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
             }
@@ -124,18 +125,18 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> CreateEmployee()
         {
             return View();
-        }        
-        
-        
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> CreateEmployee(AccountModelCreateView model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
 
                 //var formFile = HttpContext.Request.Form.Files[0];
                 string uniqueFilename = "user-circle-solid.svg";
-                if(model.ProfileImage != null)
+                if (model.ProfileImage != null)
                 {
                     string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
                     uniqueFilename = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
@@ -242,7 +243,7 @@ namespace QienUrenMVC.Controllers
             return View(model);
         }
 
-        
+
         [HttpGet]
         public async Task<IActionResult> YearOverview(int Year)
         {
@@ -258,11 +259,27 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> FormsForYear(int year, string month)
         {
-          
+
             List<HoursFormModel> specificFormsForDate = await hoursformRepo.GetFormsForYearAndMonth(year, month);
             ViewBag.Year = year;
             ViewBag.Month = month;
             return View(specificFormsForDate);
+        }
+
+        [HttpGet("{keuring}/{id}")]
+        public async Task<IActionResult> CheckControleren(string keuring, int id, string adminText, string clientText)
+        {
+            if (keuring == "true")
+            {
+                await hoursformRepo.ChangeState(3, id, adminText, clientText);
+            }
+            else if (keuring == "false")
+            {
+                await hoursformRepo.ChangeState(4, id, adminText, clientText);
+            }
+
+            return RedirectToRoute(new { controller = "Admin", action = "FormsForYear" });
+
         }
 
 
