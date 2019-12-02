@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MimeKit;
 using Newtonsoft.Json;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
@@ -83,7 +85,7 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model)
+        public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model, bool versturen)
         {
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
@@ -92,6 +94,26 @@ namespace QienUrenMVC.Controllers
             {
                 List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
                 return View(model);
+            }
+            if(versturen == true)
+            {
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
+                message.To.Add(new MailboxAddress($"{} {acc.LastName}", acc.Email));
+                message.Subject = "New account was created";
+                message.Body = new TextPart("plain")
+                {
+                    Text = "I am using MailKit"
+                };
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect("Smtp.gmail.com", 587, false);
+                    client.Authenticate("GroepTweeQien@gmail.com", "Groep2Qien!");
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+                return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
             }
 
             return View(model);
@@ -142,6 +164,42 @@ namespace QienUrenMVC.Controllers
 
             return View(updatedAccount);
         }
+        public async Task<IActionResult> SturenNaarKlant(string email, string subject, string textMessage, string htmlMessage)
+        {
+            try
+            {
+                var message = new MimeMessage();
 
+                message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
+
+                message.To.Add(new MailboxAddress(email));
+
+                message.Subject = subject;
+
+                var builder = new BodyBuilder
+                {
+                    TextBody = textMessage,
+                    HtmlBody = htmlMessage
+                };
+
+                message.Body = builder.ToMessageBody();
+
+                using (var client = new SmtpClient())
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect("Smtp.gmail.com", 587, false);
+                    client.Authenticate("GroepTweeQien@gmail.com", "Groep2Qien!");
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                // TODO: handle exception
+                throw new InvalidOperationException(ex.Message);
+            }
+            }
+        }
     }
 }
