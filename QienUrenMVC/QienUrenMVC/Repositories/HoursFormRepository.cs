@@ -73,7 +73,7 @@ namespace QienUrenMVC.Repositories
 
         public async Task<List<HoursFormModel>> getAllFormPerAccount(string accountId)
         {
-            var formsEntities = await context.HoursForms.Where(p => p.AccountId == accountId).ToListAsync();
+            var formsEntities = await context.HoursForms.Where(p => p.AccountId == accountId && p.IsAcceptedClient != 3).ToListAsync();
             List<HoursFormModel> formPerUser = new List<HoursFormModel>();
 
 
@@ -85,7 +85,10 @@ namespace QienUrenMVC.Repositories
                     AccountId = form.AccountId,
                     DateDue = form.DateDue,
                     ProjectMonth = form.ProjectMonth,
-                    Year = form.Year
+                    Year = form.Year,
+                    IsAcceptedClient = form.IsAcceptedClient
+                    
+                    
                     //Info = "Uren registratie " + form.ProjectMonth + " " + form.Year.ToString(),
                 });
             }
@@ -328,5 +331,14 @@ namespace QienUrenMVC.Repositories
             return formsForYearandMonth;
         }
 
+        public async Task ChangeState(int state, int id, string textAdmin, string textClient)
+        {
+            HoursForm entity = context.HoursForms.Single(p => p.FormId == id);
+            entity.IsAcceptedClient = state;
+            entity.commentAdmin = textAdmin;
+            entity.commentClient = textClient;
+
+            await context.SaveChangesAsync();
+        }
     }
 }
