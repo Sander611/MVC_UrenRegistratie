@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
+using MimeKit;
+using MailKit.Net.Smtp;
 
 namespace QienUrenMVC.Controllers
 {
@@ -90,19 +92,44 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model)
+        public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model, bool versturen)
         {
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
 
             if (ModelState.IsValid)
             {
-                List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
-                return View(model);
+                await hoursperdayRepo.Update(model);
             }
 
+            if (versturen == true)
+            {
+                var clientIds = model.Select(m => m.ClientId).Distinct();
+                foreach (var client in clientIds)
+                {
+                    ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
+                    {
+                        var message = new MimeMessage();
+                        message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
+                        message.To.Add(new MailboxAddress($"{client1.ClientName1}", client1.ClientEmail1));
+                        message.Subject = "Check formulier";
+                        message.Body = new TextPart("plain")
+                        {
+                            Text = "I am using MailKit"
+                        };
+                        using (var smptcli = new SmtpClient())
+                        {
+                            smptcli.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                            smptcli.Connect("Smtp.gmail.com", 587, false);
+                            smptcli.Authenticate("GroepTweeQien@gmail.com", "Groep2Qien!");
+                            smptcli.Send(message);
+                            smptcli.Disconnect(true);
+                        }
+                        ///*return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" }*/);
+                    }
+                }
+            }
             return View(model);
-
         }
 
         [HttpPost]
