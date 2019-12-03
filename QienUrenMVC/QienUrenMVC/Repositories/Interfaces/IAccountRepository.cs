@@ -16,5 +16,6 @@ namespace QienUrenMVC.Repositories
         Task<List<AccountModel>> getPersonaliaFromAccount(string accountId);
 
         Task<List<string>> GetAccountIdsByRole(string role);
+        Task<AccountModel> GetAccountByFormId(int formId);
     }
 }

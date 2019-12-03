@@ -219,5 +219,32 @@ namespace QienUrenMVC.Repositories
 
 
         }
+        public async Task<AccountModel> GetAccountByFormId(int formId)
+        {
+            HoursForm hoursForm = await repositoryContext.HoursForms.SingleAsync(a => a.FormId == formId);
+
+            UserIdentity account = await repositoryContext.UserIdentity.SingleAsync(p => p.Id == hoursForm.AccountId);
+
+            return new AccountModel
+            {
+                AccountId = account.Id,
+                FirstName = account.FirstName,
+                LastName = account.LastName,
+                Email = account.Email,
+                DateOfBirth = account.DateOfBirth,
+                Address = account.Address,
+                ZIP = account.ZIP,
+                MobilePhone = account.PhoneNumber,
+                City = account.City,
+                IBAN = account.IBAN,
+                CreationDate = account.CreationDate,
+                ProfileImage = account.ProfileImage,
+                IsAdmin = account.IsAdmin,
+                IsActive = account.IsActive,
+                IsQienEmployee = account.IsQienEmployee,
+                IsSeniorDeveloper = account.IsSeniorDeveloper,
+                IsTrainee = account.IsTrainee
+            };
+        }
     }
 }
