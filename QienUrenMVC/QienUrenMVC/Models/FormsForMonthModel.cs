@@ -29,7 +29,7 @@ namespace QienUrenMVC.Models
         [DisplayName("Jaar")]
         public int Year { get; set; }
 
-        [DisplayName("Keuring opdrachtgever")]
+        [DisplayName("Status")]
         public int IsAcceptedClient { get; set; }
 
         public string CommentClient { get; set; }
