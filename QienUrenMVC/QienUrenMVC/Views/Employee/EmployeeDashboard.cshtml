@@ -10,179 +10,178 @@
 
 }
 
-@using (Html.BeginForm("CreateFormForAccount", "Employee", FormMethod.Post))
+@*@using (Html.BeginForm("CreateFormForAccount", "Employee", FormMethod.Post))
 {
     
     <input type="submit" value="Aanmaken" />
-}
-
+}*@
 
 
 
 @Html.HiddenFor(model => model.Account.AccountId);
+
 <div class="row">
-    <div style="border: 3px solid #9A33F8;margin-left: 40px;" class="col-md-2 rounded">
-        <img style="margin-bottom:10px; margin-left:40px; text-align:center; width:180px; height:180px;" class="img-fluid" src="~/Images/ProfileImages/admin-icon.svg" />
-        <table>
-            <tbody>
-                <tr>
-                    @if (Model.Account.IsTrainee == true)
-                    {
-                        <p style="text-align:center;">Trainee</p>
-                    }
-                    else if (Model.Account.IsQienEmployee == true)
-                    {
-                        <p style="text-align:center;">Medewerker</p>
-                    }
-                    else
-                    {
-                        <p style="text-align:center;">Senior Ontwikkelaar</p>
-                    }
-                </tr>
-                <tr>
-                    <p style="text-align:center;"> @Model.Account.FirstName @Model.Account.LastName</p>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div>
-        <div class="col-md-1"></div>
-    </div>
-
-    <div>
-        <div class="col-md-1"></div>
-    </div>
-
-    <div class="col-md-8">
-        <div style="margin-top:10px;" class="row">
-            <div class="col-lg-12 col-md-12">
-
-                <table class="tabel">
-                    <thead>
-                        <tr>
-                                <th colspan="4" class="kaartheader">Takenlijst</th>
-                        </tr>
-                    </thead>
-                    <thead class="kaartsubheader">
-                        <tr>
-                            <th>Taak</th>
-                            <th>Deadline</th>
-                            <th>Status</th>
-                            <th>Invullen</th>
-                        </tr>
-                    </thead>
-                    <tbody class="kaartinhoud">
-                        @foreach (var hourform in Model.Forms)
-                        {
-                            <tr>
-                                <td class="tablerow">
-
-                                    Uren registratie @hourform.ProjectMonth @hourform.Year.ToString()
-                                </td>
-                                <td class="tablerow">
-                                    @hourform.DateDue
-                                </td>
-
-                                @if (hourform.IsAcceptedClient == 0)
-                                {
-                                    <td align="left">
-                                        <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" /> Beschikbaar
-                                    </td>
-                                    <td class="tablerow">
-                                        @Html.ActionLink("Uren Invoeren", "HoursRegistration", new { formid = hourform.FormId })
-                                    </td>
-                                }
-
-                                else if (hourform.IsAcceptedClient == 1 || hourform.IsAcceptedClient == 2)
-                                {
-                                    <td align="left">
-                                        <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In Afwachting
-                                    </td>
-                                    <td class="tablerow">
-                                        @Html.ActionLink("Uren inzien", "HoursRegistration", new { formid = hourform.FormId })
-                                    </td>
-                                }
-
-                                else if (hourform.IsAcceptedClient == 4)
-                                {
-                                    <td align="left">
-                                        <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" /> Afgekeurd
-                                    </td>
-                                    <td class="tablerow">
-                                        @Html.ActionLink("Uren Opnieuw Invoeren", "HoursRegistration", new { formid = hourform.FormId })
-                                    </td>
-                                }
-
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+        <div class="dashboardkaart">
+        <div class="kaartheader">
+            <img style="margin-bottom:10px; margin-left:20px; width:170px; height:170px; border-radius:50%; border: 1px solid #9A33F8; background-color:white;" class="img-fluid" src="~/Images/ProfileImages/admin-icon.svg" />
         </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <p style="text-align:center; font-weight:bold; margin-top: 20px"> Naam:</p>
+                    </tr>
+                    <tr>
+                        <p style="text-align:center;"> @Model.Account.FirstName @Model.Account.LastName</p>
+                    </tr>
+                    <tr>
+                        <p style="text-align:center; font-weight:bold;"> Functie:</p>
+                    </tr>
+                    <tr>
 
-        <div class="row">
-            <div class="col-lg-6 col-md-12">
-                <div class="kaartheader">
-                    <h3>Personalia</h3>
-                </div>
-                <div class="kaartinhoud">
-                    <table>
-                        <tbody>
+                        @if (Model.Account.IsTrainee == true)
+                        {
+                            <p style="text-align:center;">Trainee</p>
+                        }
+                        else if (Model.Account.IsQienEmployee == true)
+                        {
+                            <p style="text-align:center;">Medewerker</p>
+                        }
+                        else
+                        {
+                            <p style="text-align:center; margin-top:20px">Senior Ontwikkelaar</p>
+                        }
+                    </tr>
+                    <tr>
+                        <p style="text-align:center;"> @Html.ActionLink("Personalia aanpassen", "EmployeePersonalia", new { accountID = Model.Account.AccountId }, new { @class="personalialink"})</p>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    
+
+        <div class="col-md-8">
+            <div style="margin-top:10px;" class="row">
+                <div class="col-lg-12 col-md-12">
+                    <table class="tabel">
+                        <thead>
                             <tr>
-                                <td style="font-weight:bold;">Voornaam</td>
-                                <td style="text-align:left; padding-left:65px;">@Model.Account.FirstName</td>
-
+                                <th colspan="4" class="kaartheader">Takenlijst</th>
                             </tr>
+                        </thead>
+                        <thead class="kaartsubheader">
                             <tr>
-                                <td style="font-weight:bold;">Achternaam</td>
-                                <td style="text-align:left; padding-left:65px">@Model.Account.LastName</td>
-
+                                <th class="headertekst">Taak</th>
+                                <th class="headertekst">Deadline</th>
+                                <th class="headertekst">Status</th>
+                                <th class="headertekst">Invullen</th>
                             </tr>
-
-                            <tr>
-                                <td style="font-weight:bold;">Adres</td>
-                                <td style="text-align:left; padding-left:65px;">@Model.Account.Address</td>
-                            </tr>
-
-                            <tr>
-                                <td style="font-weight:bold;">Postcode</td>
-                                <td style="text-align:left; padding-left:65px;">@Model.Account.ZIP</td>
-                            </tr>
-
-                            <tr>
-                                <td style="font-weight:bold;">Stad</td>
-                                <td style="text-align:left; padding-left:65px;">@Model.Account.City</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"> @Html.ActionLink("Personalia aanpassen", "EmployeePersonalia", new { accountID = Model.Account.AccountId })</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-
-            <div class="col-lg-6 col-md-12">
-                <div class="kaartheader">
-                    <h3>Nieuws</h3>
-                </div>
-                <div class="kaartinhoud">
-                    <table>
-                        <tbody>
-                            @for (int i = 0; i < 5; i++)
+                        </thead>
+                        <tbody class="kaartinhoud">
+                            @foreach (var hourform in Model.Forms)
                             {
                                 <tr>
-                                    <td>Urenregistratie is goedgekeurd</td>
-                                </tr>
+                                    <td class="inhoudtekst">
+                                        Uren registratie @hourform.ProjectMonth @hourform.Year.ToString()
+                                    </td>
+                                    <td class="inhoudtekst">
+                                        @hourform.DateDue
+                                    </td>
 
+                                    @if (hourform.IsAcceptedClient == 0)
+                                    {
+                                        <td align="left" class="inhoudtekst">
+                                            <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" /> Beschikbaar
+                                        </td>
+                                        <td class="inhoudtekst" >
+                                            @Html.ActionLink("Uren invoeren", "HoursRegistration", new { formid = hourform.FormId }, new { @class="link"})
+                                        </td>
+                                    }
+
+                                    else if (hourform.IsAcceptedClient == 1 || hourform.IsAcceptedClient == 2)
+                                    {
+                                        <td align="left" class="inhoudtekst">
+                                            <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In Afwachting
+                                        </td>
+                                        <td class="inhoudtekst">
+                                            @Html.ActionLink("Uren inzien", "HoursRegistration", new { formid = hourform.FormId }, new { @class="link"})
+                                        </td>
+                                    }
+
+                                    else if (hourform.IsAcceptedClient == 4)
+                                    {
+                                        <td align="left" class="inhoudtekst">
+                                            <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" /> Afgekeurd
+                                        </td>
+                                        <td class="inhoudtekst">
+                                            @Html.ActionLink("Opnieuw invoeren", "HoursRegistration", new { formid = hourform.FormId }, new { @class="link"})
+                                        </td>
+                                    }
+                                </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <div class="kaartheader">
+                        <h3>Personalia</h3>
+                    </div>
+                    <div class="kaartinhoud">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="personaliainhoud">Voornaam</td>
+                                    <td class="personaliatekst">@Model.Account.FirstName</td>
+                                </tr>
+                                <tr>
+                                    <td class="personaliainhoud">Achternaam</td>
+                                    <td  class="personaliatekst">@Model.Account.LastName</td>
+                                </tr>
+                                <tr>
+                                    <td class="personaliainhoud">Adres</td>
+                                    <td class="personaliatekst">@Model.Account.Address</td>
+                                </tr>
+                                <tr>
+                                    <td class="personaliainhoud">Postcode</td>
+                                    <td class="personaliatekst">@Model.Account.ZIP</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="personaliainhoud" >Stad</td>
+                                    <td class="personaliatekst">@Model.Account.City</td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-6 col-md-12">
+                    <div class="kaartheader">
+                        <h3>Nieuws</h3>
+                    </div>
+                    <div class="kaartinhoud">
+                        <table>
+                            <tbody>
+                                @for (int i = 0; i < 4; i++)
+                                {
+                               
+                                <tr>
+                                    <td align="left">
+                                        <img style="width: 20px; height:auto;" src="~/Images/newspaper-solid.svg" />
+                                    </td>
+                                    <td style="padding-left:20px">Urenregistratie is goedgekeurd</td>
+                                </tr>
+                            }
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 </div>
 
 
