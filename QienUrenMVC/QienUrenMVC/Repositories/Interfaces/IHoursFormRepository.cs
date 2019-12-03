@@ -26,5 +26,7 @@ namespace QienUrenMVC.Repositories
         Task UpdateTotalHoursForm(int id, int totalHours);
 
         Task<int> GetYearOfForm(int id);
+
+        Task<HoursFormModel> GetFormById(int id);
     }
 }

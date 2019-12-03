@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<QienUrenMVC.Models.HoursPerDayModel>
 @{
     ViewData["Title"] = "HoursRegistration";
-            Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
+    Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 
 }
 
-    <h1 style="text-align:center">Urenregistratie @ViewBag.month (@ViewBag.year)</h1>
+<h1 style="text-align:center">Urenregistratie @ViewBag.month (@ViewBag.year)</h1>
 
 <form asp-controller="Employee" asp-action="HoursRegistration" method="post">
 
@@ -22,10 +22,58 @@
                 <th>Reden m.b.t. Overig</th>
             </tr>
         </thead>
+
         <tbody style="background-color:rgba(154, 51, 248, 0.12)">
-            @Html.EditorForModel()
+
+            @if (ViewBag.status == 0 || ViewBag.status == 4)
+            {
+                @Html.EditorForModel()
+            }
+            else if (ViewBag.status == 1 || ViewBag.status == 2 || ViewBag.status == 3 || ViewBag.status == 5)
+            {
+                @Html.DisplayForModel()
+            }
+
         </tbody>
     </table>
-    <button type="submit">Bewaren</button>
-    <button type="submit" asp-route-versturen="true">Bewaren en versturen</button>
+
+    @if (ViewBag.status == 4)
+    {
+        <div class="row">
+            <div class="col-md-4">
+                <label style="font-weight:bold">Commentaar Admin:</label>
+                <div>
+                    <textarea style="width: 100%; max-width: 100%; height: 200px;" disabled>@ViewBag.textAdmin</textarea>
+                </div>
+
+            </div>
+
+            <div class="col-md-4"></div>
+
+            <div class="col-md-4">
+
+                <label style="font-weight:bold">Commentaar werkgever:</label>
+                <div>
+                    <textarea style="width: 100%; max-width: 100%; height: 200px;" disabled>@ViewBag.textClient</textarea>
+                </div>
+            </div>
+
+
+        </div>
+    }
+
+    <div class="row">
+        @if (ViewBag.status == 0 || ViewBag.status == 4)
+        {
+            <button type="submit">Bewaren</button>
+            <button type="submit" asp-route-versturen="true">Bewaren en versturen</button>
+        }
+        else if (ViewBag.status == 1 || ViewBag.status == 2 || ViewBag.status == 3 || ViewBag.status == 5)
+        {
+            <button disabled type="submit">Bewaren</button>
+            <button disabled type="submit" asp-route-versturen="true">Bewaren en versturen</button>
+        }
+    </div>
+
+
 </form>

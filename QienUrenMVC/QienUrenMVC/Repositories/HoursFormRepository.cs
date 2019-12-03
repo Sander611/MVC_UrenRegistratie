@@ -21,6 +21,29 @@ namespace QienUrenMVC.Repositories
             return await context.HoursForms.Where(p => p.FormId == id).Select(m => m.Year).SingleOrDefaultAsync();
         }
 
+        public async Task<HoursFormModel> GetFormById(int id)
+        {
+            var form = await context.HoursForms.Where(p => p.FormId == id).SingleOrDefaultAsync();
+
+            HoursFormModel model = new HoursFormModel
+            {
+                FormId = form.FormId,
+                AccountId = form.AccountId,
+                DateSend = form.DateSend,
+                DateDue = form.DateDue,
+                TotalHours = form.TotalHours,
+                Year = form.Year,
+                ProjectMonth = form.ProjectMonth,
+                IsAcceptedClient = form.IsAcceptedClient,
+                IsLocked = form.IsLocked,
+                CommentAdmin = form.commentAdmin,
+                CommentClient = form.commentClient
+
+            };
+
+            return model;
+        }
+
         //returning all hoursforms, ordered by account Id
         public async Task<List<HoursFormModel>> GetAllHoursForms()
         {
