@@ -101,6 +101,8 @@ namespace QienUrenMVC.Controllers
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formid);
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
+            ViewBag.month = formsForId[0].Month;
+            ViewBag.year = await hoursformRepo.GetYearOfForm(formid);
             return View(formsForId);
         }
 
@@ -109,10 +111,22 @@ namespace QienUrenMVC.Controllers
         {
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
+            ViewBag.month = model[0].Month;
+            ViewBag.year = await hoursformRepo.GetYearOfForm(model[0].FormId);
 
             if (ModelState.IsValid)
             {
-                await hoursperdayRepo.Update(model);
+                List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
+
+                int totalHours = 0;
+                foreach(var perday in model)
+                {
+                    totalHours += perday.Hours;
+                }
+
+                await hoursformRepo.UpdateTotalHoursForm(model[0].FormId, totalHours);
+
+                return View(model);
             }
 
             if (versturen == true)

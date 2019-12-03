@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QienUrenMVC.Models.HoursFormModel>
+﻿@model IEnumerable<QienUrenMVC.Models.FormsForMonthModel>
 
 @{
     ViewData["Title"] = "FormsForYear";
@@ -14,7 +14,7 @@
                 @Html.DisplayNameFor(model => model.FormId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AccountId)
+                Naam
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateSend)
@@ -43,47 +43,75 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FormId)
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FormId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateSend)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateDue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectMonth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+
+            @if (item.IsAcceptedClient == 0)
+            {
+                <td align="left">
+                    <img style="width: 15px; height:auto;" src="~/Images/user-edit-solid.svg" /> Beschikbaar voor medewerker
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AccountId)
+            }
+
+            else if (item.IsAcceptedClient == 1 || item.IsAcceptedClient == 2)
+            {
+                <td align="left">
+                    <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In Afwachting van keuring
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateSend)
+            }
+
+            else if (item.IsAcceptedClient == 3)
+            {
+                <td align="left">
+                    <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" /> Goedgekeurd door Admin
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateDue)
+            }
+
+            else if (item.IsAcceptedClient == 4)
+            {
+                <td align="left">
+                    <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" /> Afgekeurd door Admin
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalHours)
+            }
+
+
+
+            @if (item.IsLocked == true)
+            {
+                <td align=center>
+                    <img style="width: 15px; height:auto;" src="~/Images/lock-solid.svg" />
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProjectMonth)
+            }
+            else if (item.IsLocked == false)
+            {
+                <td align=center>
+                    <img style="width: 15px; height:auto;" src="~/Images/lock-open-solid.svg" />
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Year)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsAcceptedClient)
-                </td>
-                @if (item.IsLocked == true)
-                {
-                    <td align=center>
-                        <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" />
-                    </td>
-                }
-                else if (item.IsLocked == false)
-                {
-                    <td align=center>
-                        <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" />
-                    </td>
-                }
-                <td>
-                    @Html.ActionLink("Inzien", "Controleren", new { formId = item.FormId, accountId = item.AccountId, fullName = @ViewBag.currUser, month = item.ProjectMonth, year = item.Year })
-                </td>
-            </tr>
+            }
+            <td>
+                @Html.ActionLink("Inzien", "Controleren", new { formId = item.FormId, accountId = item.AccountId, fullName = item.fullName, month = item.ProjectMonth, year = item.Year })
+            </td>
+        </tr>
         }
     </tbody>
 </table>
