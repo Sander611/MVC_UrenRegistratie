@@ -178,16 +178,19 @@ namespace QienUrenMVC.Repositories
 
         public async Task<HoursFormModel> CreateNewForm(HoursFormModel hoursFormModel)
         {
-            // create form
+            DateTime day = DateTime.Today;
+            var firstDay = new DateTime(day.Year, day.Month, 1);
+            int days = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             HoursForm hoursForm = new HoursForm()
             {
                 AccountId = hoursFormModel.AccountId,
                 DateSend = hoursFormModel.DateSend,
-                DateDue = hoursFormModel.DateDue,
+                DateDue = firstDay.AddDays(days + 5),
                 TotalHours = hoursFormModel.TotalHours,
                 ProjectMonth = hoursFormModel.ProjectMonth,
                 Year = hoursFormModel.Year,
-                IsAcceptedClient = hoursFormModel.IsAcceptedClient,
+                IsAcceptedClient = 0,
+
                 IsLocked = hoursFormModel.IsLocked,
                 commentAdmin = hoursFormModel.CommentAdmin,
                 commentClient = hoursFormModel.CommentClient
