@@ -49,7 +49,7 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Controleren(int formId, string accountId, string fullName, string month, string year)
+        public async Task<IActionResult> Controleren(int formId, string accountId, string fullName, string month, string year, int state)
         {
 
             ViewBag.formId = formId;
@@ -57,6 +57,7 @@ namespace QienUrenMVC.Controllers
             ViewBag.fullName = fullName;
             ViewBag.month = month;
             ViewBag.year = year;
+            ViewBag.status = state;
 
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
 

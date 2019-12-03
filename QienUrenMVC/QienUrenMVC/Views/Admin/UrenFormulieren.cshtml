@@ -83,7 +83,7 @@
             else if (item.IsAcceptedClient == 1 || item.IsAcceptedClient == 2)
             {
                 <td align="left">
-                    <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In Afwachting van keuring
+                    <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In afwachting van keuring Admin
                 </td>
             }
 
@@ -101,6 +101,12 @@
                 </td>
             }
 
+            else if (item.IsAcceptedClient == 5)
+            {
+                <td align="left">
+                    <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In afwachting van keuring Opdrachtgever
+                </td>
+            }
 
 
 
@@ -119,7 +125,7 @@
                 </td>
             }
             <td>
-                @Html.ActionLink("Inzien", "Controleren", new { formId = item.FormId, accountId = item.AccountId, fullName = @ViewBag.currUser, month = item.ProjectMonth, year = item.Year })
+                @Html.ActionLink("Inzien", "Controleren", new { formId = item.FormId, accountId = item.AccountId, fullName = @ViewBag.currUser, month = item.ProjectMonth, year = item.Year, state = item.IsAcceptedClient })
             </td>
         </tr>
 }

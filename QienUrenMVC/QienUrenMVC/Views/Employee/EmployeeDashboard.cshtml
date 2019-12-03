@@ -85,17 +85,17 @@
                                     <img style="width: 15px; height:auto;" src="~/Images/user-edit-solid.svg" /> Beschikbaar
                                 </td>
                                 <td class="tablerow">
-                                    @Html.ActionLink("Uren Invoeren", "HoursRegistration", new { formid = hourform.FormId })
+                                    @Html.ActionLink("Uren Invoeren", "HoursRegistration", new { formid = hourform.FormId, state = hourform.IsAcceptedClient })
                                 </td>
                             }
 
-                            else if (hourform.IsAcceptedClient == 1 || hourform.IsAcceptedClient == 2)
+                            else if (hourform.IsAcceptedClient == 1 || hourform.IsAcceptedClient == 2 || hourform.IsAcceptedClient == 5)
                             {
                                 <td align="left">
                                     <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In Afwachting
                                 </td>
                                 <td class="tablerow">
-                                    @Html.ActionLink("Uren inzien", "HoursRegistration", new { formid = hourform.FormId })
+                                    @Html.ActionLink("Uren inzien", "HoursRegistration", new { formid = hourform.FormId, state = hourform.IsAcceptedClient  })
                                 </td>
                             }
 
@@ -105,7 +105,7 @@
                                     <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" /> Afgekeurd
                                 </td>
                                 <td class="tablerow">
-                                    @Html.ActionLink("Uren Opnieuw Invoeren", "HoursRegistration", new { formid = hourform.FormId })
+                                    @Html.ActionLink("Uren Opnieuw Invoeren", "HoursRegistration", new { formid = hourform.FormId, state = hourform.IsAcceptedClient  })
                                 </td>
                             }
 
