@@ -222,6 +222,7 @@ namespace QienUrenMVC.Controllers
 
                 await hoursformRepo.CreateNewForm(hoursForm);
 
+
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
                 message.To.Add(new MailboxAddress($"{acc.FirstName} {acc.LastName}", acc.Email));
