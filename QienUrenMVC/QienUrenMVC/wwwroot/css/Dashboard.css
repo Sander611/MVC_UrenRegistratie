@@ -45,3 +45,45 @@
 h2{
     color:white;
 }
+
+.kaartheader {
+    -webkit-border-top-left-radius:3px;
+    -webkit-border-top-right-radius: 3px;
+    padding: 15px;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(156,39,176,.4);
+    background: linear-gradient(60deg,#ab47bc,#8e24aa);
+    z-index: 3 !important;
+    color: #fff;
+    text-align: center;
+    font-size: 30px;
+    
+    
+    
+}
+
+.kaartinhoud {
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    padding: 15px;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(156,39,176,.4);
+    background: white;
+    z-index: 3 !important;
+    color: black;
+    font-size: 20px;
+    
+}
+
+.kaartsubheader {
+    background-color: #e699ff;
+    padding: 15px;
+    z-index: 3 !important;
+    color: white;
+    font-size: 20px;
+    
+}
+
+.tabel {
+    width:100%;
+    margin-bottom: 30px;
+    padding:10px;
+}
