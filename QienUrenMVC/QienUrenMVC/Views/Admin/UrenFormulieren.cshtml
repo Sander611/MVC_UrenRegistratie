@@ -119,7 +119,7 @@
                 </td>
             }
             <td>
-                @Html.ActionLink("Inzien", "Controleren", new { formId = item.FormId, accountId = item.AccountId, fullName = @ViewBag.currUser, month = item.ProjectMonth, year = item.Year })
+                @Html.ActionLink("Inzien", "Controleren", new { formId = item.FormId, accountId = item.AccountId, fullName = @ViewBag.currUser, month = item.ProjectMonth, year = item.Year, state=item.IsAcceptedClient })
             </td>
         </tr>
 }

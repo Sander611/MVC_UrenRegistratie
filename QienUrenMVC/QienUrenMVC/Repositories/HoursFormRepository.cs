@@ -345,6 +345,10 @@ namespace QienUrenMVC.Repositories
             entity.IsAcceptedClient = state;
             entity.commentAdmin = textAdmin;
             entity.commentClient = textClient;
+            if(state == 3)
+            {
+                entity.IsLocked = true;
+            }
 
             await context.SaveChangesAsync();
         }
