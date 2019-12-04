@@ -148,7 +148,8 @@ namespace QienUrenMVC.Controllers
                     {
 
                         var verificationCode = Guid.NewGuid();
-                        var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}"; 
+                        var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}";
+                        ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
                         var message = new MimeMessage();
                         message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
                         message.To.Add(new MailboxAddress($"{client1.ClientName1}", client1.ClientEmail1));
@@ -161,30 +162,16 @@ namespace QienUrenMVC.Controllers
                         {
                             smptcli.ServerCertificateValidationCallback = (s, c, h, e) => true;
                             smptcli.Connect("Smtp.gmail.com", 587, false);
-                            smptcli.Authenticate("GroepTweeQien@gmail.com", "GroepQien");
+                            smptcli.Authenticate("GroepTweeQien@gmail.com", "GroepQien2019!");
                             smptcli.Send(message);
                             smptcli.Disconnect(true);
-            ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
-                        {
-                            var message = new MimeMessage();
-                            message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
-                            message.To.Add(new MailboxAddress($"{client1.ClientName1}", client1.ClientEmail1));
-                            message.Subject = "Check formulier";
-                            message.Body = new TextPart("plain")
-                            {
-                                Text = "I am using MailKit"             ////// hier moet de werkgever een mail krijgen met een link naar een pagina (deze link moet een unique token bevatten)
-                                                                        ////// op die pagina moeten de uren van de werknemer te zien zijn en een opmerking veld en twee knoppen (afkeuren/goedkeuren)
-                                                                        ////// wanneer de werkgever dit invuld en verstuurd zal de "IsClientAccepted" van dat form veranderen naar 1 (indien goedgekeurd) en anders naar 2 (afgekeurd).
-                                                                        ////// tevens zal dan de "commentClient" geupdate worden met het commentaar van de werkgever
-                            };
-                            using (var smptcli = new SmtpClient())
-                            {
-                                smptcli.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                                smptcli.Connect("Smtp.gmail.com", 587, false);
-                                smptcli.Authenticate("GroepTweeQien@gmail.com", "Groep2Qien!");
-                                smptcli.Send(message);
-                                smptcli.Disconnect(true);
-                            }
+
+                            
+                                          ////// hier moet de werkgever een mail krijgen met een link naar een pagina (deze link moet een unique token bevatten)
+                                        ////// op die pagina moeten de uren van de werknemer te zien zijn en een opmerking veld en twee knoppen (afkeuren/goedkeuren)
+                                        ////// wanneer de werkgever dit invuld en verstuurd zal de "IsClientAccepted" van dat form veranderen naar 1 (indien goedgekeurd) en anders naar 2 (afgekeurd).
+                                        ////// tevens zal dan de "commentClient" geupdate worden met het commentaar van de werkgever
+                            
 
 
                         }

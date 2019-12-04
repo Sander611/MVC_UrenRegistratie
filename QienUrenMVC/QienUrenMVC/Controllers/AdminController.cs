@@ -74,6 +74,12 @@ namespace QienUrenMVC.Controllers
             ViewBag.year = year;
             ViewBag.status = state;
 
+
+            HoursFormModel formInfo = await hoursformRepo.GetFormById(formId);
+            ViewBag.textAdmin = formInfo.CommentAdmin;
+            ViewBag.textClient = formInfo.CommentClient;
+            
+
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
 
             return View(formsForId);
@@ -314,7 +320,7 @@ namespace QienUrenMVC.Controllers
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                     client.Connect("Smtp.gmail.com", 587, false);
-                    client.Authenticate("GroepTweeQien@gmail.com", "GroepQien");
+                    client.Authenticate("GroepTweeQien@gmail.com", "GroepQien2019!");
                     client.Send(message);
                     client.Disconnect(true);
                 }
