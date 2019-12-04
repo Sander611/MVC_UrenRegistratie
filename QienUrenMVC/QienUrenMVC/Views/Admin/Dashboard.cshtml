@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QienUrenMVC.Models.AdminTaskModel>
+﻿@model AdminTaskModel
 
 @{
     ViewData["Title"] = "Dashboard";
@@ -65,10 +65,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+
+                            @foreach(var changedAccount in Model.changedAccounts)
                             {
+                                var account = changedAccount;
                                 <tr>
                                     <td>
+                                        
+                                        @Html.DisplayFor(modelItem => account.FirstName)
+                                       
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Bekijk Aanpassingen", "BekijkAanpassingen", new { })
+                                    </td>
+                                </tr>
+                            }
+
+                            @foreach (var item in Model.uncheckedForms)
+                            {
+                                
+                                <tr>
+                                    <td>
+                                        
                                         @Html.DisplayFor(modelItem => item.FullName)
                                     </td>
                                     <td>
