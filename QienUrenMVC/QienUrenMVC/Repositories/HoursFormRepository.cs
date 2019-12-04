@@ -16,6 +16,33 @@ namespace QienUrenMVC.Repositories
             this.context = context;
         }
 
+        public async Task<HoursFormModel> CheckIfExists(string id, string month, int year)
+        {
+            var form = await context.HoursForms.Where(p => p.AccountId == id && p.ProjectMonth == month && p.Year == year).SingleOrDefaultAsync();
+            if (form != null) {
+                HoursFormModel model = new HoursFormModel
+                {
+                    FormId = form.FormId,
+                    AccountId = form.AccountId,
+                    DateSend = form.DateSend,
+                    DateDue = form.DateDue,
+                    TotalHours = form.TotalHours,
+                    Year = form.Year,
+                    ProjectMonth = form.ProjectMonth,
+                    IsAcceptedClient = form.IsAcceptedClient,
+                    IsLocked = form.IsLocked,
+                    CommentAdmin = form.commentAdmin,
+                    CommentClient = form.commentClient
+
+                };
+                return model;
+            }
+
+
+            return null;
+
+        }
+
         public async Task<int> GetYearOfForm(int id)
         {
             return await context.HoursForms.Where(p => p.FormId == id).Select(m => m.Year).SingleOrDefaultAsync();
