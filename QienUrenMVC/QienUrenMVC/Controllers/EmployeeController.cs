@@ -97,12 +97,22 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> HoursRegistration(int formid)
+        public async Task<IActionResult> HoursRegistration(int formid, int state)
         {
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formid);
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
+
             ViewBag.FormId = formid;
+            ViewBag.month = formsForId[0].Month;
+            ViewBag.year = await hoursformRepo.GetYearOfForm(formid);
+            ViewBag.status = state;
+            if (state == 4)
+            {
+                HoursFormModel formInfo = await hoursformRepo.GetFormById(formid);
+                ViewBag.textAdmin = formInfo.CommentAdmin;
+                ViewBag.textClient = formInfo.CommentClient;
+            }
             return View(formsForId);
         }
 
@@ -114,18 +124,29 @@ namespace QienUrenMVC.Controllers
             HoursFormModel hoursForm = await hoursformRepo.GetFormsById(formid);
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
+            ViewBag.month = model[0].Month;
+            ViewBag.year = await hoursformRepo.GetYearOfForm(model[0].FormId);
+
             if (ModelState.IsValid)
             {
-                await hoursperdayRepo.Update(model);
-            }
+                List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
 
-            if (versturen == true)
-            {
-                var clientIds = model.Select(m => m.ClientId).Distinct();
-                foreach (var client in clientIds)
+                int totalHours = 0;
+                foreach(var perday in model)
                 {
-                    ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
+                    totalHours += perday.Hours;
+                }
+
+                await hoursformRepo.UpdateTotalHoursForm(model[0].FormId, totalHours);
+                ViewBag.status = 0;
+
+                if (versturen == true)
+                {
+
+                    var clientIds = model.Select(m => m.ClientId).Distinct();
+                    foreach (var client in clientIds)
                     {
+
                         var verificationCode = Guid.NewGuid();
                         var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}"; 
                         var message = new MimeMessage();
@@ -143,10 +164,38 @@ namespace QienUrenMVC.Controllers
                             smptcli.Authenticate("GroepTweeQien@gmail.com", "GroepQien");
                             smptcli.Send(message);
                             smptcli.Disconnect(true);
+            ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
+                        {
+                            var message = new MimeMessage();
+                            message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
+                            message.To.Add(new MailboxAddress($"{client1.ClientName1}", client1.ClientEmail1));
+                            message.Subject = "Check formulier";
+                            message.Body = new TextPart("plain")
+                            {
+                                Text = "I am using MailKit"             ////// hier moet de werkgever een mail krijgen met een link naar een pagina (deze link moet een unique token bevatten)
+                                                                        ////// op die pagina moeten de uren van de werknemer te zien zijn en een opmerking veld en twee knoppen (afkeuren/goedkeuren)
+                                                                        ////// wanneer de werkgever dit invuld en verstuurd zal de "IsClientAccepted" van dat form veranderen naar 1 (indien goedgekeurd) en anders naar 2 (afgekeurd).
+                                                                        ////// tevens zal dan de "commentClient" geupdate worden met het commentaar van de werkgever
+                            };
+                            using (var smptcli = new SmtpClient())
+                            {
+                                smptcli.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                                smptcli.Connect("Smtp.gmail.com", 587, false);
+                                smptcli.Authenticate("GroepTweeQien@gmail.com", "Groep2Qien!");
+                                smptcli.Send(message);
+                                smptcli.Disconnect(true);
+                            }
+
+
                         }
-                        ///*return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" }*/);
                     }
+
+                    await hoursformRepo.ChangeState(5, model[0].FormId, "", "");
+                    ViewBag.status = 5;
+                    return View(model);
+
                 }
+                return View(model);
             }
             return View(model);
         }
@@ -191,9 +240,9 @@ namespace QienUrenMVC.Controllers
                 IsActive = accountUser.IsActive,
                 IsQienEmployee = accountUser.IsQienEmployee,
                 IsSeniorDeveloper = accountUser.IsSeniorDeveloper,
-                IsTrainee = accountUser.IsTrainee
+                IsTrainee = accountUser.IsTrainee,
+                ImageProfileString = accountUser.ProfileImage
             };
-            ViewBag.imageurl = accountUser.ProfileImage;
             
             return View(tempacc);
         }
@@ -204,14 +253,18 @@ namespace QienUrenMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 string uniqueFilename = "";
+                var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 if (updatedAccount.ProfileImage != null)
                 {
                     string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
-                    uniqueFilename = Guid.NewGuid().ToString() + "_" + updatedAccount.ProfileImage.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFilename);
-                    updatedAccount.ProfileImage.CopyTo(new FileStream(filePath, FileMode.Create));
+                    string filePath = Path.Combine(uploadsFolder, updatedAccount.ImageProfileString);
+                    uniqueFilename = updatedAccount.ImageProfileString;
+                    System.IO.File.Delete(filePath);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        updatedAccount.ProfileImage.CopyTo(stream);
+                    }
                 }
                 if (existingAccount == null)
                 {
@@ -235,12 +288,15 @@ namespace QienUrenMVC.Controllers
                     IsActive = updatedAccount.IsActive,
                     IsQienEmployee = updatedAccount.IsQienEmployee,
                     IsSeniorDeveloper = updatedAccount.IsSeniorDeveloper,
-                    IsTrainee = updatedAccount.IsTrainee
+                    IsTrainee = updatedAccount.IsTrainee,
+                    IsChanged = updatedAccount.IsChanged
+
                 };
+
+                acc.IsChanged = true;
                     
                     await accountRepo.UpdateAccount(acc, uniqueFilename);
                 ViewBag.imageurl = uniqueFilename;
-
                 return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId});
             }
 

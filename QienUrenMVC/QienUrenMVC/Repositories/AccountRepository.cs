@@ -51,6 +51,38 @@ namespace QienUrenMVC.Repositories
             return allAccounts;
         }
 
+        public async Task<List<AccountModel>> GetChangedAccounts()
+        {
+            var allAccounts = new List<AccountModel>();
+            List<UserIdentity> changedUsers = await repositoryContext.UserIdentity.Where(p => p.IsChanged == true).ToListAsync();
+
+            foreach (var account in changedUsers)
+
+                allAccounts.Add(new AccountModel
+                {
+                    AccountId = account.Id,
+                    FirstName = account.FirstName,
+                    LastName = account.LastName,
+                    Email = account.Email,
+                    DateOfBirth = account.DateOfBirth,
+                    Address = account.Address,
+                    ZIP = account.ZIP,
+                    MobilePhone = account.PhoneNumber,
+                    City = account.City,
+                    IBAN = account.IBAN,
+                    CreationDate = account.CreationDate,
+                    ProfileImage = account.ProfileImage,
+                    IsAdmin = account.IsAdmin,
+                    IsActive = account.IsActive,
+                    IsQienEmployee = account.IsQienEmployee,
+                    IsSeniorDeveloper = account.IsSeniorDeveloper,
+                    IsTrainee = account.IsTrainee,
+                    IsChanged = account.IsChanged
+                });
+
+            return allAccounts;
+        }
+
         public async Task<AccountModel> AddNewAccount(AccountModel account)
         {
 
@@ -174,9 +206,9 @@ namespace QienUrenMVC.Repositories
             entity.IsSeniorDeveloper = account.IsSeniorDeveloper;
             entity.PhoneNumber = account.MobilePhone;
             entity.IsTrainee = account.IsTrainee;
-
+            entity.IsChanged = account.IsChanged;
             await repositoryContext.SaveChangesAsync();
-
+            
             return account;
         }
 

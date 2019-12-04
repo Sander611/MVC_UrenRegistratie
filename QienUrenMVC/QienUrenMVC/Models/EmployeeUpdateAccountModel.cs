@@ -67,6 +67,7 @@ namespace QienUrenMVC.Models
         public DateTime? CreationDate { get; set; }
 
         public IFormFile ProfileImage { get; set; }
+        public string ImageProfileString { get; set; }
 
 
         public bool IsAdmin { get; set; }
@@ -80,5 +81,8 @@ namespace QienUrenMVC.Models
         [DisplayName("Actief")]
         public bool IsActive { get; set; }
         public int RoleId { get; set; }
+        
+        [DisplayName("Info is veranderd")]
+        public bool IsChanged { get; set; }
     }
 }

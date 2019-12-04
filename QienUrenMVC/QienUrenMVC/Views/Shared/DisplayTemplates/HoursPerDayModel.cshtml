@@ -1,16 +1,44 @@
-﻿@model QienUrenMVC.Models.HoursPerDayModel
+﻿
+@model QienUrenMVC.Models.HoursPerDayModel
 
-@*@foreach (var item in Model)*@
+@Html.HiddenFor(p => p.HoursPerDayId)
+@Html.HiddenFor(p => p.Month)
+@Html.HiddenFor(p => p.FormId)
+@Html.HiddenFor(p => p.Day)
 
-    <tr>
-        @Html.HiddenFor(m => @Model.HoursPerDayId)
-        <td>@Html.DisplayNameFor(model => model.Day)1</td>
-        <td>@Html.TextBoxFor(model => model.Hours)2</td>
-        <td>@Html.TextBoxFor(model => model.ClientId)3</td>
-        <td>@Html.TextBoxFor(model => model.IsSick)4</td>
-        <td>@Html.TextBoxFor(model => model.OverTimeHours)5</td>
-        <td>@Html.TextBoxFor(model => model.IsLeave)6</td>
-        <td>@Html.TextBoxFor(model => model.Other)7</td>
-        <td>@Html.TextBoxFor(model => model.Reasoning)8</td>
-    </tr>
+
+<tr>
+    <td>
+        @Model.Day - @Model.Month
+    </td>
+
+    <td>
+        @Html.DisplayFor(model => model.Hours, new { style = "width:50px" })
+    </td>
+
+    <td>
+        <select disabled asp-for="ClientId" asp-items="ViewBag.CompanyNames"></select>
+    </td>
+
+    <td>
+        @Html.DisplayFor(model => model.IsSick, new { style = "width:50px" })
+    </td>
+
+    <td>
+        @Html.DisplayFor(model => model.OverTimeHours, new { style = "width:50px" })
+    </td>
+
+    <td>
+        @Html.DisplayFor(model => model.IsLeave, new { style = "width:50px" })
+    </td>
+
+    <td>
+        @Html.DisplayFor(model => model.Other, new { style = "width:50px" })
+    </td>
+
+    <td>
+        @Html.DisplayFor(model => model.Reasoning)
+    </td>
+</tr>
+
 

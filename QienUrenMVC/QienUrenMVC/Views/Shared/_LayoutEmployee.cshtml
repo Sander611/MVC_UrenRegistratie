@@ -12,7 +12,7 @@
     <header>
 
         <div class="topbar">
-            <div class="qienlogo"><img src="~/Images/QienLogo.png" height="100" /></div>
+            <div class="qienlogo"><a asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Images/QienLogo.png" height="100" /></a></div>
             <div class="floatingright">
                 <div class="dropdown">
                     <button class="navbarbutton">
@@ -37,7 +37,7 @@
         </div>
 
     </header>
-    <div class="Emp-container">
+    <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
