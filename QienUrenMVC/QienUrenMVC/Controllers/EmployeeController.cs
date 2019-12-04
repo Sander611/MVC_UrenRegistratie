@@ -146,9 +146,9 @@ namespace QienUrenMVC.Controllers
                 IsActive = accountUser.IsActive,
                 IsQienEmployee = accountUser.IsQienEmployee,
                 IsSeniorDeveloper = accountUser.IsSeniorDeveloper,
-                IsTrainee = accountUser.IsTrainee
+                IsTrainee = accountUser.IsTrainee,
+                ImageProfileString = accountUser.ProfileImage
             };
-            ViewBag.imageurl = accountUser.ProfileImage;
             
             return View(tempacc);
         }
@@ -159,13 +159,14 @@ namespace QienUrenMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 string uniqueFilename = "";
+                var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 if (updatedAccount.ProfileImage != null)
                 {
                     string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
-                    uniqueFilename = Guid.NewGuid().ToString() + "_" + updatedAccount.ProfileImage.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFilename);
+                    string filePath = Path.Combine(uploadsFolder, updatedAccount.ImageProfileString);
+                    uniqueFilename = updatedAccount.ImageProfileString;
+                    System.IO.File.Delete(filePath);
                     updatedAccount.ProfileImage.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
                 if (existingAccount == null)
