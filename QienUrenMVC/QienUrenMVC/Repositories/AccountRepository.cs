@@ -140,6 +140,7 @@ namespace QienUrenMVC.Repositories
                 Email = account.Email,
                 DateOfBirth = account.DateOfBirth,
                 Address = account.Address,
+                HashedPassword = account.PasswordHash,
                 ZIP = account.ZIP,
                 MobilePhone = account.PhoneNumber,
                 City = account.City,

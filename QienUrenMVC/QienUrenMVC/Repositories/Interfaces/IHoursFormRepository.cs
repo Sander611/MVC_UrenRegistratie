@@ -21,5 +21,6 @@ namespace QienUrenMVC.Repositories
 
         Task<List<HoursFormModel>> GetFormsForYearAndMonth(int year, string month);
         Task<HoursFormModel> GetFormsById(int formid);
+        Task ChangeState(int state, int id, string textAdmin, string textClient);
     }
 }

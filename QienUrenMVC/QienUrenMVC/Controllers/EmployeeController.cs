@@ -13,6 +13,8 @@ using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
 using MimeKit;
 using MailKit.Net.Smtp;
+using QienUrenMVC.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace QienUrenMVC.Controllers
 {
@@ -23,6 +25,9 @@ namespace QienUrenMVC.Controllers
         //{
         //    this.helper = helper;
         //}
+        private readonly UserManager<UserIdentity> _userManager;
+        private readonly SignInManager<UserIdentity> _signInManager;
+
 
         private readonly IAccountRepository accountRepo;
         private readonly IClientRepository clientRepo;
@@ -36,13 +41,19 @@ namespace QienUrenMVC.Controllers
                                 IAccountRepository AccountRepo,
                                 IClientRepository ClientRepo,
                                 IHoursFormRepository HoursFormRepo,
-                                IHoursPerDayRepository HoursPerDayRepo)
+                                IHoursPerDayRepository HoursPerDayRepo,
+                                UserManager<UserIdentity> userManager,
+                                SignInManager<UserIdentity> signinManager
+                                )
         {
             this.hostingEnvironment = hostingEnvironment;
             accountRepo = AccountRepo;
             clientRepo = ClientRepo;
             hoursformRepo = HoursFormRepo;
             hoursperdayRepo = HoursPerDayRepo;
+            _userManager = userManager;
+            _signInManager = signinManager;
+            
         }
 
         [HttpGet]
@@ -61,7 +72,8 @@ namespace QienUrenMVC.Controllers
                 Address = result.Address,
                 ZIP = result.ZIP,
                 AccountId = result.AccountId,
-                City = result.City
+                City = result.City,
+                ProfileImage = result.ProfileImage
             };
 
             List<HoursFormModel> formsOverview = new List<HoursFormModel>();
@@ -73,7 +85,8 @@ namespace QienUrenMVC.Controllers
                     FormId = form.FormId,
                     DateDue = form.DateDue,
                     Year = form.Year,
-                    ProjectMonth = form.ProjectMonth
+                    ProjectMonth = form.ProjectMonth,
+                    IsAcceptedClient = form.IsAcceptedClient
                 });
             }
             
@@ -143,13 +156,13 @@ namespace QienUrenMVC.Controllers
         {
             hoursformModel.AccountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             hoursformModel.DateSend = DateTime.Now;
-            hoursformModel.TotalHours = 100;
-            hoursformModel.ProjectMonth = "november";
+            hoursformModel.TotalHours = 563;
+            hoursformModel.ProjectMonth = "september";
             hoursformModel.Year = 2019;
-            hoursformModel.IsAcceptedClient = 1;
+            hoursformModel.IsAcceptedClient = 4;
             hoursformModel.IsLocked = false;
-            hoursformModel.CommentAdmin = "blabla";
-            hoursformModel.CommentClient = "blabla";
+            hoursformModel.CommentAdmin = "";
+            hoursformModel.CommentClient = "";
 
             var result = await hoursformRepo.CreateNewForm(hoursformModel);
 
@@ -162,6 +175,7 @@ namespace QienUrenMVC.Controllers
             AccountModel accountUser = await accountRepo.GetOneAccount(accountId);
             EmployeeUpdateAccountModel tempacc = new EmployeeUpdateAccountModel()
             {
+                AccountId = accountUser.AccountId,
                 FirstName = accountUser.FirstName,
                 LastName = accountUser.LastName,
                 HashedPassword = accountUser.HashedPassword,
@@ -205,6 +219,7 @@ namespace QienUrenMVC.Controllers
                 }
                 AccountModel acc = new AccountModel()
                 {
+                    AccountId = updatedAccount.AccountId,
                     FirstName = updatedAccount.FirstName,
                     LastName = updatedAccount.LastName,
                     Email = updatedAccount.Email,
@@ -226,10 +241,46 @@ namespace QienUrenMVC.Controllers
                     await accountRepo.UpdateAccount(acc, uniqueFilename);
                 ViewBag.imageurl = uniqueFilename;
 
-                return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" });
+                return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId});
             }
 
             return View(updatedAccount);
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if(user == null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                if(!result.Succeeded)
+                {
+                    foreach(var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    return View();
+                }
+
+                await _signInManager.RefreshSignInAsync(user);
+                return View("ChangePasswordConfirmation");
+            }
+
+            return View(model);
         }
 
     }
