@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 
 }
-
+<div>
 <div class="row">
 
     <div class="col-sm" style="text-align:center">
@@ -12,7 +12,8 @@
         <h3>@ViewBag.month @ViewBag.year</h3>
     </div>
 </div>
-
+    </div>
+<div>
 <table class="table table-hover">
     <thead style="background-color:#9A33F8;">
         <tr>
@@ -72,37 +73,56 @@
                 </td>
             </tr>
         }
-        @using (Html.BeginForm("AddComment", "Admin"))
-        {
-            <tr>
-                <td>
-                    <input type="text" style="width:300px; height:100px; text-align:start;" />
+        </tbody>
+    </table>
+    </div>
 
-                </td>
-                <td>
-                    <button asp-action="Approve" asp-controller="Admin">Goedkeuren</button>
-                </td>
-                <td>
-                    <button asp-action="Disapprove" asp-controller="Admin">Afkeuren</button>
-                </td>
+        <div>
+            @using (Html.BeginForm("CheckControleren", "Client", FormMethod.Get))
+            {
 
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
+                //CHECK HIER VOOR DE STATE EN DISABLE BUTTONS ALS STATE 0, 1, 2 OF 4 is.
+                <div class="row">
+                    <div class="col-md-4">
+                        <label style="font-weight:bold">Reden Opdrachtgever:</label>
 
-                <td>
-                    <label style="font-weight:bold">Reden:</label>
-                </td>
-                <td>
-                    <textarea disabled style="width:300px; height:100px; resize:none">
-                        Uren kloppen niet
-                    </textarea>
-                </td>
+                        @if (ViewBag.status == 0 || ViewBag.status == 3 || ViewBag.status == 4 || ViewBag.status == 5)
+                        {
+                            <div>
+                                @Html.TextArea("opdrachtgeverText", (string)ViewBag.textAdmin, new { disabled = "disabled", style = "width: 100%; max-width: 100%; height: 200px;" })
+                            </div>
 
-            </tr>
-        }
-    </tbody>
-</table>
+                        }
+                        else if (ViewBag.status == 1 || ViewBag.status == 2)
+                        {
+                            <div>
+                                @Html.TextArea("opdrachtgeverText", (string)ViewBag.textAdmin, new { style = "width: 100%; max-width: 100%; height: 200px;" })
+                            </div>
+                        }
+
+
+                    </div>
+
+                    <div class="col-md-2" style="margin-top:40px; margin-bottom:40px;">
+
+                        @if (ViewBag.status == 0 || ViewBag.status == 3 || ViewBag.status == 4 || ViewBag.status == 1 || ViewBag.status == 2)
+                        {
+                            <input disabled style="width:200px;" value="Afkeuren" class="btn btn-success" type="submit" asp-action="CheckControleren" asp-controller="Client" asp-route-id=@ViewBag.formId asp-route-keuring="true" />
+                            <input disabled style="width:200px;" value="Goedkeuren" class="btn btn-danger" type="submit" asp-action="CheckControleren" asp-controller="Client" asp-route-id=@ViewBag.formId asp-route-keuring="false" />
+
+                        }
+                        else if (ViewBag.status == 5)
+                        {
+                            <input style="width:200px;" value="Goedkeuren" class="btn btn-success" type="submit" asp-action="CheckControleren" asp-controller="Client" asp-route-id=@ViewBag.formId asp-route-keuring="true" />
+                            <input style="width:200px;" value="Afkeuren" class="btn btn-danger" type="submit" asp-action="CheckControleren" asp-controller="Client" asp-route-id=@ViewBag.formId asp-route-keuring="false" />
+                        }
+
+                    </div>
+
+                    <div class="col-md-2"></div>
+
+ 
+                </div>
+
+            }
+        </div>
