@@ -11,8 +11,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
+using MimeKit;
+using MailKit.Net.Smtp;
 using QienUrenMVC.Data;
 using Microsoft.AspNetCore.Identity;
+
 
 namespace QienUrenMVC.Controllers
 {
@@ -93,28 +96,83 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> HoursRegistration(int formid)
+        public async Task<IActionResult> HoursRegistration(int formid, int state)
         {
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formid);
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
+            ViewBag.month = formsForId[0].Month;
+            ViewBag.year = await hoursformRepo.GetYearOfForm(formid);
+            ViewBag.status = state;
+            if (state == 4)
+            {
+                HoursFormModel formInfo = await hoursformRepo.GetFormById(formid);
+                ViewBag.textAdmin = formInfo.CommentAdmin;
+                ViewBag.textClient = formInfo.CommentClient;
+            }
             return View(formsForId);
         }
 
         [HttpPost]
-        public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model)
+        public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model, bool versturen)
         {
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
+            ViewBag.month = model[0].Month;
+            ViewBag.year = await hoursformRepo.GetYearOfForm(model[0].FormId);
 
             if (ModelState.IsValid)
             {
                 List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
+
+                int totalHours = 0;
+                foreach(var perday in model)
+                {
+                    totalHours += perday.Hours;
+                }
+
+                await hoursformRepo.UpdateTotalHoursForm(model[0].FormId, totalHours);
+                ViewBag.status = 0;
+
+                if (versturen == true)
+                {
+
+                    var clientIds = model.Select(m => m.ClientId).Distinct();
+                    foreach (var client in clientIds)
+                    {
+                        ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
+                        {
+                            var message = new MimeMessage();
+                            message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
+                            message.To.Add(new MailboxAddress($"{client1.ClientName1}", client1.ClientEmail1));
+                            message.Subject = "Check formulier";
+                            message.Body = new TextPart("plain")
+                            {
+                                Text = "I am using MailKit"             ////// hier moet de werkgever een mail krijgen met een link naar een pagina (deze link moet een unique token bevatten)
+                                                                        ////// op die pagina moeten de uren van de werknemer te zien zijn en een opmerking veld en twee knoppen (afkeuren/goedkeuren)
+                                                                        ////// wanneer de werkgever dit invuld en verstuurd zal de "IsClientAccepted" van dat form veranderen naar 1 (indien goedgekeurd) en anders naar 2 (afgekeurd).
+                                                                        ////// tevens zal dan de "commentClient" geupdate worden met het commentaar van de werkgever
+                            };
+                            using (var smptcli = new SmtpClient())
+                            {
+                                smptcli.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                                smptcli.Connect("Smtp.gmail.com", 587, false);
+                                smptcli.Authenticate("GroepTweeQien@gmail.com", "Groep2Qien!");
+                                smptcli.Send(message);
+                                smptcli.Disconnect(true);
+                            }
+
+                        }
+                    }
+
+                    await hoursformRepo.ChangeState(5, model[0].FormId, "", "");
+                    ViewBag.status = 5;
+                    return View(model);
+
+                }
                 return View(model);
             }
-
             return View(model);
-
         }
 
         [HttpPost]

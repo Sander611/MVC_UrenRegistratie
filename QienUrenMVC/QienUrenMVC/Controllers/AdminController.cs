@@ -49,7 +49,7 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Controleren(int formId, string accountId, string fullName, string month, string year)
+        public async Task<IActionResult> Controleren(int formId, string accountId, string fullName, string month, string year, int state)
         {
 
             ViewBag.formId = formId;
@@ -57,6 +57,7 @@ namespace QienUrenMVC.Controllers
             ViewBag.fullName = fullName;
             ViewBag.month = month;
             ViewBag.year = year;
+            ViewBag.status = state;
 
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
 
@@ -222,6 +223,7 @@ namespace QienUrenMVC.Controllers
 
                 await hoursformRepo.CreateNewForm(hoursForm);
 
+
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
                 message.To.Add(new MailboxAddress($"{acc.FirstName} {acc.LastName}", acc.Email));
@@ -260,7 +262,8 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> FormsForYear(int year, string month)
         {
 
-            List<HoursFormModel> specificFormsForDate = await hoursformRepo.GetFormsForYearAndMonth(year, month);
+            List<FormsForMonthModel> specificFormsForDate = await hoursformRepo.GetFormsForYearAndMonth(year, month);
+            
             ViewBag.Year = year;
             ViewBag.Month = month;
             return View(specificFormsForDate);
