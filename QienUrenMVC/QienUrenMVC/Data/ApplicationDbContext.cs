@@ -24,6 +24,8 @@ namespace QienUrenMVC.Data
 
         public DbSet<RoleIdentity> RoleIdentity { get; set; }
 
+        public DbSet<UserPersonalia> UserPersonalia { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
