@@ -362,6 +362,18 @@ namespace QienUrenMVC.Repositories
                 }) ;
             return formsForYearandMonth;
         }
+        public async Task<HoursFormModel> GetFormsById(int formid)
+        {
+            HoursForm hoursForm = await context.HoursForms.SingleAsync(a => a.FormId == formid);
+
+
+            return new HoursFormModel
+            {
+                FormId = hoursForm.FormId,
+                ProjectMonth = hoursForm.ProjectMonth,
+                Year = hoursForm.Year
+            };
+        }
 
         public async Task ChangeState(int state, int id, string textAdmin, string textClient)
         {

@@ -47,9 +47,9 @@ namespace QienUrenMVC.Areas.Identity.Pages.Account
             public string Code { get; set; }
         }
 
-        public IActionResult OnGet(string code = null)
+        public IActionResult OnGet(string email, string token)
         {
-            if (code == null)
+            if (token == null)
             {
                 return BadRequest("A code must be supplied for password reset.");
             }
@@ -57,7 +57,7 @@ namespace QienUrenMVC.Areas.Identity.Pages.Account
             {
                 Input = new InputModel
                 {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token))
                 };
                 return Page();
             }

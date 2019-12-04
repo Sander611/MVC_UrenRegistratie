@@ -14,9 +14,9 @@ namespace QienUrenMVC.Repositories
         string RemoveAccount(string accountId);
         Task<AccountModel> UpdateAccount(AccountModel account, string UniqueFilename);
         Task<List<AccountModel>> getPersonaliaFromAccount(string accountId);
-
         Task<List<string>> GetAccountIdsByRole(string role);
-
+        Task<AccountModel> GetAccountByFormId(int formId);
         Task<List<AccountModel>> GetChangedAccounts();
+
     }
 }
