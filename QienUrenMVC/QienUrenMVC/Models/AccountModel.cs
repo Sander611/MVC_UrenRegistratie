@@ -68,5 +68,8 @@ namespace QienUrenMVC.Models
 
         [DisplayName("Actief")]
         public bool IsActive { get; set; }
+
+        [DisplayName("Info is veranderd")]
+        public bool IsChanged { get; set; }
     }
 }

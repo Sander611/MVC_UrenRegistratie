@@ -86,7 +86,8 @@ namespace QienUrenMVC.Repositories
                     Month = form.ProjectMonth,
                     Year = form.Year,
                     HandInTime = form.DateSend,
-                    stateClientCheck = form.IsAcceptedClient
+                    stateClientCheck = form.IsAcceptedClient,
+
 
 
                 });

@@ -264,12 +264,15 @@ namespace QienUrenMVC.Controllers
                     IsActive = updatedAccount.IsActive,
                     IsQienEmployee = updatedAccount.IsQienEmployee,
                     IsSeniorDeveloper = updatedAccount.IsSeniorDeveloper,
-                    IsTrainee = updatedAccount.IsTrainee
+                    IsTrainee = updatedAccount.IsTrainee,
+                    IsChanged = updatedAccount.IsChanged
+
                 };
+
+                acc.IsChanged = true;
                     
                     await accountRepo.UpdateAccount(acc, uniqueFilename);
                 ViewBag.imageurl = uniqueFilename;
-
                 return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId});
             }
 

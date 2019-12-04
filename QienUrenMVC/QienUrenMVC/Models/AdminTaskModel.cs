@@ -26,5 +26,10 @@ namespace QienUrenMVC.Models
 
         [DisplayName("Keuring opdrachtgever")]
         public int stateClientCheck { get; set; }
+
+        public List<AdminTaskModel> uncheckedForms { get; set; }
+
+        public List<AccountModel> changedAccounts { get; set; }
+
     }
 }

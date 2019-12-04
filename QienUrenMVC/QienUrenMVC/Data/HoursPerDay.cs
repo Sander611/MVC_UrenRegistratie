@@ -10,7 +10,7 @@ namespace QienUrenMVC.Data
         [Key]
         public int HoursPerDayId { get; set; }
 
-        [ForeignKey("Account")]
+        [ForeignKey("HoursForm")]
         public int FormId { get; set; }
         public HoursForm Form { get; set; }
 

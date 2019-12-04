@@ -27,5 +27,7 @@ namespace QienUrenMVC.Data
         public bool IsSeniorDeveloper { get; set; }
         [Required]
         public bool IsActive { get; set; }
+
+        public bool IsChanged { get; set; }
     }
 }
