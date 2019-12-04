@@ -68,9 +68,12 @@
 
                             @foreach(var changedAccount in Model.changedAccounts)
                             {
+                                var account = changedAccount;
                                 <tr>
                                     <td>
-                                        @Html.DisplayTextFor(modelItem => changedAccount.FirstName + " Heeft zijn gegevens veranderd")
+                                        
+                                        @Html.DisplayFor(modelItem => account.FirstName)
+                                        
                                     </td>
                                     <td>
                                         @Html.ActionLink("Bekijk Aanpassingen", "BekijkAanpassingen", new { })
@@ -80,8 +83,10 @@
 
                             @foreach (var item in Model.uncheckedForms)
                             {
+                                
                                 <tr>
                                     <td>
+                                        
                                         @Html.DisplayFor(modelItem => item.FullName)
                                     </td>
                                     <td>
