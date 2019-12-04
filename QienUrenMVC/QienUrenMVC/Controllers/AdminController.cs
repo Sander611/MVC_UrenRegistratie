@@ -41,11 +41,19 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Dashboard()
         {
+            AdminTaskModel adminTaskModel = new AdminTaskModel
+            {
+                uncheckedForms = await hoursformRepo.GetAllClientAcceptedForms(),
+                changedAccounts = await accountRepo.GetChangedAccounts(),
+                
+            };
+            
 
-            List<AdminTaskModel> uncheckedForms = await hoursformRepo.GetAllClientAcceptedForms();
 
+            //List<AdminTaskModel> uncheckedForms = await hoursformRepo.GetAllClientAcceptedForms();
+            //List<AccountModel> changedaccounts = await accountRepo.GetChangedAccounts();
 
-            return View(uncheckedForms);
+            return View(adminTaskModel);
         }
 
         [HttpGet]
