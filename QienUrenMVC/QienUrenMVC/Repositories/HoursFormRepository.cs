@@ -37,7 +37,8 @@ namespace QienUrenMVC.Repositories
                 IsAcceptedClient = form.IsAcceptedClient,
                 IsLocked = form.IsLocked,
                 CommentAdmin = form.commentAdmin,
-                CommentClient = form.commentClient
+                CommentClient = form.commentClient,
+                Verification_code = form.Verification_code
 
             };
 
@@ -217,7 +218,8 @@ namespace QienUrenMVC.Repositories
 
                 IsLocked = hoursFormModel.IsLocked,
                 commentAdmin = hoursFormModel.CommentAdmin,
-                commentClient = hoursFormModel.CommentClient
+                commentClient = hoursFormModel.CommentClient,
+                Verification_code = Guid.NewGuid()
                 
             };
 

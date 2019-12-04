@@ -125,7 +125,7 @@ namespace QienUrenMVC.Controllers
         {
             AccountModel medewerkerInfo = await accountRepo.GetAccountByFormId(formid);
             string Name = $"{medewerkerInfo.FirstName}{medewerkerInfo.LastName}";
-            HoursFormModel hoursForm = await hoursformRepo.GetFormsById(formid);
+            HoursFormModel hoursForm = await hoursformRepo.GetFormById(formid);
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
             ViewBag.month = model[0].Month;
@@ -150,9 +150,8 @@ namespace QienUrenMVC.Controllers
                     var clientIds = model.Select(m => m.ClientId).Distinct();
                     foreach (var client in clientIds)
                     {
-
-                        var verificationCode = Guid.NewGuid();
-                        var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}";
+                        var verificationCode = hoursForm.Verification_code;
+                        var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}&token={verificationCode}";
                         ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
                         var message = new MimeMessage();
                         message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
