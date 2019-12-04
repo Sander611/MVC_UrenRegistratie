@@ -67,6 +67,7 @@ namespace QienUrenMVC.Models
         public DateTime? CreationDate { get; set; }
 
         public IFormFile ProfileImage { get; set; }
+        public string ImageProfileString { get; set; }
 
 
         public bool IsAdmin { get; set; }
