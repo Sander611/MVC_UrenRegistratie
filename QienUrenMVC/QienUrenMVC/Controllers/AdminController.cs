@@ -95,28 +95,80 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> EditAccount(string accountID)
         {
-            AccountModel userInfo = await accountRepo.GetOneAccount(accountID);
+            AccountModel accountUser = await accountRepo.GetOneAccount(accountID);
+            EmployeeUpdateAccountModel tempacc = new EmployeeUpdateAccountModel()
+            {
+                AccountId = accountUser.AccountId,
+                FirstName = accountUser.FirstName,
+                LastName = accountUser.LastName,
+                HashedPassword = accountUser.HashedPassword,
+                Email = accountUser.Email,
+                DateOfBirth = accountUser.DateOfBirth,
+                Address = accountUser.Address,
+                ZIP = accountUser.ZIP,
+                MobilePhone = accountUser.MobilePhone,
+                City = accountUser.City,
+                IBAN = accountUser.IBAN,
+                CreationDate = accountUser.CreationDate,
+                IsAdmin = accountUser.IsAdmin,
+                IsActive = accountUser.IsActive,
+                IsQienEmployee = accountUser.IsQienEmployee,
+                IsSeniorDeveloper = accountUser.IsSeniorDeveloper,
+                IsTrainee = accountUser.IsTrainee,
+                ImageProfileString = accountUser.ProfileImage
+            };
 
-            ViewBag.currUser = userInfo.FirstName + " " + userInfo.LastName;
+            ViewBag.currUser = accountUser.FirstName + " " + accountUser.LastName;
 
-            return View(userInfo);
+            return View(tempacc);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditAccount(AccountModel updatedAccount)
+        public async Task<IActionResult> EditAccount(EmployeeUpdateAccountModel updatedAccount)
         {
 
             if (ModelState.IsValid)
             {
-                var UniqueFilename = "";
+                var uniqueFilename = "";
                 var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
+                if (updatedAccount.ProfileImage != null)
+                {
+                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
+                    string filePath = Path.Combine(uploadsFolder, updatedAccount.ImageProfileString);
+                    uniqueFilename = updatedAccount.ImageProfileString;
+                    System.IO.File.Delete(filePath);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        updatedAccount.ProfileImage.CopyTo(stream);
+                    }
+                    updatedAccount.ProfileImage.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
                 if (existingAccount == null)
                 {
                     return View(updatedAccount);
                 }
-                AccountModel acc = await accountRepo.UpdateAccount(updatedAccount, UniqueFilename);
-
-                return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
+                AccountModel acc = new AccountModel()
+                {
+                    AccountId = updatedAccount.AccountId,
+                    FirstName = updatedAccount.FirstName,
+                    LastName = updatedAccount.LastName,
+                    Email = updatedAccount.Email,
+                    DateOfBirth = updatedAccount.DateOfBirth,
+                    Address = updatedAccount.Address,
+                    ZIP = updatedAccount.ZIP,
+                    MobilePhone = updatedAccount.MobilePhone,
+                    City = updatedAccount.City,
+                    IBAN = updatedAccount.IBAN,
+                    CreationDate = updatedAccount.CreationDate,
+                    ProfileImage = uniqueFilename,
+                    IsAdmin = updatedAccount.IsAdmin,
+                    IsActive = updatedAccount.IsActive,
+                    IsQienEmployee = updatedAccount.IsQienEmployee,
+                    IsSeniorDeveloper = updatedAccount.IsSeniorDeveloper,
+                    IsTrainee = updatedAccount.IsTrainee
+                };
+                await accountRepo.UpdateAccount(acc, uniqueFilename);
+                return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht", accountId = acc.AccountId });
             }
 
             return View(updatedAccount);
@@ -142,6 +194,10 @@ namespace QienUrenMVC.Controllers
                     string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
                     uniqueFilename = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFilename);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        model.ProfileImage.CopyTo(stream);
+                    }
                     model.ProfileImage.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
 

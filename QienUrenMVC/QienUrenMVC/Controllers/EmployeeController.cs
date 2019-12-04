@@ -73,7 +73,8 @@ namespace QienUrenMVC.Controllers
                 Address = result.Address,
                 ZIP = result.ZIP,
                 AccountId = result.AccountId,
-                City = result.City
+                City = result.City,
+                ProfileImage = result.ProfileImage
             };
 
             List<HoursFormModel> formsOverview = new List<HoursFormModel>();
@@ -236,7 +237,10 @@ namespace QienUrenMVC.Controllers
                     string filePath = Path.Combine(uploadsFolder, updatedAccount.ImageProfileString);
                     uniqueFilename = updatedAccount.ImageProfileString;
                     System.IO.File.Delete(filePath);
-                    updatedAccount.ProfileImage.CopyTo(new FileStream(filePath, FileMode.Create));
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        updatedAccount.ProfileImage.CopyTo(stream);
+                    }
                 }
                 if (existingAccount == null)
                 {
