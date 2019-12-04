@@ -16,7 +16,6 @@ using MailKit.Net.Smtp;
 using QienUrenMVC.Data;
 using Microsoft.AspNetCore.Identity;
 
-
 namespace QienUrenMVC.Controllers
 {
     public class EmployeeController : Controller
@@ -90,6 +89,7 @@ namespace QienUrenMVC.Controllers
                     IsAcceptedClient = form.IsAcceptedClient
                 });
             }
+            
             EmployeeDashboardModel EDM = new EmployeeDashboardModel();
             EDM.Account = accountInfo;
             EDM.Forms = formsOverview;
@@ -102,6 +102,8 @@ namespace QienUrenMVC.Controllers
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formid);
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
+
+            ViewBag.FormId = formid;
             ViewBag.month = formsForId[0].Month;
             ViewBag.year = await hoursformRepo.GetYearOfForm(formid);
             ViewBag.status = state;
@@ -115,8 +117,11 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model, bool versturen)
+        public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model, bool versturen, int formid)
         {
+            AccountModel medewerkerInfo = await accountRepo.GetAccountByFormId(formid);
+            string Name = $"{medewerkerInfo.FirstName}{medewerkerInfo.LastName}";
+            HoursFormModel hoursForm = await hoursformRepo.GetFormsById(formid);
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
             ViewBag.month = model[0].Month;
@@ -141,7 +146,25 @@ namespace QienUrenMVC.Controllers
                     var clientIds = model.Select(m => m.ClientId).Distinct();
                     foreach (var client in clientIds)
                     {
-                        ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
+
+                        var verificationCode = Guid.NewGuid();
+                        var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}"; 
+                        var message = new MimeMessage();
+                        message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
+                        message.To.Add(new MailboxAddress($"{client1.ClientName1}", client1.ClientEmail1));
+                        message.Subject = "Check formulier";
+                        message.Body = new TextPart("plain")
+                        {
+                            Text = $"We would like you to check hours registration declaration it was filled by {Name}. Please click on the below link to check the data :<a href='{varifyUrl}'>link</a>"
+                        };
+                        using (var smptcli = new SmtpClient())
+                        {
+                            smptcli.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                            smptcli.Connect("Smtp.gmail.com", 587, false);
+                            smptcli.Authenticate("GroepTweeQien@gmail.com", "GroepQien");
+                            smptcli.Send(message);
+                            smptcli.Disconnect(true);
+            ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
                         {
                             var message = new MimeMessage();
                             message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
@@ -162,6 +185,7 @@ namespace QienUrenMVC.Controllers
                                 smptcli.Send(message);
                                 smptcli.Disconnect(true);
                             }
+
 
                         }
                     }

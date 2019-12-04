@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<QienUrenMVC.Models.HoursPerDayModel>
+@ViewBag.FormId
 @{
     ViewData["Title"] = "HoursRegistration";
     Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
@@ -9,6 +10,9 @@
 
 <form asp-controller="Employee" asp-action="HoursRegistration" method="post">
 
+    <input type="hidden" name="formid" value="@ViewBag.FormId" />
+    <table width="600px">
+        <thead>
     <table class="table table-hover">
         <thead style="background-color:#9A33F8;">
             <tr>
@@ -36,6 +40,10 @@
 
         </tbody>
     </table>
+
+    <button type="submit">Bewaren</button>
+    <button type="submit" asp-route-versturen="true" asp-route-id="formid">Bewaren en versturen</button>
+
 
     @if (ViewBag.status == 4)
     {
@@ -74,6 +82,5 @@
             <button disabled type="submit" asp-route-versturen="true">Bewaren en versturen</button>
         }
     </div>
-
 
 </form>

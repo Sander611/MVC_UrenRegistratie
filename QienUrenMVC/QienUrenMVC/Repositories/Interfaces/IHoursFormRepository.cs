@@ -19,6 +19,8 @@ namespace QienUrenMVC.Repositories
 
         Task<List<YearOverviewModel>> GetYearOverviews(int year, List<string> Traineeids, List<string> Employeeids, List<string> SoftDevids);
 
+        Task<List<HoursFormModel>> GetFormsForYearAndMonth(int year, string month);
+        Task<HoursFormModel> GetFormsById(int formid);
         Task<List<FormsForMonthModel>> GetFormsForYearAndMonth(int year, string month);
 
         Task ChangeState(int state, int id, string textAdmin, string textClient);
