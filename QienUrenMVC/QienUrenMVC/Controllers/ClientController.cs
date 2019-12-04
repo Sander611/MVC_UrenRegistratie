@@ -83,7 +83,7 @@ namespace QienUrenMVC.Controllers
             await clientRepo.DeleteClient(id);
             return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
-        public async Task<IActionResult> ControlerenClient(int formId, string accountId, string fullName, string month, string year, Guid token)
+        public async Task<IActionResult> ControlerenClient(int formId, string accountId, string fullName, string month, string year, int state, Guid token)
         {
             HoursFormModel hoursForm = await hoursformRepo.GetFormById(formId);
             if (hoursForm.Verification_code == token)
@@ -93,10 +93,28 @@ namespace QienUrenMVC.Controllers
                 ViewBag.fullName = fullName;
                 ViewBag.month = month;
                 ViewBag.year = year;
+                ViewBag.status = state;
+
+                HoursFormModel formInfo = await hoursformRepo.GetFormById(formId);
+
+                ViewBag.textClient = formInfo.CommentClient;
             }
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
 
             return View(formsForId);
+        }
+        [HttpGet]
+        public async Task CheckControleren([FromQuery]bool keuring, int id, string adminText, string clientText)
+        {
+            if (keuring == true)
+            {
+                await hoursformRepo.ChangeState(1, id, adminText, clientText);
+            }
+            else if (keuring == false)
+            {
+                await hoursformRepo.ChangeState(2, id, adminText, clientText);
+            }
+            //return RedirectToRoute(new { controller = "Admin", action = "FormsForYear" });
         }
     }
 }

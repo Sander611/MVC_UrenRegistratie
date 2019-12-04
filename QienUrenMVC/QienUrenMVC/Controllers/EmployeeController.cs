@@ -151,7 +151,7 @@ namespace QienUrenMVC.Controllers
                     foreach (var client in clientIds)
                     {
                         var verificationCode = hoursForm.Verification_code;
-                        var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}&token={verificationCode}";
+                        var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}&state=5&token={verificationCode}";
                         ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
                         var message = new MimeMessage();
                         message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));

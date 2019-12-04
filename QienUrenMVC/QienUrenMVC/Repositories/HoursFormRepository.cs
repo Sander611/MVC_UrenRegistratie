@@ -377,7 +377,7 @@ namespace QienUrenMVC.Repositories
             };
         }
 
-        public async Task ChangeState(int state, int id, string textAdmin, string textClient)
+        public async Task ChangeState(int state, int id, string textClient, string textAdmin = null)
         {
             HoursForm entity = await context.HoursForms.SingleAsync(p => p.FormId == id);
             entity.IsAcceptedClient = state;
@@ -390,7 +390,6 @@ namespace QienUrenMVC.Repositories
 
             await context.SaveChangesAsync();
         }
-
         public async Task UpdateTotalHoursForm(int id, int totalHours)
         {
             HoursForm entity = await context.HoursForms.SingleAsync(p => p.FormId == id);
