@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QienUrenMVC.Data;
 
 namespace QienUrenMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191204102156_addVerificationCode")]
+    partial class addVerificationCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -356,61 +358,6 @@ namespace QienUrenMVC.Migrations
                     b.HasIndex("FormId");
 
                     b.ToTable("HoursPerDay");
-                });
-
-            modelBuilder.Entity("QienUrenMVC.Data.UserPersonalia", b =>
-                {
-                    b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IBAN")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsChanged")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsQienEmployee")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsSeniorDeveloper")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsTrainee")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfileImage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ZIP")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AccountId");
-
-                    b.ToTable("UserPersonalia");
                 });
 
             modelBuilder.Entity("QienUrenMVC.Data.RoleIdentity", b =>

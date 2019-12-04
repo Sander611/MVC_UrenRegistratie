@@ -83,15 +83,17 @@ namespace QienUrenMVC.Controllers
             await clientRepo.DeleteClient(id);
             return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
-        public async Task<IActionResult> ControlerenClient(int formId, string accountId, string fullName, string month, string year)
+        public async Task<IActionResult> ControlerenClient(int formId, string accountId, string fullName, string month, string year, Guid token)
         {
-
-            ViewBag.formId = formId;
-            ViewBag.accountId = accountId;
-            ViewBag.fullName = fullName;
-            ViewBag.month = month;
-            ViewBag.year = year;
-
+            HoursFormModel hoursForm = await hoursformRepo.GetFormById(formId);
+            if (hoursForm.Verification_code == token)
+            {
+                ViewBag.formId = formId;
+                ViewBag.accountId = accountId;
+                ViewBag.fullName = fullName;
+                ViewBag.month = month;
+                ViewBag.year = year;
+            }
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
 
             return View(formsForId);
