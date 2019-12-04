@@ -10,17 +10,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using QienUrenMVC.Data;
 using QienUrenMVC.Models;
-
+using QienUrenMVC.Repositories;
 
 namespace QienUrenMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ILogger<HomeController> _logger;
+        private readonly IHoursFormRepository hoursformRepo;
+
+        public HomeController(IHoursFormRepository HoursFormRepo,  ILogger<HomeController> logger)
         {
             _logger = logger;
+            hoursformRepo = HoursFormRepo;
         }
 
         private readonly UserManager<UserIdentity> _userManager;
@@ -34,7 +38,7 @@ namespace QienUrenMVC.Controllers
             return user?.Id;
         }
 
-        public IActionResult Index(string accountId)
+        public async Task<IActionResult> Index(string accountId)
         {
 
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
@@ -46,6 +50,30 @@ namespace QienUrenMVC.Controllers
             }
             if (User.IsInRole("Employee") == true)
             {
+                DateTime day = DateTime.Today;
+                var firstDay = new DateTime(day.Year, day.Month, 1);
+                int days = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+                HoursFormModel form = await hoursformRepo.CheckIfExists(User.FindFirstValue(ClaimTypes.NameIdentifier), months[day.Month - 1], day.Year);
+
+                if (form == null)
+                {
+
+
+                    HoursFormModel hoursformModel = new HoursFormModel()
+                    {
+
+                        AccountId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                        IsAcceptedClient = 0,
+                        ProjectMonth = months[day.Month - 1],
+                        Year = day.Year,
+                        IsLocked = false,
+                        CommentAdmin = "",
+                        CommentClient = "",
+                        TotalHours = 0
+                    };
+                    var result = await hoursformRepo.CreateNewForm(hoursformModel);
+                }
+
 
                 return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = User.FindFirstValue(ClaimTypes.NameIdentifier) });
             }
