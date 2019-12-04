@@ -54,7 +54,7 @@ h2{
     background: #9A33F8;
     color: #fff;
     text-align: center;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 .kaartinhoud {
@@ -65,7 +65,7 @@ h2{
     background: white;
     z-index: 3 !important;
     color: black;
-    font-size: 20px;
+    font-size: 15px;
     
 }
 
@@ -74,7 +74,7 @@ h2{
     padding: 15px;
     z-index: 3 !important;
     color: white;
-    font-size: 20px;
+    font-size: 17px;
 }
 
 .tabel {
@@ -106,7 +106,7 @@ h2{
 
 .link {
     align-content: center;
-    font-size: 18px;
+    font-size: 15px;
     color: #9A33F8;
 }
 
@@ -117,13 +117,12 @@ h2{
 
 .dashboardkaart {
     border-radius: 3px;
-    margin-left:150px;
     padding: 15px;
     box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(156,39,176,.4);
     background: white;
     z-index: 3 !important;
     color: black;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .personalialink {
