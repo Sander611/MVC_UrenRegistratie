@@ -28,11 +28,11 @@
                     <p style="text-align:center; font-weight:bold;"> Functie:</p>
                 </tr>
                 <tr>
-                    @if (Model.Account.IsTrainee == true)
+                    @if (Model.Account.IsTrainee)
                     {
                         <p style="text-align:center;">Trainee</p>
                     }
-                    else if (Model.Account.IsQienEmployee == true)
+                    else if (Model.Account.IsQienEmployee)
                     {
                         <p style="text-align:center;">Medewerker</p>
                     }
