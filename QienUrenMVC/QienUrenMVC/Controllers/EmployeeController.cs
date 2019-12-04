@@ -73,7 +73,8 @@ namespace QienUrenMVC.Controllers
                 Address = result.Address,
                 ZIP = result.ZIP,
                 AccountId = result.AccountId,
-                City = result.City
+                City = result.City,
+                ProfileImage = result.ProfileImage
             };
 
             List<HoursFormModel> formsOverview = new List<HoursFormModel>();
@@ -215,9 +216,9 @@ namespace QienUrenMVC.Controllers
                 IsActive = accountUser.IsActive,
                 IsQienEmployee = accountUser.IsQienEmployee,
                 IsSeniorDeveloper = accountUser.IsSeniorDeveloper,
-                IsTrainee = accountUser.IsTrainee
+                IsTrainee = accountUser.IsTrainee,
+                ImageProfileString = accountUser.ProfileImage
             };
-            ViewBag.imageurl = accountUser.ProfileImage;
             
             return View(tempacc);
         }
@@ -228,14 +229,18 @@ namespace QienUrenMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 string uniqueFilename = "";
+                var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 if (updatedAccount.ProfileImage != null)
                 {
                     string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
-                    uniqueFilename = Guid.NewGuid().ToString() + "_" + updatedAccount.ProfileImage.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFilename);
-                    updatedAccount.ProfileImage.CopyTo(new FileStream(filePath, FileMode.Create));
+                    string filePath = Path.Combine(uploadsFolder, updatedAccount.ImageProfileString);
+                    uniqueFilename = updatedAccount.ImageProfileString;
+                    System.IO.File.Delete(filePath);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        updatedAccount.ProfileImage.CopyTo(stream);
+                    }
                 }
                 if (existingAccount == null)
                 {
