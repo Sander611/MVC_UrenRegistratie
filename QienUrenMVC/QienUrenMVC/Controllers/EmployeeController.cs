@@ -73,7 +73,11 @@ namespace QienUrenMVC.Controllers
                 ZIP = result.ZIP,
                 AccountId = result.AccountId,
                 City = result.City,
-                ProfileImage = result.ProfileImage
+                ProfileImage = result.ProfileImage,
+                IsTrainee = result.IsTrainee,
+                IsQienEmployee = result.IsQienEmployee,
+                IsSeniorDeveloper = result.IsSeniorDeveloper,
+
             };
 
             List<HoursFormModel> formsOverview = new List<HoursFormModel>();
