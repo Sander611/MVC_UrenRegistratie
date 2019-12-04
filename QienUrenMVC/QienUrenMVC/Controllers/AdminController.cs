@@ -9,6 +9,10 @@ using QienUrenMVC.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using MimeKit;
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Identity;
+using QienUrenMVC.Data;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace QienUrenMVC.Controllers
 {
@@ -21,19 +25,22 @@ namespace QienUrenMVC.Controllers
         private readonly IClientRepository clientRepo;
         private readonly IHoursFormRepository hoursformRepo;
         private readonly IHoursPerDayRepository hoursperdayRepo;
+        private readonly UserManager<UserIdentity> _userManager;
 
         public AdminController(
                                 IWebHostEnvironment hostingEnvironment,
                                 IAccountRepository AccountRepo,
                                 IClientRepository ClientRepo,
                                 IHoursFormRepository HoursFormRepo,
-                                IHoursPerDayRepository HoursPerDayRepo)
+                                IHoursPerDayRepository HoursPerDayRepo,
+                                UserManager<UserIdentity> userManager)
         {
             this.hostingEnvironment = hostingEnvironment;
             accountRepo = AccountRepo;
             clientRepo = ClientRepo;
             hoursformRepo = HoursFormRepo;
             hoursperdayRepo = HoursPerDayRepo;
+            _userManager = userManager;
         }
 
         // method om als admin op een gebruiker te klikken en alle forms als overzicht te krijgen (doormiddel van dropdownmenus voor maand, jaar )
@@ -223,19 +230,26 @@ namespace QienUrenMVC.Controllers
                 await hoursformRepo.CreateNewForm(hoursForm);
 
 
+                var user = await _userManager.FindByEmailAsync(acc.Email);
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+                var link = $"https://localhost:44306/Identity/Account/ResetPassword?email={acc.Email}&token={encodedToken}";
+
+                string tempPassword = acc.HashedPassword;
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
                 message.To.Add(new MailboxAddress($"{acc.FirstName} {acc.LastName}", acc.Email));
                 message.Subject = "New account was created";
+
                 message.Body = new TextPart("plain")
                 {
-                    Text = "I am using MailKit"
+                    Text = $"An account with this emaik was created. Here you can reset you password :<a href='{link}'>link</a>"
                 };
                 using (var client = new SmtpClient())
                 {
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
                     client.Connect("Smtp.gmail.com", 587, false);
-                    client.Authenticate("GroepTweeQien@gmail.com", "Groep2Qien!");
+                    client.Authenticate("GroepTweeQien@gmail.com", "GroepQien");
                     client.Send(message);
                     client.Disconnect(true);
                 }

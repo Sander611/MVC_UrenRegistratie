@@ -127,7 +127,7 @@ namespace QienUrenMVC.Controllers
                         {
                             smptcli.ServerCertificateValidationCallback = (s, c, h, e) => true;
                             smptcli.Connect("Smtp.gmail.com", 587, false);
-                            smptcli.Authenticate("GroepTweeQien@gmail.com", "GroepQien2019!");
+                            smptcli.Authenticate("GroepTweeQien@gmail.com", "GroepQien");
                             smptcli.Send(message);
                             smptcli.Disconnect(true);
                         }
