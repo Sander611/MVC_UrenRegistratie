@@ -34,5 +34,6 @@ namespace QienUrenMVC.Models
 
         [DisplayName("Gesloten")]
         public bool IsLocked { get; set; }
+        public Guid Verification_code { get; set; }
     }
 }

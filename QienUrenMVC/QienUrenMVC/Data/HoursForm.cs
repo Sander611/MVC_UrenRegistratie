@@ -29,5 +29,6 @@ namespace QienUrenMVC.Data
         public string commentClient { get; set; }
         public string commentAdmin { get; set; }
         public bool IsLocked { get; set; }
+        public Guid Verification_code { get; set; }
     }
 }
