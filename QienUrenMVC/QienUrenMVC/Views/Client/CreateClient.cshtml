@@ -2,20 +2,22 @@
 
 @{
     ViewData["Title"] = "Nieuwe opdrachtgever aanmaken";
+     Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 
 }
-<hr style="margin-top:30px; margin-bottom:30px;" />
-<div>
-    <form asp-controller="Client" asp-action="CreateClient" method="post">
+
+<div class="row">
+    <form asp-controller="Client" asp-action="CreateClient" method="post" class="col-md-12">
         <div asp-validation-summary="All" class="text-danger"></div>
 
-        <div style="color:#9A33F8">
-            <h3>Gegevens</h3>
+        <div class="kaartheader">
+            <h3>Nieuwe opdrachtgever aanmaken</h3>
         </div>
-        <div class="row" style="margin-top:50px;">
+        <div class="kaartinhoud">
+        <div class="row style="margin-top:50px;">
             <div class="col">
                 <div class="form-group">
-                    <label asp-for="CompanyName"></label>
+                    <label>Naam van het bedrijf</label>
                     <input class="form-control" asp-for="CompanyName" />
                     <span asp-validation-for="CompanyName"></span>
                 </div>
@@ -33,14 +35,14 @@
         <div class="row" style="margin-top:30px;">
             <div class="col">
                 <div class="form-group">
-                    <label asp-for="ClientName1"></label>
+                    <label>Contactpersoon 1</label>
                     <input class="form-control" asp-for="ClientName1" />
                     <span asp-validation-for="ClientName1"></span>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label asp-for="ClientEmail1"></label>
+                    <label>E-mailadres</label>
                     <input class="form-control" asp-for="ClientEmail1" />
                     <span asp-validation-for="ClientEmail1"></span>
                 </div>
@@ -49,24 +51,25 @@
         <div class="row" style="margin-top:40px;">
             <div class="col">
                 <div class="form-group">
-                    <label asp-for="ClientName2"></label>
+                    <label>Contactpersoon 2</label>
                     <input class="form-control" asp-for="ClientName2" />
                     <span asp-validation-for="ClientName2"></span>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label asp-for="ClientEmail2"></label>
+                    <label>E-mailadres</label>
                     <input class="form-control" asp-for="ClientEmail2" />
                     <span asp-validation-for="ClientEmail2"></span>
                 </div>
             </div>
         </div>
+        </div>
         <div style="margin-top:40px;" class="form-group">
-            <input type="submit" value="Opslaan" class="btn btn-primary" />
+            <input type="submit" value="Opslaan" class="btn btn-login" />
         </div>
         <p>
-            <a href="GetAllClients" class="button">Terug</a>
+            <a href="GetAllClients" style="color:#9A33F8">Terug</a>
         </p>
     </form>
 </div>
