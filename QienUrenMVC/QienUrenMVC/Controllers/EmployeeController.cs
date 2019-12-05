@@ -141,6 +141,7 @@ namespace QienUrenMVC.Controllers
             ViewBag.CompanyNames = clientList;
             ViewBag.month = model[0].Month;
             ViewBag.year = await hoursformRepo.GetYearOfForm(model[0].FormId);
+            ViewBag.FormId = formid;
 
             if (ModelState.IsValid)
             {
@@ -358,6 +359,44 @@ namespace QienUrenMVC.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> YearOverview(int year = 0)
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var formListYears = hoursformRepo.GetAllYearsForUser(id);
+            ViewBag.formYears = formListYears;
+
+            List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
+
+            if (year == 0)
+            {
+                year = DateTime.Now.Year;
+            }
+
+            
+            List<HoursFormModel> forms = await hoursformRepo.GetAllFormsForAccountForYear(year, id);
+            List<HoursFormModel> sorted = new List<HoursFormModel>();
+
+            
+                foreach(var month in months)
+                {
+                    foreach (var form in forms)
+                    {
+                        if (form.ProjectMonth == month)
+                        {
+                            sorted.Add(form);
+                        }
+
+                    }
+                }
+
+            
+
+
+            return View(sorted);
         }
 
     }
