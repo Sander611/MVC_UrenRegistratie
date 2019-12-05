@@ -87,7 +87,7 @@
                     <td>
                         @Html.ActionLink("Edit", "EditAccount", new { accountID = item.AccountId }) |
                         @Html.ActionLink("Uren Formulieren", "UrenFormulieren", new { id = item.AccountId, name = item.FirstName + " " + item.LastName }) |
-                        @Html.ActionLink("Delete", "DeleteAccount", new { accountID = item.AccountId }, new { onclick = "return confirm('Weet u zeker dat u dit account wilt verwijderen?');" })
+                        @Html.ActionLink("Delete", "DeleteAccount", new { accountID = item.AccountId }, new { onclick = "return confirm('Weet u zeker dat u dit account en bijbehorende uren formulieren wilt verwijderen?');" })
                     </td>
                 </tr>
             }

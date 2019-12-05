@@ -82,8 +82,12 @@
 <div>
     @using (Html.BeginForm("CheckControleren", "Admin", FormMethod.Get))
     {
-       
-        //CHECK HIER VOOR DE STATE EN DISABLE BUTTONS ALS STATE 0, 1, 2 OF 4 is.
+        @*@Html.Hidden("CCaccountId", ViewBag.accountId)
+        @Html.Hidden("CCfullName", ViewBag.fullName)
+        @Html.Hidden("CCmonth", ViewBag.month)
+        @Html.Hidden("CCyear", ViewBag.year)
+        @Html.Hidden("CCstate", ViewBag.status)*@
+
         <div class="row">
             <div class="col-md-4">
                 <label style="font-weight:bold">Reden Admin:</label>
@@ -98,7 +102,7 @@
                 else if (ViewBag.status == 1 || ViewBag.status == 2)
                 {
                     <div>
-                        @Html.TextArea("adminText", (string)ViewBag.textAdmin , new { style = "width: 100%; max-width: 100%; height: 200px;" })
+                        @Html.TextArea("adminText", (string)ViewBag.textAdmin, new { style = "width: 100%; max-width: 100%; height: 200px;" })
                     </div>
                 }
 
@@ -130,7 +134,7 @@
                 <div>
                     @Html.TextArea("clientText", (string)ViewBag.textClient, new { disabled = "disabled", style = "width: 100%; max-width: 100%; height: 200px;" })
                 </div>
-                
+
 
 
             </div>
