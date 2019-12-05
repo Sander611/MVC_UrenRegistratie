@@ -108,7 +108,8 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> DeleteAccount(string accountID)
         {
 
-            string succesfull = accountRepo.RemoveAccount(accountID);
+            await accountRepo.RemoveAccount(accountID);
+            await accountRepo.RemoveAllFormPerAccount(accountID);
 
             return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
         }
@@ -354,18 +355,21 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpGet("{keuring}/{id}")]
-        public async Task<IActionResult> CheckControleren(string keuring, int id, string adminText, string clientText)
+        public async Task<IActionResult> CheckControleren(string keuring, int id, string adminText, string clientText, string CCaccountId, string CCfullName, string CCmonth, string CCyear, int CCstate)
         {
+
             if (keuring == "true")
             {
                 await hoursformRepo.ChangeState(3, id, adminText, clientText);
+                CCstate = 3;
             }
             else if (keuring == "false")
             {
                 await hoursformRepo.ChangeState(4, id, adminText, clientText);
+                CCstate = 4;
             }
 
-            return RedirectToRoute(new { controller = "Admin", action = "FormsForYear" });
+            return RedirectToRoute(new { controller = "Admin", action = "FormsForYear", formId = id, accountId = CCaccountId, fullName = CCfullName, month = CCmonth, year = CCyear, state = CCstate });
 
         }
 
