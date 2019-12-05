@@ -20,8 +20,22 @@ namespace QienUrenMVC.Models
         [DisplayName("Uiterste inleverdatum")]
         public DateTime? DateDue { get; set; }
 
-        [DisplayName("Totaal aantal uren")]
+        [DisplayName("Uren")]
         public int TotalHours { get; set; }
+        [DisplayName("Ziek")]
+        public int TotalSick { get; set; }
+
+        [DisplayName("Overuren")]
+        public int TotalOver { get; set; }
+
+        [DisplayName("Training")]
+        public int TotalTraining { get; set; }
+
+        [DisplayName("Verlof")]
+        public int TotalLeave { get; set; }
+
+        [DisplayName("Overig")]
+        public int TotalOther { get; set; }
 
         [DisplayName("Maand")]
         public string ProjectMonth { get; set; }

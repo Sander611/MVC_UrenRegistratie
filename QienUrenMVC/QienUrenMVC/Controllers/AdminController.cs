@@ -78,9 +78,14 @@ namespace QienUrenMVC.Controllers
             HoursFormModel formInfo = await hoursformRepo.GetFormById(formId);
             ViewBag.textAdmin = formInfo.CommentAdmin;
             ViewBag.textClient = formInfo.CommentClient;
-            
+            ViewBag.TotalHours = formInfo.TotalHours;
+            ViewBag.TotalSick = formInfo.TotalSick;
+            ViewBag.TotalOver = formInfo.TotalOver;
+            ViewBag.TotalLeave = formInfo.TotalLeave;
+            ViewBag.TotalTraining = formInfo.TotalTraining;
+            ViewBag.TotalOther = formInfo.TotalOther;
 
-            List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
+            List <HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
 
             return View(formsForId);
         }
@@ -351,6 +356,29 @@ namespace QienUrenMVC.Controllers
             
             ViewBag.Year = year;
             ViewBag.Month = month;
+
+            int totalHours = 0;
+            int totalSick = 0;
+            int totalOver = 0;
+            int totalLeave = 0;
+            int totalTraining = 0;
+            int totalOther = 0;
+            foreach (var form in specificFormsForDate)
+            {
+                totalHours += form.TotalHours;
+                totalSick += form.TotalSick;
+                totalOver += form.TotalOver;
+                totalLeave += form.TotalLeave;
+                totalTraining += form.TotalTraining;
+                totalOther += form.TotalOther;
+            }
+
+            ViewBag.TotalHours = totalHours;
+            ViewBag.TotalSick = totalSick;
+            ViewBag.TotalOver = totalOver;
+            ViewBag.TotalLeave = totalLeave;
+            ViewBag.TotalTraining = totalTraining;
+            ViewBag.TotalOther = totalOther;
             return View(specificFormsForDate);
         }
 
