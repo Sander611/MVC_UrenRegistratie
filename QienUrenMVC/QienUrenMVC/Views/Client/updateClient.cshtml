@@ -2,91 +2,77 @@
 
 @{
     ViewData["Title"] = "Gegevens aanpassen";
+    Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 }
 
-<h1 style="text-align:center">Opdrachtgever gegevens aanpassen</h1>
-<hr />
+
+
 <div class="row">
-    <div>
+    <div class="col-md-12">
         <form asp-action="UpdateClient">
             <div asp-validation-summary="All" class="text-danger"></div>
-
             <input type="hidden" value="@Model.ClientId" name="ClientId" />
-
-            <div class="row">
-                <div style="margin-top:10px;" class="col-md-8">
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label asp-for="CompanyName" class="control-label"></label>
-                                <input asp-for="CompanyName" class="form-control" />
-                                <span asp-validation-for="CompanyName" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                        @*<div class="col">
-                            <div class="form-group">
-                                <label asp-for="AccountId" class="control-label"></label>
-                                <input asp-for="AccountId" class="form-control" />
-                                <span asp-validation-for="AccountId" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>*@
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label asp-for="ClientName1" class="control-label"></label>
-                                <input asp-for="ClientName1" class="form-control" />
-                                <span asp-validation-for="ClientName1" class="text-danger"></span>
-                            </div>
+            <div class="kaartheader">
+                <h3 style="font-size:25px;">Werkgever aanpassen</h3>
+            </div>
+            <div class="kaartinhoud">
+                <div class="row" style="margin-top:50px;">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Naam van het bedrijf</label>
+                            <input class="form-control" asp-for="CompanyName" />
+                            <span asp-validation-for="CompanyName"></span>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label asp-for="ClientEmail1" class="control-label"></label>
-                                <input asp-for="ClientEmail1" class="form-control" />
-                                <span asp-validation-for="ClientEmail1" class="text-danger"></span>
-                            </div>
+                </div>
+                @*<div class="row" style="margin-top:30px;">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="AccountId"></label>
+                        <input class="form-control" asp-for="AccountId" />
+                        <span asp-validation-for="AccountId"></span>
+                    </div>
+                </div>
+            </div>*@
+                <div class="row" style="margin-top:30px;">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Contactpersoon 1</label>
+                            <input class="form-control" asp-for="ClientName1" />
+                            <span asp-validation-for="ClientName1"></span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label asp-for="ClientName2" class="control-label"></label>
-                                <input asp-for="ClientName2" class="form-control" />
-                                <span asp-validation-for="ClientName2" class="text-danger"></span>
-                            </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>E-mailadres</label>
+                            <input class="form-control" asp-for="ClientEmail1" />
+                            <span asp-validation-for="ClientEmail1"></span>
                         </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label asp-for="ClientEmail2" class="control-label"></label>
-                                <input asp-for="ClientEmail2" class="form-control" />
-                                <span asp-validation-for="ClientName2" class="text-danger"></span>
-                            </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:40px;">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Contactpersoon 2</label>
+                            <input class="form-control" asp-for="ClientName2" />
+                            <span asp-validation-for="ClientName2"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>E-mailadres</label>
+                            <input class="form-control" asp-for="ClientEmail2" />
+                            <span asp-validation-for="ClientEmail2"></span>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <hr />
-            <div style="margin-bottom:10px;" class="row">
-                <div class="col-sm-2 offset-sm-10">
-                    <div style="text-align:center">
-                        <a asp-action="GetAllClients">Terug</a>
-                    </div>
-                </div>
+            <div style="margin-top:40px;" class="form-group">
+                <input type="submit" value="Opslaan" class="btn btn-login" />
             </div>
-            <div class="row">
-                <div class="col-sm-2 offset-sm-10">
-                    <div style="text-align:center" class="form-group">
-                        <input type="submit" value="Opslaan" class="btn btn-primary" />
-                    </div>
-                </div>
-
+            <div>
+                <a asp-action="GetAllClients" style="color:#9A33F8">Terug</a>
             </div>
-        </form>
+</form>
     </div>
 </div>
