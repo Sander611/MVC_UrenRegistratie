@@ -360,16 +360,16 @@ namespace QienUrenMVC.Controllers
 
             if (keuring == "true")
             {
-                await hoursformRepo.ChangeState(3, id, adminText, clientText);
+                await hoursformRepo.ChangeState(3, id, clientText, adminText);
                 CCstate = 3;
             }
             else if (keuring == "false")
             {
-                await hoursformRepo.ChangeState(4, id, adminText, clientText);
+                await hoursformRepo.ChangeState(4, id, clientText, adminText);
                 CCstate = 4;
             }
 
-            return RedirectToRoute(new { controller = "Admin", action = "FormsForYear", formId = id, accountId = CCaccountId, fullName = CCfullName, month = CCmonth, year = CCyear, state = CCstate });
+            return RedirectToRoute(new { controller = "Admin", action = "Controleren", formId = id, accountId = CCaccountId, fullName = CCfullName, month = CCmonth, year = CCyear, state = CCstate });
 
         }
 
