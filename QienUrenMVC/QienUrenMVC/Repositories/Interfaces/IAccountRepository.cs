@@ -18,5 +18,6 @@ namespace QienUrenMVC.Repositories
         Task<AccountModel> GetAccountByFormId(int formId);
         Task<List<AccountModel>> GetChangedAccounts();
 
+        Task<UserPersonaliaModel> ComparePersonaliaChanges(string accountId);
     }
 }

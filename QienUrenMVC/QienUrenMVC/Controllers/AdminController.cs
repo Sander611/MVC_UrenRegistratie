@@ -86,6 +86,21 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> PersonaliaControleren(string accountId)
+        {
+            UserPersonaliaModel personaliaModel = await accountRepo.ComparePersonaliaChanges(accountId);
+            //HoursFormModel formInfo = await hoursformRepo.GetFormById(formId);
+            //ViewBag.textAdmin = formInfo.CommentAdmin;
+            //ViewBag.textClient = formInfo.CommentClient;
+
+
+            //List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
+
+            return View(personaliaModel);
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> AccountOverzicht(string searchString)
         {
 
@@ -107,9 +122,8 @@ namespace QienUrenMVC.Controllers
 
         public async Task<IActionResult> DeleteAccount(string accountID)
         {
-
+            await hoursformRepo.RemoveAllFormPerAccount(accountID);
             string succesfull = accountRepo.RemoveAccount(accountID);
-
             return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
         }
 

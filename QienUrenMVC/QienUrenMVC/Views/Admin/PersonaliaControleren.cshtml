@@ -1,0 +1,16 @@
+﻿@model UserPersonaliaModel
+
+@{
+    ViewData["Title"] = "PersonaliaControleren";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+    <div>
+        @Html.HiddenFor(m => m.newPersonalia)
+        @Html.HiddenFor(m => m.previousPersonalia)
+        
+        <h1>@Model.previousPersonalia.City</h1>
+        <h1>@Model.newPersonalia.City</h1>
+    </div>
+
+

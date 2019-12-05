@@ -76,7 +76,27 @@
                                        
                                     </td>
                                     <td>
-                                        @Html.ActionLink("Bekijk Aanpassingen", "BekijkAanpassingen", new { })
+                                        @Html.ActionLink("Bekijk Aanpassingen", "PersonaliaControleren", new {
+                                       accountId = account.AccountId, 
+                                       FirstName = account.FirstName, 
+                                       LastName = account.LastName, 
+                                       Email = account.Email, 
+                                       DateOfBirth = account.DateOfBirth, 
+                                       Adress = account.Address, 
+                                       Zip = account.ZIP, 
+                                       MobilePhone = account.MobilePhone ,
+                                       City = account.City,
+                                       IBAN = account.IBAN,
+                                       CreationDate = account.CreationDate,
+                                       ProfileImage = account.CreationDate,
+                                       IsAdmin = account.IsAdmin,
+                                       IsTrainee = account.IsTrainee,
+                                       IsQienEmployee = account.IsQienEmployee,
+                                       IsSeniorDeveloper = account.IsSeniorDeveloper,
+                                       IsActive = account.IsActive,
+                                       IsChanged = account.IsChanged
+                                       
+                                   })
                                     </td>
                                 </tr>
                             }
