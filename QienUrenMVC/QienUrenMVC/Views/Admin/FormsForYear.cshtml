@@ -7,12 +7,36 @@
 
 <h1 style="text-align:center">Formulieren voor @ViewBag.Month (@ViewBag.Year)</h1>
 
+<div>
+    <table width="600px">
+        <thead>
+            <table class="table table-hover">
+                <thead style="background-color:#9A33F8;">
+                    <tr>
+                        <th>Totaal Uren</th>
+                        <th>Totaal Ziek</th>
+                        <th>Totaal Overuren</th>
+                        <th>Totaal Verlof</th>
+                        <th>Totaal training</th>
+                        <th>Totaal Overig</th>
+                    </tr>
+                </thead>
+                <tbody style="background-color:rgba(154, 51, 248, 0.12)">
+                    <tr>
+                        <td>@ViewBag.TotalHours</td>
+                        <td>@ViewBag.TotalSick</td>
+                        <td>@ViewBag.TotalOver</td>
+                        <td>@ViewBag.TotalLeave</td>
+                        <td>@ViewBag.TotalTraining</td>
+                        <td>@ViewBag.TotalOther</td>
+                    </tr>
+                </tbody>
+            </table>
+</div>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FormId)
-            </th>
             <th>
                 Naam
             </th>
@@ -26,10 +50,19 @@
                 @Html.DisplayNameFor(model => model.TotalHours)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProjectMonth)
+                @Html.DisplayNameFor(model => model.TotalSick)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Year)
+                @Html.DisplayNameFor(model => model.TotalOver)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalTraining)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalLeave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalOther)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IsAcceptedClient)
@@ -45,9 +78,6 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FormId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.fullName)
             </td>
             <td>
@@ -60,10 +90,19 @@
                 @Html.DisplayFor(modelItem => item.TotalHours)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProjectMonth)
+                @Html.DisplayFor(modelItem => item.TotalSick)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Year)
+                @Html.DisplayFor(modelItem => item.TotalOver)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalTraining)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalLeave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalOther)
             </td>
 
             @if (item.IsAcceptedClient == 0)

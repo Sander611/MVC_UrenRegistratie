@@ -16,25 +16,34 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FormId)
+                @Html.DisplayNameFor(model => model.ProjectMonth)
             </th>
             <th>
-                Naam
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateSend)
+                @Html.DisplayNameFor(model => model.Year)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateDue)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.DateSend)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.TotalHours)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProjectMonth)
+                @Html.DisplayNameFor(model => model.TotalOver)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Year)
+                @Html.DisplayNameFor(model => model.TotalSick)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalLeave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalTraining)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalOther)
             </th>
             <th>
                 Status
@@ -49,25 +58,34 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FormId)
+                @Html.DisplayFor(modelItem => item.ProjectMonth)
             </td>
             <td>
-                @ViewBag.currUser
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateSend)
+                @Html.DisplayFor(modelItem => item.Year)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateDue)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.DateSend)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.TotalHours)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProjectMonth)
+                @Html.DisplayFor(modelItem => item.TotalOver)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Year)
+                @Html.DisplayFor(modelItem => item.TotalSick)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalLeave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalTraining)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalOther)
             </td>
 
 

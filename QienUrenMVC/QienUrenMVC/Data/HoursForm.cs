@@ -16,6 +16,12 @@ namespace QienUrenMVC.Data
         public DateTime? DateSend { get; set; }
         public DateTime? DateDue { get; set; }
         public int TotalHours { get; set; }
+        public int TotalSick { get; set; }
+        public int TotalOver { get; set; }
+
+        public int TotalTraining { get; set; }
+        public int TotalLeave { get; set; }
+        public int TotalOther { get; set; }
 
         [Required]
         public string ProjectMonth { get; set; }

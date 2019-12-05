@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QienUrenMVC.Data;
 
 namespace QienUrenMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191205095541_total cols")]
+    partial class totalcols
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -300,9 +302,6 @@ namespace QienUrenMVC.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("TotalSick")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalTraining")
                         .HasColumnType("int");
 
                     b.Property<Guid>("Verification_code")

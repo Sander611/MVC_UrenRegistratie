@@ -8,6 +8,33 @@
 
 <h1 style="text-align:center">Urenregistratie @ViewBag.month (@ViewBag.year)</h1>
 
+<div>
+    <table width="600px">
+        <thead>
+            <table class="table table-hover">
+                <thead style="background-color:#9A33F8;">
+                    <tr>
+                        <th>Totaal Uren</th>
+                        <th>Totaal Ziek</th>
+                        <th>Totaal Overuren</th>
+                        <th>Totaal Verlof</th>
+                        <th>Totaal training</th>
+                        <th>Totaal Overig</th>
+                    </tr>
+                </thead>
+                <tbody style="background-color:rgba(154, 51, 248, 0.12)">
+                    <tr>
+                        <td>@ViewBag.TotalHours</td>
+                        <td>@ViewBag.TotalSick</td>
+                        <td>@ViewBag.TotalOver</td>
+                        <td>@ViewBag.TotalLeave</td>
+                        <td>@ViewBag.TotalTraining</td>
+                        <td>@ViewBag.TotalOther</td>
+                    </tr>
+                </tbody>
+            </table>
+</div>
+
 <form asp-controller="Employee" asp-action="HoursRegistration" method="post">
 
     <input type="hidden" name="formid" value="@ViewBag.FormId" />
@@ -22,6 +49,7 @@
                 <th>Ziek</th>
                 <th>Overuren</th>
                 <th>Verlof</th>
+                <th>Training</th>
                 <th>Overig</th>
                 <th>Reden m.b.t. Overig</th>
             </tr>

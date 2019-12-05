@@ -104,6 +104,16 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> HoursRegistration(int formid, int state)
         {
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formid);
+            HoursFormModel formInfo = await hoursformRepo.GetFormById(formid);
+
+
+            ViewBag.TotalHours = formInfo.TotalHours;
+            ViewBag.TotalSick = formInfo.TotalSick;
+            ViewBag.TotalOver = formInfo.TotalOver;
+            ViewBag.TotalLeave = formInfo.TotalLeave;
+            ViewBag.TotalOther = formInfo.TotalOther;
+            ViewBag.TotalTraining = formInfo.TotalTraining;
+
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
 
@@ -111,9 +121,10 @@ namespace QienUrenMVC.Controllers
             ViewBag.month = formsForId[0].Month;
             ViewBag.year = await hoursformRepo.GetYearOfForm(formid);
             ViewBag.status = state;
+
             if (state == 4)
             {
-                HoursFormModel formInfo = await hoursformRepo.GetFormById(formid);
+                
                 ViewBag.textAdmin = formInfo.CommentAdmin;
                 ViewBag.textClient = formInfo.CommentClient;
             }
@@ -133,16 +144,36 @@ namespace QienUrenMVC.Controllers
 
             if (ModelState.IsValid)
             {
+
+
                 List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
 
                 int totalHours = 0;
+                int totalSick = 0;
+                int totalOver = 0;
+                int totalLeave = 0;
+                int totalTraining = 0;
+                int totalOther = 0;
                 foreach(var perday in model)
                 {
                     totalHours += perday.Hours;
+                    totalSick += perday.IsSick;
+                    totalOver += perday.OverTimeHours;
+                    totalLeave += perday.IsLeave;
+                    totalTraining += perday.Training;
+                    totalOther += perday.Other;
                 }
 
-                await hoursformRepo.UpdateTotalHoursForm(model[0].FormId, totalHours);
+                await hoursformRepo.UpdateTotalHoursForm(model[0].FormId, totalHours, totalSick, totalOver, totalLeave, totalOther, totalTraining);
                 ViewBag.status = 0;
+                ViewBag.TotalHours = totalHours;
+                ViewBag.TotalSick = totalSick;
+                ViewBag.TotalOver = totalOver;
+                ViewBag.TotalLeave = totalLeave;
+                ViewBag.TotalOther = totalOther;
+                ViewBag.TotalTraining = totalTraining;
+
+     
 
                 if (versturen == true)
                 {

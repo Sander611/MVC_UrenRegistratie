@@ -7,38 +7,42 @@
 @Html.HiddenFor(p => p.Day)
 
 
-<tr>
-    <td>
-        @Model.Day - @Model.Month
-    </td>
+    <tr>
+        <td>
+            @Model.Day - @Model.Month
+        </td>
 
-    <td>
-        @Html.DisplayFor(model => model.Hours, new { style = "width:50px" })
-    </td>
+        <td>
+            @Html.DisplayFor(model => model.Hours, new { style = "width:50px" })
+        </td>
 
-    <td>
-        <select disabled asp-for="ClientId" asp-items="ViewBag.CompanyNames"></select>
-    </td>
+        <td>
+            <select disabled asp-for="ClientId" asp-items="ViewBag.CompanyNames"></select>
+        </td>
 
-    <td>
-        @Html.DisplayFor(model => model.IsSick, new { style = "width:50px" })
-    </td>
+        <td>
+            @Html.DisplayFor(model => model.IsSick, new { style = "width:50px" })
+        </td>
 
-    <td>
-        @Html.DisplayFor(model => model.OverTimeHours, new { style = "width:50px" })
-    </td>
+        <td>
+            @Html.DisplayFor(model => model.OverTimeHours, new { style = "width:50px" })
+        </td>
 
-    <td>
-        @Html.DisplayFor(model => model.IsLeave, new { style = "width:50px" })
-    </td>
+        <td>
+            @Html.DisplayFor(model => model.IsLeave, new { style = "width:50px" })
+        </td>
 
-    <td>
-        @Html.DisplayFor(model => model.Other, new { style = "width:50px" })
-    </td>
+        <td>
+            @Html.DisplayFor(model => model.Training, new { style = "width:50px" })
+        </td>
 
-    <td>
-        @Html.DisplayFor(model => model.Reasoning)
-    </td>
-</tr>
+        <td>
+            @Html.DisplayFor(model => model.Other, new { style = "width:50px" })
+        </td>
+
+        <td>
+            @Html.DisplayFor(model => model.Reasoning)
+        </td>
+    </tr>
 
 
