@@ -70,7 +70,7 @@
                             @Html.HiddenFor(model => model.Email)
                             @Html.DisplayNameFor(model => model.Email)
                             <h4>
-                            @Html.DisplayFor(model => model.Email)
+                                @Html.DisplayFor(model => model.Email)
                             </h4>
                             <br />
                             @Html.ActionLink("Wachtwoord wijzigen", "ChangePassword", new { }, new { @class = "link" })
@@ -151,8 +151,14 @@
                     </div>
                 </div>
             </div>
+            <br />
+                <div style="text-align:center" class="form-group">
+                    <input type="submit" value="Opslaan" class="btn btn-login" />
+                </div>
         </form>
-</div>
+        </div>
+        </div>
+
 @section Scripts{
     <script>
         $(document).ready(function () {
