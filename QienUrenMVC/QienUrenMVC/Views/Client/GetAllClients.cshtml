@@ -60,7 +60,7 @@
                         @Html.ActionLink("Gegevens", "ClientDetails", new { Id = item.ClientId }, new { @class="link" })
                     </td>
                     <td class="inhoudtekst">
-                        @Html.ActionLink("Wijzigingen", "UpdateClient", new { id = item.ClientId }, new { @class="link" })
+                        @Html.ActionLink("Wijzigen", "UpdateClient", new { id = item.ClientId }, new { @class="link" })
                     </td>
                     <td class="inhoudtekst">
                         @Html.ActionLink("Verwijderen", "DeleteClient", new { id = item.ClientId }, new { onclick = "return confirm('Weet u zeker dat u dit account wilt verwijderen?');" })
