@@ -82,11 +82,11 @@
 <div>
     @using (Html.BeginForm("CheckControleren", "Admin", FormMethod.Get))
     {
-        @*@Html.Hidden("CCaccountId", ViewBag.accountId)
-        @Html.Hidden("CCfullName", ViewBag.fullName)
-        @Html.Hidden("CCmonth", ViewBag.month)
-        @Html.Hidden("CCyear", ViewBag.year)
-        @Html.Hidden("CCstate", ViewBag.status)*@
+        @Html.Hidden("CCaccountId", (object)ViewBag.accountId)
+        @Html.Hidden("CCfullName", (object)ViewBag.fullName)
+        @Html.Hidden("CCmonth", (object)ViewBag.month)
+        @Html.Hidden("CCyear", (object)ViewBag.year)
+        @Html.Hidden("CCstate", (object)ViewBag.status)
 
         <div class="row">
             <div class="col-md-4">
