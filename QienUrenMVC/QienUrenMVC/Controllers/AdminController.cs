@@ -63,6 +63,20 @@ namespace QienUrenMVC.Controllers
             return View(adminTaskModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ApprovePersonalia(string accountId)
+        {
+            await accountRepo.SetAccountChanged(accountId, false);
+            return RedirectToAction("Dashboard");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DisapprovePersonalia(string accountId)
+        {
+            await accountRepo.RevertAccountPersonalia(accountId);
+            return RedirectToAction("Dashboard");
+        }
+
         [HttpGet]
         public async Task<IActionResult> Controleren(int formId, string accountId, string fullName, string month, string year, int state)
         {

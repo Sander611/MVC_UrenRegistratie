@@ -2,15 +2,80 @@
 
 @{
     ViewData["Title"] = "PersonaliaControleren";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 }
 
-    <div>
-        @Html.HiddenFor(m => m.newPersonalia)
-        @Html.HiddenFor(m => m.previousPersonalia)
-        
-        <h1>@Model.previousPersonalia.City</h1>
-        <h1>@Model.newPersonalia.City</h1>
+<div class="row">
+    <div class="dashboardkaart col-md-6">
+        <div class="kaartheader">
+            <p>Vorige personalia</p>
+        </div>
+        <table>
+            <tbody>
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Naam: @Model.previousPersonalia.FirstName</p>
+                </tr>
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Straat: @Model.previousPersonalia.Address</p>
+                </tr>
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Stad: @Model.previousPersonalia.City</p>
+                </tr>
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Telefoon: @Model.previousPersonalia.MobilePhone</p>
+                </tr>
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Postcode: @Model.previousPersonalia.ZIP</p>
+                </tr>
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Email: @Model.previousPersonalia.Email</p>
+                </tr>
+            </tbody>
+        </table>
     </div>
+    <div class="dashboardkaart col-md-6">
+        <div class="kaartheader">
+            <p>Nieuwe personalia</p>
+        </div>
+        <table>
+            <tbody>
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Naam: @Model.newPersonalia.FirstName</p>
+                </tr>
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Straat: @Model.newPersonalia.Address</p>
+                </tr>
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Stad: @Model.newPersonalia.City</p>
+                </tr>
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Telefoon: @Model.newPersonalia.MobilePhone</p>
+                </tr>
+
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Postcode: @Model.newPersonalia.ZIP</p>
+                </tr>
+                <tr>
+                    <p style="text-align:center; font-weight:bold; margin-top: 20px"> Email: @Model.newPersonalia.Email</p>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    @Html.HiddenFor(m => m.newPersonalia)
+    @Html.HiddenFor(m => m.previousPersonalia)
+
+</div>
+@using (Html.BeginForm("ApprovePersonalia", "Admin", new { accountId = Model.newPersonalia.AccountId }, FormMethod.Post))
+{
+    //<button asp-action="Dashboard" asp-controller="Admin">Goedkeuren</button>
+    <input type="submit" value="Goedkeuren" />
+}
+@using (Html.BeginForm("DisapprovePersonalia", "Admin", new { accountId = Model.newPersonalia.AccountId }, FormMethod.Post))
+{
+    <input type="submit" value="Afkeuren" />
+}
+
 
 

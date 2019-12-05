@@ -352,5 +352,34 @@ namespace QienUrenMVC.Repositories
                 IsTrainee = account.IsTrainee
             };
         }
+
+        public async Task SetAccountChanged(string accountId,bool isChanged)
+        {
+            UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
+
+            account.IsChanged = isChanged;
+
+            repositoryContext.Update(account);
+            await repositoryContext.SaveChangesAsync();
+        }
+
+        public async Task RevertAccountPersonalia(string accountId)
+        {
+            UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
+
+
+            UserPersonalia personalia = await repositoryContext.UserPersonalia.SingleOrDefaultAsync(p => p.AccountId == accountId);
+
+            account.FirstName = personalia.FirstName;
+            account.LastName = personalia.LastName;
+            account.ZIP = personalia.ZIP;
+            account.Address = personalia.Address;
+            account.City = personalia.City;
+            account.IsChanged = false;
+
+            
+            repositoryContext.Update(account);
+            await repositoryContext.SaveChangesAsync();
+        }
     }
 }
