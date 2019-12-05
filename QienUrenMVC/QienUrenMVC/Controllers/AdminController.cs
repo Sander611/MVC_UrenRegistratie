@@ -52,7 +52,7 @@ namespace QienUrenMVC.Controllers
             {
                 uncheckedForms = await hoursformRepo.GetAllClientAcceptedForms(),
                 changedAccounts = await accountRepo.GetChangedAccounts(),
-                
+
             };
             
 
