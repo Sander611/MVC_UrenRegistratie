@@ -44,6 +44,9 @@
                 <tr>
                     <p style="text-align:center;"> @Html.ActionLink("Personalia aanpassen", "EmployeePersonalia", new { accountID = Model.Account.AccountId }, new { @class = "personalialink" })</p>
                 </tr>
+                <tr>
+                    <p style="text-align:center;"> @Html.ActionLink("Jaar overzicht", "YearOverview", new { year = 0}, new { @class = "personalialink"})</p>
+                </tr>
             </tbody>
         </table>
     </div>

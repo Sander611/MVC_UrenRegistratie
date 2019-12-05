@@ -443,5 +443,38 @@ namespace QienUrenMVC.Repositories
             entity.TotalOther = totalOther;
             await context.SaveChangesAsync();
         }
+
+        public async Task<List<HoursFormModel>> GetAllFormsForAccountForYear(int year, string id)
+        {
+            List<HoursForm> formsEntities = await context.HoursForms.Where(p => p.Year == year && p.AccountId == id).ToListAsync();
+            List<HoursFormModel> formsForYearandMonth = new List<HoursFormModel>();
+            foreach (var form in formsEntities)
+                formsForYearandMonth.Add(new HoursFormModel
+                {
+                    FormId = form.FormId,
+                    AccountId = form.AccountId,
+                    DateSend = form.DateSend,
+                    DateDue = form.DateDue,
+                    TotalHours = form.TotalHours,
+                    TotalSick = form.TotalSick,
+                    TotalOver = form.TotalOver,
+                    TotalTraining = form.TotalTraining,
+                    TotalLeave = form.TotalLeave,
+                    TotalOther = form.TotalOther,
+                    Year = form.Year,
+                    ProjectMonth = form.ProjectMonth,
+                    IsAcceptedClient = form.IsAcceptedClient,
+                    IsLocked = form.IsLocked,
+                    CommentAdmin = form.commentAdmin,
+                    CommentClient = form.commentClient
+                });
+            return formsForYearandMonth;
+        }
+
+        public async Task<List<int>> GetAllYearsForUser(string id)
+        {
+            List<int> Years = await context.HoursForms.Where(p => p.AccountId == id).Select(m => m.Year).ToListAsync();
+            return Years;
+        }
     }
 }

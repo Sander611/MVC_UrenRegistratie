@@ -1,0 +1,142 @@
+﻿@model IEnumerable<QienUrenMVC.Models.HoursFormModel>
+
+@{
+    ViewData["Title"] = "YearOverview";
+    Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
+}
+
+<h1>YearOverview</h1>
+@*@using (Html.BeginForm("YearOverview", "Employee", FormMethod.Get, new { @name = "Form1" }))
+{
+    @Html.DropDownList("year", new SelectList(ViewBag.formYears, "FruitId", "FruitName"), "Please select", new { @id = "ddlFruits" })
+    @Html.DropDownList("year", (IEnumerable<SelectListItem>)ViewBag.formYears)
+}*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectMonth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateDue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateSend)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.TotalHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalSick)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalOver)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalTraining)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalLeave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalOther)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAcceptedClient)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsLocked)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectMonth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateDue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateSend)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalSick)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalOver)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalTraining)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalLeave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalOther)
+                </td>
+
+                @if (item.IsAcceptedClient == 0)
+                {
+                    <td align="left">
+                        <img style="width: 15px; height:auto;" src="~/Images/user-edit-solid.svg" /> Beschikbaar
+                    </td>
+                }
+
+                else if (item.IsAcceptedClient == 1 || item.IsAcceptedClient == 2)
+                {
+                    <td align="left">
+                        <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In afwachting van keuring admin
+                    </td>
+                }
+
+                else if (item.IsAcceptedClient == 3)
+                {
+                    <td align="left">
+                        <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" /> Goedgekeurd door Admin
+                    </td>
+                }
+
+                else if (item.IsAcceptedClient == 4)
+                {
+                    <td align="left">
+                        <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" /> Afgekeurd door Admin
+                    </td>
+                }
+
+                else if (item.IsAcceptedClient == 5)
+                {
+                    <td align="left">
+                        <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In afwachting van keuring opdrachtgever
+                    </td>
+                }
+
+
+
+                @if (item.IsLocked == true)
+                {
+                    <td align=center>
+                        <img style="width: 15px; height:auto;" src="~/Images/lock-solid.svg" />
+                    </td>
+                }
+                else if (item.IsLocked == false)
+                {
+                    <td align=center>
+                        <img style="width: 15px; height:auto;" src="~/Images/lock-open-solid.svg" />
+                    </td>
+                }
+
+                <td>
+                    @Html.ActionLink("Inzien", "HoursRegistration", new { formid = item.FormId, state = item.IsAcceptedClient })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
