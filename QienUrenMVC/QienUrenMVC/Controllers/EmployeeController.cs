@@ -226,11 +226,9 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> CreateFormForAccount(HoursFormModel hoursformModel)
         {
             hoursformModel.AccountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            hoursformModel.DateSend = DateTime.Now;
-            hoursformModel.TotalHours = 563;
-            hoursformModel.ProjectMonth = "september";
-            hoursformModel.Year = 2019;
-            hoursformModel.IsAcceptedClient = 4;
+            hoursformModel.TotalHours = 0;
+            hoursformModel.ProjectMonth = "maart";
+            hoursformModel.Year = 2018;
             hoursformModel.IsLocked = false;
             hoursformModel.CommentAdmin = "";
             hoursformModel.CommentClient = "";
