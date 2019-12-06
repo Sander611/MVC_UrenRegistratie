@@ -6,6 +6,8 @@
 }
 
 
+@Html.DropDownList("year", (IEnumerable
+        <SelectListItem>)ViewBag.formYears, new { onchange = "window.location.href='/Admin/YearOverview?Year=' + this.value;" })
 
 
 <table class="tabel">
@@ -40,31 +42,31 @@
     <tbody class="kaartinhoud table table-striped">
 
         @foreach (var item in Model)
-         {
-         <tr>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.Month)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.HoursTrainee)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.HoursEmployee)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.HoursSoftwareDev)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.TotalHours)
-            </td>
-            <td class="inhoudtekst">
-                @Html.ActionLink("Alle Formulieren", "FormsForYear", new {year = item.Year, month = item.Month }, new  { @class="link" })
-            </td>
-         </tr>
-         }
+        {
+            <tr>
+                <td class="inhoudtekst">
+                    @Html.DisplayFor(modelItem => item.Month)
+                </td>
+                <td class="inhoudtekst">
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td class="inhoudtekst">
+                    @Html.DisplayFor(modelItem => item.HoursTrainee)
+                </td>
+                <td class="inhoudtekst">
+                    @Html.DisplayFor(modelItem => item.HoursEmployee)
+                </td>
+                <td class="inhoudtekst">
+                    @Html.DisplayFor(modelItem => item.HoursSoftwareDev)
+                </td>
+                <td class="inhoudtekst">
+                    @Html.DisplayFor(modelItem => item.TotalHours)
+                </td>
+                <td class="inhoudtekst">
+                    @Html.ActionLink("Alle Formulieren", "FormsForYear", new { year = item.Year, month = item.Month }, new { @class = "link" })
+                </td>
+            </tr>
+        }
 
     </tbody>
 </table>
