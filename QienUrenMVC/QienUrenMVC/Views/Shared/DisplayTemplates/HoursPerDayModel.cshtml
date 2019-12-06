@@ -8,39 +8,39 @@
 
 
     <tr>
-        <td>
+        <td class="inhoudtekst">
             @Model.Day - @Model.Month
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.DisplayFor(model => model.Hours, new { style = "width:50px" })
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             <select disabled asp-for="ClientId" asp-items="ViewBag.CompanyNames"></select>
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.DisplayFor(model => model.IsSick, new { style = "width:50px" })
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.DisplayFor(model => model.OverTimeHours, new { style = "width:50px" })
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.DisplayFor(model => model.IsLeave, new { style = "width:50px" })
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.DisplayFor(model => model.Training, new { style = "width:50px" })
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.DisplayFor(model => model.Other, new { style = "width:50px" })
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.DisplayFor(model => model.Reasoning)
         </td>
     </tr>

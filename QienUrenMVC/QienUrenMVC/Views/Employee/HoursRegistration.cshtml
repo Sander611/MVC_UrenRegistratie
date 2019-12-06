@@ -6,56 +6,62 @@
 
 }
 
-<h1 style="text-align:center">Urenregistratie @ViewBag.month (@ViewBag.year)</h1>
-
 <div>
-    <table width="600px">
+    <table class="tabel">
         <thead>
-            <table class="table table-hover">
-                <thead style="background-color:#9A33F8;">
-                    <tr>
-                        <th>Totaal Uren</th>
-                        <th>Totaal Ziek</th>
-                        <th>Totaal Overuren</th>
-                        <th>Totaal Verlof</th>
-                        <th>Totaal training</th>
-                        <th>Totaal Overig</th>
-                    </tr>
-                </thead>
-                <tbody style="background-color:rgba(154, 51, 248, 0.12)">
-                    <tr>
-                        <td>@ViewBag.TotalHours</td>
-                        <td>@ViewBag.TotalSick</td>
-                        <td>@ViewBag.TotalOver</td>
-                        <td>@ViewBag.TotalLeave</td>
-                        <td>@ViewBag.TotalTraining</td>
-                        <td>@ViewBag.TotalOther</td>
-                    </tr>
-                </tbody>
-            </table>
+            <tr>
+                <th class="kaartheader" colspan="7">Totaaluren @ViewBag.month (@ViewBag.year)</th>
+            </tr>
+        </thead>
+        <thead class="kaartsubheader">
+            <tr>
+                <th class="headertekst" style="font-size:17px">Totaal Uren</th>
+                <th class="headertekst" style="font-size:17px">Totaal Ziek</th>
+                <th class="headertekst" style="font-size:17px">Totaal Overuren</th>
+                <th class="headertekst" style="font-size:17px">Totaal Verlof</th>
+                <th class="headertekst" style="font-size:17px">Totaal training</th>
+                <th class="headertekst" style="font-size:17px">Totaal Overig</th>
+            </tr>
+        </thead>
+        <tbody class="kaartinhoud">
+            <tr>
+                <td class="inhoudtekst">@ViewBag.TotalHours</td>
+                <td class="inhoudtekst">@ViewBag.TotalSick</td>
+                <td class="inhoudtekst">@ViewBag.TotalOver</td>
+                <td class="inhoudtekst">@ViewBag.TotalLeave</td>
+                <td class="inhoudtekst">@ViewBag.TotalTraining</td>
+                <td class="inhoudtekst">@ViewBag.TotalOther</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <form asp-controller="Employee" asp-action="HoursRegistration" method="post">
 
     <input type="hidden" name="formid" value="@ViewBag.FormId" />
-    <table width="600px">
+    <table class="tabel">
         <thead>
-    <table class="table table-hover">
-        <thead style="background-color:#9A33F8;">
             <tr>
-                <th>Dag</th>
-                <th>Uren</th>
-                <th>Opdrachtgever</th>
-                <th>Ziek</th>
-                <th>Overuren</th>
-                <th>Verlof</th>
-                <th>Training</th>
-                <th>Overig</th>
-                <th>Reden m.b.t. Overig</th>
+                <th class="kaartheader" colspan="9">
+                    Urenregistratie @ViewBag.month (@ViewBag.year)
+                </th>
+            </tr>
+        </thead>
+        <thead class="kaartsubheader">
+            <tr>
+                <th class="headertekst" style="font-size:17px">Dag</th>
+                <th class="headertekst" style="font-size:17px">Uren</th>
+                <th class="headertekst" style="font-size:17px">Opdrachtgever</th>
+                <th class="headertekst" style="font-size:17px">Ziek</th>
+                <th class="headertekst" style="font-size:17px">Overuren</th>
+                <th class="headertekst" style="font-size:17px">Verlof</th>
+                <th class="headertekst" style="font-size:17px">Training</th>
+                <th class="headertekst" style="font-size:17px">Overig</th>
+                <th class="headertekst" style="font-size:17px">Reden m.b.t. Overig</th>
             </tr>
         </thead>
 
-        <tbody style="background-color:rgba(154, 51, 248, 0.12)">
+        <tbody class="kaartinhoud table table-striped">
 
             @if (ViewBag.status == 0 || ViewBag.status == 4)
             {
@@ -97,13 +103,13 @@
     <div class="row">
         @if (ViewBag.status == 0 || ViewBag.status == 4)
         {
-            <button type="submit">Bewaren</button>
-            <button type="submit" asp-route-versturen="true" asp-route-id="formid">Bewaren en versturen</button>
+            <button type="submit" class="btn btn-login" style="margin-right:10px; margin-left:15px;">Bewaren</button>
+            <button type="submit" asp-route-versturen="true" asp-route-id="formid" class="btn btn-login">Bewaren en versturen</button>
         }
         else if (ViewBag.status == 1 || ViewBag.status == 2 || ViewBag.status == 3 || ViewBag.status == 5)
         {
-            <button disabled type="submit">Bewaren</button>
-            <button disabled type="submit" asp-route-versturen="true" asp-route-id="formid">Bewaren en versturen</button>
+            <button disabled type="submit" class="btn btn-login" style="margin-right:10px; margin-left:15px;">Bewaren</button>
+            <button disabled type="submit" asp-route-versturen="true" asp-route-id="formid" class="btn btn-login">Bewaren en versturen</button>
         }
     </div>
 
