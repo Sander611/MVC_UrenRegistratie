@@ -198,6 +198,24 @@ namespace QienUrenMVC.Repositories
         public async Task<AccountModel> UpdateAccount(AccountModel account, string uniqueFilename)
         {
             UserIdentity entity = repositoryContext.UserIdentity.Single(p => p.Id == account.AccountId);
+
+            UserPersonalia personalia = new UserPersonalia();
+            personalia.AccountId = entity.Id;
+            personalia.FirstName = entity.FirstName;
+            personalia.LastName = entity.LastName;
+            personalia.Address = entity.Address;
+            personalia.City = entity.City;
+            personalia.CreationDate = entity.CreationDate;
+            personalia.DateOfBirth = entity.DateOfBirth;
+            personalia.IBAN = entity.IBAN;
+            personalia.IsActive = entity.IsActive;
+            personalia.IsAdmin = entity.IsAdmin;
+            personalia.IsQienEmployee = entity.IsQienEmployee;
+            personalia.IsSeniorDeveloper = entity.IsSeniorDeveloper;
+            personalia.IsTrainee = entity.IsTrainee;
+            personalia.IsChanged = entity.IsChanged;
+            //Email and phonenumber are missing..
+
             entity.FirstName = account.FirstName;
             entity.LastName = account.LastName;
             entity.Address = account.Address;
@@ -215,9 +233,64 @@ namespace QienUrenMVC.Repositories
             entity.PhoneNumber = account.MobilePhone;
             entity.IsTrainee = account.IsTrainee;
             entity.IsChanged = account.IsChanged;
+
+            
+            //saving User info in Userpersonalia table
+            repositoryContext.UserPersonalia.Add(personalia);
+
+            
             await repositoryContext.SaveChangesAsync();
             
             return account;
+        }
+
+        public async Task <UserPersonaliaModel> ComparePersonaliaChanges(string accountId)
+        {
+            //var PreviousPersonalia = await repositoryContext.UserIdentity.Where(p => p.Id == accountId).ToListAsync();
+            
+            
+            UserPersonalia oldPersonalia = await repositoryContext.UserPersonalia.FirstAsync(p => p.AccountId == accountId);
+            UserIdentity newPersonalia = await repositoryContext.UserIdentity.FirstAsync(p => p.Id == accountId);
+           
+            UserPersonaliaModel userPersonaliaModel = new UserPersonaliaModel();
+
+            userPersonaliaModel.previousPersonalia = new UserPersonaliaModel();
+            userPersonaliaModel.newPersonalia = new UserPersonaliaModel();
+
+            userPersonaliaModel.previousPersonalia.FirstName = oldPersonalia.FirstName;
+            userPersonaliaModel.previousPersonalia.LastName = oldPersonalia.LastName;
+            userPersonaliaModel.previousPersonalia.AccountId = oldPersonalia.AccountId;
+            userPersonaliaModel.previousPersonalia.Address = oldPersonalia.Address;
+            userPersonaliaModel.previousPersonalia.City = oldPersonalia.City;
+            userPersonaliaModel.previousPersonalia.CreationDate = oldPersonalia.CreationDate;
+            userPersonaliaModel.previousPersonalia.DateOfBirth = oldPersonalia.DateOfBirth;
+            userPersonaliaModel.previousPersonalia.CreationDate = oldPersonalia.CreationDate;
+            userPersonaliaModel.previousPersonalia.ZIP = oldPersonalia.ZIP;
+            userPersonaliaModel.previousPersonalia.IBAN = oldPersonalia.IBAN;
+            userPersonaliaModel.previousPersonalia.ProfileImage = oldPersonalia.ProfileImage;
+            userPersonaliaModel.previousPersonalia.IsTrainee = oldPersonalia.IsTrainee;
+            userPersonaliaModel.previousPersonalia.IsQienEmployee = oldPersonalia.IsQienEmployee;
+            userPersonaliaModel.previousPersonalia.IsSeniorDeveloper = oldPersonalia.IsSeniorDeveloper;
+            userPersonaliaModel.previousPersonalia.IsChanged = oldPersonalia.IsChanged;
+
+
+            //new personalia
+            userPersonaliaModel.newPersonalia.FirstName = newPersonalia.FirstName;
+            userPersonaliaModel.newPersonalia.LastName = newPersonalia.LastName;
+            userPersonaliaModel.newPersonalia.AccountId = newPersonalia.Id;
+            userPersonaliaModel.newPersonalia.Address = newPersonalia.Address;
+            userPersonaliaModel.newPersonalia.City = newPersonalia.City;
+            userPersonaliaModel.newPersonalia.CreationDate = newPersonalia.CreationDate;
+            userPersonaliaModel.newPersonalia.DateOfBirth = newPersonalia.DateOfBirth;
+            userPersonaliaModel.newPersonalia.CreationDate = newPersonalia.CreationDate;
+            userPersonaliaModel.newPersonalia.ZIP = newPersonalia.ZIP;
+            userPersonaliaModel.newPersonalia.IBAN = newPersonalia.IBAN;
+            userPersonaliaModel.newPersonalia.ProfileImage = newPersonalia.ProfileImage;
+            userPersonaliaModel.newPersonalia.IsTrainee = newPersonalia.IsTrainee;
+            userPersonaliaModel.newPersonalia.IsQienEmployee = newPersonalia.IsQienEmployee;
+            userPersonaliaModel.newPersonalia.IsSeniorDeveloper = newPersonalia.IsSeniorDeveloper;
+            userPersonaliaModel.newPersonalia.IsChanged = newPersonalia.IsChanged;
+            return userPersonaliaModel;
         }
 
 
@@ -286,6 +359,35 @@ namespace QienUrenMVC.Repositories
                 IsSeniorDeveloper = account.IsSeniorDeveloper,
                 IsTrainee = account.IsTrainee
             };
+        }
+
+        public async Task SetAccountChanged(string accountId,bool isChanged)
+        {
+            UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
+
+            account.IsChanged = isChanged;
+
+            repositoryContext.Update(account);
+            await repositoryContext.SaveChangesAsync();
+        }
+
+        public async Task RevertAccountPersonalia(string accountId)
+        {
+            UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
+
+
+            UserPersonalia personalia = await repositoryContext.UserPersonalia.SingleOrDefaultAsync(p => p.AccountId == accountId);
+
+            account.FirstName = personalia.FirstName;
+            account.LastName = personalia.LastName;
+            account.ZIP = personalia.ZIP;
+            account.Address = personalia.Address;
+            account.City = personalia.City;
+            account.IsChanged = false;
+
+            
+            repositoryContext.Update(account);
+            await repositoryContext.SaveChangesAsync();
         }
     }
 }
