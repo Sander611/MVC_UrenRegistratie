@@ -5,63 +5,66 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1 style="text-align:center">Jaar overzicht</h1>
 
 
-<table class="table">
+
+<table class="tabel">
     <thead>
         <tr>
-            <th>
+            <th class="kaartheader" colspan="7">Jaaroverzicht</th>
+        </tr>
+    </thead>
+    <thead class="kaartsubheader">
+        <tr>
+            <th class="headertekst" style="font-size:17px">
                 @Html.DisplayNameFor(model => model.Month)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Year)
+            <th class="headertekst" style="font-size:17px">
+                Jaar
             </th>
-            <th>
+            <th class="headertekst" style="font-size:17px">
                 @Html.DisplayNameFor(model => model.HoursTrainee)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:17px">
                 @Html.DisplayNameFor(model => model.HoursEmployee)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:17px">
                 @Html.DisplayNameFor(model => model.HoursSoftwareDev)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:17px">
                 @Html.DisplayNameFor(model => model.TotalHours)
             </th>
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="kaartinhoud table table-striped">
 
         @foreach (var item in Model)
-        {
-        <tr>
-            <td>
+         {
+         <tr>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.Month)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.Year)
             </td>
-
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.HoursTrainee)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.HoursEmployee)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.HoursSoftwareDev)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.TotalHours)
             </td>
-
-            <td>
-                @Html.ActionLink("Alle Formulieren", "FormsForYear", new {year = item.Year, month = item.Month })
+            <td class="inhoudtekst">
+                @Html.ActionLink("Alle Formulieren", "FormsForYear", new {year = item.Year, month = item.Month }, new  { @class="link" })
             </td>
-        </tr>
-        }
+         </tr>
+         }
 
     </tbody>
 </table>

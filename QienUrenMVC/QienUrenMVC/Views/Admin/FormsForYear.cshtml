@@ -5,137 +5,144 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1 style="text-align:center">Formulieren voor @ViewBag.Month (@ViewBag.Year)</h1>
 
 <div>
-    <table width="600px">
+    <table class="tabel">
         <thead>
-            <table class="table table-hover">
-                <thead style="background-color:#9A33F8;">
-                    <tr>
-                        <th>Totaal Uren</th>
-                        <th>Totaal Ziek</th>
-                        <th>Totaal Overuren</th>
-                        <th>Totaal Verlof</th>
-                        <th>Totaal training</th>
-                        <th>Totaal Overig</th>
-                    </tr>
-                </thead>
-                <tbody style="background-color:rgba(154, 51, 248, 0.12)">
-                    <tr>
-                        <td>@ViewBag.TotalHours</td>
-                        <td>@ViewBag.TotalSick</td>
-                        <td>@ViewBag.TotalOver</td>
-                        <td>@ViewBag.TotalLeave</td>
-                        <td>@ViewBag.TotalTraining</td>
-                        <td>@ViewBag.TotalOther</td>
-                    </tr>
-                </tbody>
-            </table>
+            <tr>
+                <th class="kaartheader" colspan="7">Totaal aantal uren voor @ViewBag.Month (@ViewBag.Year)</th>
+            </tr>
+        </thead>
+        <thead class="kaartsubheader">
+            <tr>
+                <th class="headertekst" style="font-size:17px">Totaal Uren</th>
+                <th class="headertekst" style="font-size:17px">Totaal Ziek</th>
+                <th class="headertekst" style="font-size:17px">Totaal Overuren</th>
+                <th class="headertekst" style="font-size:17px">Totaal Verlof</th>
+                <th class="headertekst" style="font-size:17px">Totaal training</th>
+                <th class="headertekst" style="font-size:17px">Totaal Overig</th>
+            </tr>
+        </thead>
+        <tbody class="kaartinhoud table table-striped">
+            <tr>
+                <td class="inhoudtekst">@ViewBag.TotalHours</td>
+                <td class="inhoudtekst">@ViewBag.TotalSick</td>
+                <td class="inhoudtekst">@ViewBag.TotalOver</td>
+                <td class="inhoudtekst">@ViewBag.TotalLeave</td>
+                <td class="inhoudtekst">@ViewBag.TotalTraining</td>
+                <td class="inhoudtekst">@ViewBag.TotalOther</td>
+            </tr>
+        </tbody>
+     </table>
 </div>
 
-<table class="table">
+<table class="tabel">
     <thead>
         <tr>
-            <th>
+            <th class="kaartheader" colspan="12">Alle urenformulieren van @ViewBag.Month (@ViewBag.Year)</th>
+        </tr>
+    </thead>
+    <thead class="kaartsubheader">
+        <tr>
+            <th class="headertekst">
                 Naam
             </th>
-            <th>
+            <th class="headertekst" style="font-size:15px">
                 @Html.DisplayNameFor(model => model.DateSend)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:15px">
                 @Html.DisplayNameFor(model => model.DateDue)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:15px">
                 @Html.DisplayNameFor(model => model.TotalHours)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:15px">
                 @Html.DisplayNameFor(model => model.TotalSick)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:15px">
                 @Html.DisplayNameFor(model => model.TotalOver)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:15px">
                 @Html.DisplayNameFor(model => model.TotalTraining)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:15px">
                 @Html.DisplayNameFor(model => model.TotalLeave)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:15px">
                 @Html.DisplayNameFor(model => model.TotalOther)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:15px">
                 @Html.DisplayNameFor(model => model.IsAcceptedClient)
             </th>
-            <th>
+            <th class="headertekst" style="font-size:15px">
                 @Html.DisplayNameFor(model => model.IsLocked)
             </th>
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="kaartinhoud table table-striped">
         @foreach (var item in Model)
         {
         <tr>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.fullName)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.DateSend)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.DateDue)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.TotalHours)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.TotalSick)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.TotalOver)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.TotalTraining)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.TotalLeave)
             </td>
-            <td>
+            <td class="inhoudtekst">
                 @Html.DisplayFor(modelItem => item.TotalOther)
             </td>
 
             @if (item.IsAcceptedClient == 0)
             {
-                <td align="left">
+                <td class="inhoudtekst">
                     <img style="width: 15px; height:auto;" src="~/Images/user-edit-solid.svg" /> Beschikbaar voor medewerker
                 </td>
             }
 
             else if (item.IsAcceptedClient == 1 || item.IsAcceptedClient == 2)
             {
-                <td align="left">
+                <td class="inhoudtekst">
                     <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In afwachting van keuring admin
                 </td>
             }
 
             else if (item.IsAcceptedClient == 3)
             {
-                <td align="left">
+                <td class="inhoudtekst">
                     <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" /> Goedgekeurd door Admin
                 </td>
             }
 
             else if (item.IsAcceptedClient == 4)
             {
-                <td align="left">
+                <td class="inhoudtekst">
                     <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" /> Afgekeurd door Admin
                 </td>
             }
 
             else if (item.IsAcceptedClient == 5)
             {
-                <td align="left">
+                <td class="inhoudtekst">
                     <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In afwachting van keuring opdrachtgever
                 </td>
             }
@@ -144,18 +151,18 @@
 
             @if (item.IsLocked == true)
             {
-                <td align=center>
+                <td class="inhoudtekst">
                     <img style="width: 15px; height:auto;" src="~/Images/lock-solid.svg" />
                 </td>
             }
             else if (item.IsLocked == false)
             {
-                <td align=center>
+                <td class="inhoudtekst">
                     <img style="width: 15px; height:auto;" src="~/Images/lock-open-solid.svg" />
                 </td>
             }
             <td>
-                @Html.ActionLink("Inzien", "Controleren", new { formId = item.FormId, accountId = item.AccountId, fullName = item.fullName, month = item.ProjectMonth, year = item.Year, state = item.IsAcceptedClient })
+                @Html.ActionLink("Inzien", "Controleren", new { formId = item.FormId, accountId = item.AccountId, fullName = item.fullName, month = item.ProjectMonth, year = item.Year, state = item.IsAcceptedClient }, new { @class="link"})
             </td>
         </tr>
         }
