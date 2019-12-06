@@ -30,10 +30,14 @@ namespace QienUrenMVC.Repositories
 
         Task<List<int>> GetAllYearsForUser(string id);
 
+        Task<List<int>> GetAllExistingYears(int year);
+
         Task<HoursFormModel> GetFormById(int id);
 
         Task<HoursFormModel> CheckIfExists(string id, string month, int year);
 
         Task<List<HoursFormModel>> GetAllFormsForAccountForYear(int year, string id);
+
+        
     }
 }

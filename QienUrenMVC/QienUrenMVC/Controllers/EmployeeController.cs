@@ -367,7 +367,7 @@ namespace QienUrenMVC.Controllers
             var formListYears = await hoursformRepo.GetAllYearsForUser(id);
             List<SelectListItem> SelectListYears = new List<SelectListItem>();
             
-            foreach(int y in formListYears.Distinct().ToList())
+            foreach(int y in formListYears)
             {
                 SelectListYears.Add(
                     new SelectListItem { 

@@ -473,7 +473,13 @@ namespace QienUrenMVC.Repositories
 
         public async Task<List<int>> GetAllYearsForUser(string id)
         {
-            List<int> Years = await context.HoursForms.Where(p => p.AccountId == id).Select(m => m.Year).ToListAsync();
+            List<int> Years = await context.HoursForms.Where(p => p.AccountId == id).Select(m => m.Year).Distinct().OrderBy(x => x).ToListAsync();
+            return Years;
+        }
+
+        public async Task<List<int>> GetAllExistingYears(int year)
+        {
+            List<int> Years = await context.HoursForms.Select(m => m.Year).Distinct().OrderBy(x => x).ToListAsync();
             return Years;
         }
     }
