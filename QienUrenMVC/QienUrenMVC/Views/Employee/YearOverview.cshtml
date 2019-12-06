@@ -7,10 +7,14 @@
 
 <h1>YearOverview</h1>
 @*@using (Html.BeginForm("YearOverview", "Employee", FormMethod.Get, new { @name = "Form1" }))
-{
-    @Html.DropDownList("year", new SelectList(ViewBag.formYears, "FruitId", "FruitName"), "Please select", new { @id = "ddlFruits" })
-    @Html.DropDownList("year", (IEnumerable<SelectListItem>)ViewBag.formYears)
-}*@
+    {
+        @Html.DropDownList("year", new SelectList(ViewBag.formYears, "FruitId", "FruitName"), "Please select", new { @id = "ddlFruits" })
+        @Html.DropDownList("year", (IEnumerable<SelectListItem>)ViewBag.formYears)
+    }*@
+
+@Html.DropDownList("year", (IEnumerable
+        <SelectListItem>)ViewBag.formYears)
+
 <table class="table">
     <thead>
         <tr>

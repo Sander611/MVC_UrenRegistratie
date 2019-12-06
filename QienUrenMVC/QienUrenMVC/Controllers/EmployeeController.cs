@@ -366,8 +366,19 @@ namespace QienUrenMVC.Controllers
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var formListYears = hoursformRepo.GetAllYearsForUser(id);
-            ViewBag.formYears = formListYears;
+            var formListYears = await hoursformRepo.GetAllYearsForUser(id);
+            List<SelectListItem> SelectListYears = new List<SelectListItem>();
+            
+            foreach(int y in formListYears.Distinct().ToList())
+            {
+                SelectListYears.Add(
+                    new SelectListItem { 
+                        Text = y.ToString(),
+                        Value = y.ToString()
+                    }
+                    );;
+            }
+            ViewBag.formYears = SelectListYears;
 
             List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
 
