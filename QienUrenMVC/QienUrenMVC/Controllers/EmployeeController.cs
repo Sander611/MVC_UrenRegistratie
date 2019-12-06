@@ -183,7 +183,26 @@ namespace QienUrenMVC.Controllers
                     foreach (var client in clientIds)
                     {
                         var verificationCode = hoursForm.Verification_code;
-                        var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}&state=5&token={verificationCode}";
+
+                        var formId = formid;
+                        var accountId = medewerkerInfo.AccountId;
+                        var fullName = Name;
+                        var month = hoursForm.ProjectMonth;
+                        var year = hoursForm.Year;
+                        var state = 5;
+                        var token = verificationCode;
+
+                        var callbackUrl = Url.Action(
+                            "ControlerenClient",
+                            "Client",
+                            new {formId, accountId, fullName, month, year, state, token},
+                            HttpContext.Request.Scheme,
+                            HttpContext.Request.Host.Value
+                            );
+
+                        //var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}&state=5&token={verificationCode}";
+                        
+                        
                         ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
                         var message = new MimeMessage();
                         message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
@@ -191,7 +210,7 @@ namespace QienUrenMVC.Controllers
                         message.Subject = "Check formulier";
                         message.Body = new TextPart("plain")
                         {
-                            Text = $"We would like you to check hours registration declaration it was filled by {Name}. Please click on the below link to check the data :<a href='{varifyUrl}'>link</a>"
+                            Text = $"We would like you to check hours registration declaration it was filled by {Name}. Please click on the below link to check the data : {callbackUrl}"
                         };
                         using (var smptcli = new SmtpClient())
                         {
