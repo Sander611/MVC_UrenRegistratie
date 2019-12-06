@@ -110,11 +110,11 @@ namespace QienUrenMVC.Controllers
         {
             if (keuring == true)
             {
-                await hoursformRepo.ChangeState(1, id, adminText, clientText);
+                await hoursformRepo.ChangeState(1, id, clientText, adminText);
             }
             else if (keuring == false)
             {
-                await hoursformRepo.ChangeState(2, id, adminText, clientText);
+                await hoursformRepo.ChangeState(2, id, clientText, adminText);
             }
             await SendEMail(keuring, id);
             return RedirectToRoute(new { controller = "Identity", action = "Login" });
