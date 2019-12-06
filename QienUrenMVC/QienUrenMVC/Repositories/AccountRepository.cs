@@ -24,7 +24,7 @@ namespace QienUrenMVC.Repositories
         {
             var allAccounts = new List<AccountModel>();
             foreach (var account in await repositoryContext.UserIdentity.Where(
-                                                                            x=>x.FirstName.Contains(searchString) || x.LastName.Contains(searchString) || searchString == null
+                                                                            x=>x.FirstName.Contains(searchString) || x.LastName.Contains(searchString) || (x.FirstName + " " + x.LastName) == searchString || searchString == null
                                                                           ).ToListAsync())
 
                 allAccounts.Add(new AccountModel
