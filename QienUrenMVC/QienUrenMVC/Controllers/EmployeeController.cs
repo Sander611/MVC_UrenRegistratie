@@ -362,30 +362,40 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> YearOverview(int year = 0)
         {
-            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var formListYears = await hoursformRepo.GetAllYearsForUser(id);
-            List<SelectListItem> SelectListYears = new List<SelectListItem>();
-            
-            foreach(int y in formListYears)
-            {
-                SelectListYears.Add(
-                    new SelectListItem { 
-                        Text = y.ToString(),
-                        Value = y.ToString()
-                    }
-                    );;
-            }
-            ViewBag.formYears = SelectListYears;
-
-            List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
 
             if (year == 0)
             {
                 year = DateTime.Now.Year;
             }
 
-            
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var formListYears = await hoursformRepo.GetAllYearsForUser(id);
+            List<SelectListItem> SelectListYears = new List<SelectListItem>();
+
+            var selected = false;
+            foreach(int y in formListYears)
+            {
+                if (y == year)
+                {
+                    selected = true;
+                }
+
+                SelectListYears.Add(
+                    new SelectListItem
+                    {
+                        Text = y.ToString(),
+                        Value = y.ToString(),
+                        Selected = selected
+                    }
+                );
+
+                selected = false;
+            }
+            ViewBag.formYears = SelectListYears;
+
+            List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
+           
             List<HoursFormModel> forms = await hoursformRepo.GetAllFormsForAccountForYear(year, id);
             List<HoursFormModel> sorted = new List<HoursFormModel>();
 
