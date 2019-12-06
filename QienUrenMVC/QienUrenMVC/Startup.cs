@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using QienUrenMVC.Repositories;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using QienUrenMVC.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace QienUrenMVC
 {

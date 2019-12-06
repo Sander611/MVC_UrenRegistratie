@@ -52,11 +52,16 @@ namespace QienUrenMVC.Areas.Identity.Pages.Account
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                var email = Input.Email;
+                var token = code;
+
                 var callbackUrl = Url.Page(
                     "/Account/ResetPassword",
                     pageHandler: null,
-                    values: new { area = "Identity", code },
+                    values: new { area = "Identity", email, token },
                     protocol: Request.Scheme);
+
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
