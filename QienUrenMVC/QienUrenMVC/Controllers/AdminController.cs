@@ -362,15 +362,24 @@ namespace QienUrenMVC.Controllers
             var formListYears = await hoursformRepo.GetAllExistingYears(Year);
             List<SelectListItem> SelectListYears = new List<SelectListItem>();
 
+            var selected = false;
             foreach (int y in formListYears)
             {
+                if (y == Year)
+                {
+                    selected = true;
+                }
+
                 SelectListYears.Add(
                     new SelectListItem
                     {
                         Text = y.ToString(),
-                        Value = y.ToString()
+                        Value = y.ToString(),
+                        Selected = selected
                     }
-                    ); ;
+                );
+
+                selected = false;
             }
             ViewBag.formYears = SelectListYears;
 
