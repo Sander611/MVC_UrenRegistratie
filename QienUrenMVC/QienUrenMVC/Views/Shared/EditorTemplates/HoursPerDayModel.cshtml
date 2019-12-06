@@ -7,37 +7,37 @@
 
     
     <tr>
-        <td>
+        <td class="inhoudtekst">
             @Model.Day - @Model.Month
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.TextBoxFor(model => model.Hours, new { style = "width:50px" })
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             <select asp-for="ClientId" asp-items="ViewBag.CompanyNames"></select>
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.TextBoxFor(model => model.IsSick, new { style = "width:50px" })
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.TextBoxFor(model => model.OverTimeHours, new { style = "width:50px" })
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.TextBoxFor(model => model.IsLeave, new { style = "width:50px" })
         </td>
-        <td>
+        <td class="inhoudtekst"> 
             @Html.TextBoxFor(model => model.Training, new { style = "width:50px" })
         </td>
-        <td>
+        <td class="inhoudtekst">
             @Html.TextBoxFor(model => model.Other, new { style = "width:50px" })
         </td>
 
-        <td>
+        <td class="inhoudtekst">
             @Html.TextBoxFor(model => model.Reasoning)
         </td>
     </tr>
