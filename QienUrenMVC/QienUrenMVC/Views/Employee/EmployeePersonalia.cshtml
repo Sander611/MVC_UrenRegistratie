@@ -151,23 +151,24 @@
                     </div>
                 </div>
             </div>
+
+            @section Scripts{
+                <script>
+                    $(document).ready(function () {
+                        $('.custom-file-input').on("change", function () {
+                            //console.log($(this).val());
+                            var filename = $(this).val().split("\\").pop();
+                            $(this).next('.custom-file-label').html(filename);
+                        });
+                    });
+                </script>
+            }
+
             <br />
-                <div style="text-align:center" class="form-group">
-                    <input type="submit" value="Opslaan" class="btn btn-login" />
-                </div>
+            <div style="text-align:center" class="form-group">
+                <input type="submit" value="Opslaan" class="btn btn-login" />
+            </div>
         </form>
         </div>
         </div>
-
-@section Scripts{
-    <script>
-        $(document).ready(function () {
-            $('.custom-file-input').on("change", function () {
-                //console.log($(this).val());
-                var filename = $(this).val().split("\\").pop();
-                $(this).next('.custom-file-label').html(filename);
-            });
-        });
-    </script>
-}
 
