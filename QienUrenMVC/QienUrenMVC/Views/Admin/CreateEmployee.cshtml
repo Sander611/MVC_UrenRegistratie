@@ -3,22 +3,22 @@
 @{
     ViewData["Title"] = "CreateEmployee";
             Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+            Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 
 }
 
-<h1 style="text-align:center">Nieuw account aanmaken</h1>
 
-<hr style="margin-top:30px; margin-bottom:30px;" />
-<div>
-    <div>
+
+<div class="row">
+    <div class="col-md-12">
         <form method="post" enctype="multipart/form-data" asp-action="CreateEmployee">
             @Html.HiddenFor(m => m.AccountId)
             <div asp-validation-summary="All" class="text-danger"></div>
 
-            <div style="color:#9A33F8">
+            <div class="kaartheader">
                 <h3>Account Info</h3>
             </div>
-            <div id="MostImportantFields" style="border: 3px solid #9A33F8; padding: 10px">
+            <div class="kaartinhoud">
                 <div class="row">
                     <div style="text-align:center" class="col-md-6 offset-md-3">
                         <img style="width:180px; height:auto" class="img-fluid" src="~/Images/user-circle-solid.svg" alt="Profielfoto" />
@@ -80,12 +80,12 @@
                 </div>
             </div>
 
-            <hr style="margin-top:30px; margin-bottom:30px;" />
+            <div style="margin-top:30px; margin-bottom:30px"></div>
 
-            <div style="color:#9A33F8">
+            <div class="kaartheader">
                 <h3>Persoonlijke Info</h3>
             </div>
-            <div id="PersonalInfoFields" style="border: 3px solid #9A33F8; padding: 10px">
+            <div class="kaartinhoud">
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
@@ -114,12 +114,12 @@
 
             </div>
 
-            <hr style="margin-top:30px; margin-bottom:30px;" />
+            <div style="margin-top:30px; margin-bottom:30px"></div>
 
-            <div style="color:#9A33F8">
+            <div class="kaartheader">
                 <h3>Adresgegevens</h3>
             </div>
-            <div id="LivingInfoFields" style="border: 3px solid #9A33F8; padding: 10px">
+            <div class="kaartinhoud">
                 <div class="row">
                     <div class="col-md-7">
                         <div class="form-group">
@@ -147,12 +147,12 @@
                 </div>
             </div>
 
-            <hr style="margin-top:30px; margin-bottom:30px;" />
+            <div style="margin-top:30px; margin-bottom:30px"></div>
 
-            <div style="color:#9A33F8">
+            <div class="kaartheader">
                 <h3>Rol van de Gebruiker</h3>
             </div>
-            <div id="UserRoleFields" style="border: 3px solid #9A33F8; padding: 10px">
+            <div class="kaartinhoud">
                 <div class="row">
                     <div class="col">
                         <div class="form-group form-check">
@@ -181,13 +181,13 @@
                 </div>
             </div>
 
-            <hr style="margin-top:30px; margin-bottom:30px;" />
+            <div style="margin-top:30px; margin-bottom:30px"></div>
 
-            <div style="color:#9A33F8">
+            <div class="kaartheader">
                 <h3>Account Actief Stellen</h3>
             </div>
 
-            <div id="UserActiveField" style="border: 3px solid #9A33F8; padding: 10px">
+            <div class="kaartinhoud">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group form-check">
@@ -235,13 +235,13 @@
             }
 
             <div style="margin-top:30px;" class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-login" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="AccountOverzicht">Back to List</a>
+    <a asp-action="AccountOverzicht" style="color:#9A33F8">Terug</a>
 </div>
 
