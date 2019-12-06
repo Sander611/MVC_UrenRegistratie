@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
 
@@ -20,7 +22,7 @@ namespace QienUrenMVC.Controllers
                                 IHoursFormRepository HoursFormRepo,
                                 IHoursPerDayRepository HoursPerDayRepo)
         {
-           
+
             accountRepo = AccountRepo;
             clientRepo = ClientRepo;
             hoursformRepo = HoursFormRepo;
@@ -103,8 +105,8 @@ namespace QienUrenMVC.Controllers
 
             return View(formsForId);
         }
-        [HttpGet]
-        public async Task CheckControleren([FromQuery]bool keuring, int id, string adminText, string clientText)
+        [HttpPost]
+        public async Task<IActionResult> CheckControleren([FromQuery]bool keuring, int id, string adminText, string clientText)
         {
             if (keuring == true)
             {
@@ -114,7 +116,42 @@ namespace QienUrenMVC.Controllers
             {
                 await hoursformRepo.ChangeState(2, id, adminText, clientText);
             }
-            //return RedirectToRoute(new { controller = "Admin", action = "FormsForYear" });
+            await SendEMail(keuring, id);
+            return RedirectToRoute(new { controller = "Identity", action = "Login" });
+        }
+        public async Task SendEMail(bool keuring, int id)
+        {
+            AccountModel medewerkerInfo = await accountRepo.GetAccountByFormId(id);
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
+            message.To.Add(new MailboxAddress($"{medewerkerInfo.FirstName} {medewerkerInfo.LastName}", medewerkerInfo.Email));
+            if (keuring == true)
+            {
+                message.Subject = "Uren zijn goedgekeurd";
+                message.Body = new TextPart("plain")
+                {
+                    Text = $"Beste {medewerkerInfo.FirstName} {medewerkerInfo.LastName}" +
+                    $" Uw uren waren goedgekeurd!"
+                };
+            }
+            else
+            {
+                message.Subject = "Uren zijn afgekeurd";
+                message.Body = new TextPart("plain")
+                {
+                    Text = $"Beste {medewerkerInfo.FirstName} {medewerkerInfo.LastName}" +
+                    $" Uw uren waren afgekeurd!"
+                };
+            }
+            using (var smptcli = new SmtpClient())
+            {
+                smptcli.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                smptcli.Connect("Smtp.gmail.com", 587, false);
+                smptcli.Authenticate("GroepTweeQien@gmail.com", "GroepQien2019!");
+                smptcli.Send(message);
+                smptcli.Disconnect(true);
+            }
         }
     }
 }
