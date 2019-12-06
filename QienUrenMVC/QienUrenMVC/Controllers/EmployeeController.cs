@@ -226,11 +226,9 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> CreateFormForAccount(HoursFormModel hoursformModel)
         {
             hoursformModel.AccountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            hoursformModel.DateSend = DateTime.Now;
-            hoursformModel.TotalHours = 563;
-            hoursformModel.ProjectMonth = "september";
-            hoursformModel.Year = 2019;
-            hoursformModel.IsAcceptedClient = 4;
+            hoursformModel.TotalHours = 0;
+            hoursformModel.ProjectMonth = "maart";
+            hoursformModel.Year = 2018;
             hoursformModel.IsLocked = false;
             hoursformModel.CommentAdmin = "";
             hoursformModel.CommentClient = "";
@@ -366,8 +364,19 @@ namespace QienUrenMVC.Controllers
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var formListYears = hoursformRepo.GetAllYearsForUser(id);
-            ViewBag.formYears = formListYears;
+            var formListYears = await hoursformRepo.GetAllYearsForUser(id);
+            List<SelectListItem> SelectListYears = new List<SelectListItem>();
+            
+            foreach(int y in formListYears.Distinct().ToList())
+            {
+                SelectListYears.Add(
+                    new SelectListItem { 
+                        Text = y.ToString(),
+                        Value = y.ToString()
+                    }
+                    );;
+            }
+            ViewBag.formYears = SelectListYears;
 
             List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
 
