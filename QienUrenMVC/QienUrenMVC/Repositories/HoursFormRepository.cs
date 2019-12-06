@@ -16,6 +16,38 @@ namespace QienUrenMVC.Repositories
             this.context = context;
         }
 
+        public async Task<HoursFormModel> CheckIfExists(string id, string month, int year)
+        {
+            var form = await context.HoursForms.Where(p => p.AccountId == id && p.ProjectMonth == month && p.Year == year).SingleOrDefaultAsync();
+            if (form != null) {
+                HoursFormModel model = new HoursFormModel
+                {
+                    FormId = form.FormId,
+                    AccountId = form.AccountId,
+                    DateSend = form.DateSend,
+                    DateDue = form.DateDue,
+                    TotalHours = form.TotalHours,
+                    TotalLeave = form.TotalLeave,
+                    TotalOver = form.TotalOver,
+                    TotalTraining = form.TotalTraining,
+                    TotalOther = form.TotalOther,
+                    TotalSick = form.TotalSick,
+                    Year = form.Year,
+                    ProjectMonth = form.ProjectMonth,
+                    IsAcceptedClient = form.IsAcceptedClient,
+                    IsLocked = form.IsLocked,
+                    CommentAdmin = form.commentAdmin,
+                    CommentClient = form.commentClient
+
+                };
+                return model;
+            }
+
+
+            return null;
+
+        }
+
         public async Task<int> GetYearOfForm(int id)
         {
             return await context.HoursForms.Where(p => p.FormId == id).Select(m => m.Year).SingleOrDefaultAsync();
@@ -32,6 +64,11 @@ namespace QienUrenMVC.Repositories
                 DateSend = form.DateSend,
                 DateDue = form.DateDue,
                 TotalHours = form.TotalHours,
+                TotalLeave = form.TotalLeave,
+                TotalTraining = form.TotalTraining,
+                TotalOver = form.TotalOver,
+                TotalOther = form.TotalOther,
+                TotalSick = form.TotalSick,
                 Year = form.Year,
                 ProjectMonth = form.ProjectMonth,
                 IsAcceptedClient = form.IsAcceptedClient,
@@ -57,6 +94,11 @@ namespace QienUrenMVC.Repositories
                     DateSend = p.DateSend,
                     DateDue = p.DateDue,
                     TotalHours = p.TotalHours,
+                    TotalLeave = p.TotalLeave,
+                    TotalTraining = p.TotalTraining,
+                    TotalOver = p.TotalOver,
+                    TotalOther = p.TotalOther,
+                    TotalSick = p.TotalSick,
                     Year = p.Year,
                     ProjectMonth = p.ProjectMonth,
                     IsAcceptedClient = p.IsAcceptedClient,
@@ -136,15 +178,7 @@ namespace QienUrenMVC.Repositories
             await context.SaveChangesAsync();
         }
 
-        //new hoursform
-        //public async Task<HoursForm> createHoursForm(HoursFormModel hoursFormModel, int clientId)
-        //{
-        //    context.HoursForms.Add(hoursFormModel);
 
-        //    await context.SaveChangesAsync();
-        //}
-
-        //getting all forms for specific account
         public async Task<List<HoursFormModel>> GetSingleAccountForms(string accountId)
         {
             var formsEntities = await context.HoursForms.Where(p => p.AccountId == accountId).ToListAsync();
@@ -159,6 +193,11 @@ namespace QienUrenMVC.Repositories
                     DateSend = form.DateSend,
                     DateDue = form.DateDue,
                     TotalHours = form.TotalHours,
+                    TotalSick = form.TotalSick,
+                    TotalOther = form.TotalOther,
+                    TotalOver = form.TotalOver,
+                    TotalLeave = form.TotalLeave,
+                    TotalTraining = form.TotalTraining,
                     Year = form.Year,
                     ProjectMonth = form.ProjectMonth,
                     IsAcceptedClient = form.IsAcceptedClient,
@@ -172,13 +211,6 @@ namespace QienUrenMVC.Repositories
 
         }
 
-        //getting a single form
-        //public async Task<HoursForm> GetSingleForm(int formId)
-        //{
-        //    return await context.HoursForms.FindAsync(formId);
-        //}
-
-        //edit the form
         public async Task<HoursFormModel> EditForm(HoursFormModel editform)
         {
 
@@ -189,6 +221,11 @@ namespace QienUrenMVC.Repositories
             entity.DateSend = editform.DateSend;
             entity.DateDue = editform.DateDue;
             entity.TotalHours = editform.TotalHours;
+            entity.TotalSick = editform.TotalSick;
+            entity.TotalLeave = editform.TotalLeave;
+            entity.TotalTraining = editform.TotalTraining;
+            entity.TotalOver = editform.TotalOver;
+            entity.TotalOther = editform.TotalOther;
             entity.Year = editform.Year;
             entity.ProjectMonth = editform.ProjectMonth;
             entity.IsAcceptedClient = editform.IsAcceptedClient;
@@ -355,6 +392,11 @@ namespace QienUrenMVC.Repositories
                     DateSend = form.DateSend,
                     DateDue = form.DateDue,
                     TotalHours = form.TotalHours,
+                    TotalSick = form.TotalSick,
+                    TotalOver = form.TotalOver,
+                    TotalTraining = form.TotalTraining,
+                    TotalLeave = form.TotalLeave,
+                    TotalOther = form.TotalOther,
                     Year = form.Year,
                     ProjectMonth = form.ProjectMonth,
                     IsAcceptedClient = form.IsAcceptedClient,
@@ -377,7 +419,7 @@ namespace QienUrenMVC.Repositories
             };
         }
 
-        public async Task ChangeState(int state, int id, string textAdmin, string textClient)
+        public async Task ChangeState(int state, int id, string textClient, string textAdmin = null)
         {
             HoursForm entity = await context.HoursForms.SingleAsync(p => p.FormId == id);
             entity.IsAcceptedClient = state;
@@ -390,12 +432,49 @@ namespace QienUrenMVC.Repositories
 
             await context.SaveChangesAsync();
         }
-
-        public async Task UpdateTotalHoursForm(int id, int totalHours)
+        public async Task UpdateTotalHoursForm(int id, int totalHours, int totalSick, int totalOver, int totalLeave, int totalOther, int TotalTraining)
         {
             HoursForm entity = await context.HoursForms.SingleAsync(p => p.FormId == id);
             entity.TotalHours = totalHours;
+            entity.TotalSick = totalSick;
+            entity.TotalOver = totalOver;
+            entity.TotalLeave = totalLeave;
+            entity.TotalTraining = TotalTraining;
+            entity.TotalOther = totalOther;
             await context.SaveChangesAsync();
+        }
+
+        public async Task<List<HoursFormModel>> GetAllFormsForAccountForYear(int year, string id)
+        {
+            List<HoursForm> formsEntities = await context.HoursForms.Where(p => p.Year == year && p.AccountId == id).ToListAsync();
+            List<HoursFormModel> formsForYearandMonth = new List<HoursFormModel>();
+            foreach (var form in formsEntities)
+                formsForYearandMonth.Add(new HoursFormModel
+                {
+                    FormId = form.FormId,
+                    AccountId = form.AccountId,
+                    DateSend = form.DateSend,
+                    DateDue = form.DateDue,
+                    TotalHours = form.TotalHours,
+                    TotalSick = form.TotalSick,
+                    TotalOver = form.TotalOver,
+                    TotalTraining = form.TotalTraining,
+                    TotalLeave = form.TotalLeave,
+                    TotalOther = form.TotalOther,
+                    Year = form.Year,
+                    ProjectMonth = form.ProjectMonth,
+                    IsAcceptedClient = form.IsAcceptedClient,
+                    IsLocked = form.IsLocked,
+                    CommentAdmin = form.commentAdmin,
+                    CommentClient = form.commentClient
+                });
+            return formsForYearandMonth;
+        }
+
+        public async Task<List<int>> GetAllYearsForUser(string id)
+        {
+            List<int> Years = await context.HoursForms.Where(p => p.AccountId == id).Select(m => m.Year).ToListAsync();
+            return Years;
         }
     }
 }

@@ -52,7 +52,7 @@ namespace QienUrenMVC.Controllers
             {
                 uncheckedForms = await hoursformRepo.GetAllClientAcceptedForms(),
                 changedAccounts = await accountRepo.GetChangedAccounts(),
-                
+
             };
             
 
@@ -61,20 +61,6 @@ namespace QienUrenMVC.Controllers
             //List<AccountModel> changedaccounts = await accountRepo.GetChangedAccounts();
 
             return View(adminTaskModel);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ApprovePersonalia(string accountId)
-        {
-            await accountRepo.SetAccountChanged(accountId, false);
-            return RedirectToAction("Dashboard");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DisapprovePersonalia(string accountId)
-        {
-            await accountRepo.RevertAccountPersonalia(accountId);
-            return RedirectToAction("Dashboard");
         }
 
         [HttpGet]
@@ -92,27 +78,17 @@ namespace QienUrenMVC.Controllers
             HoursFormModel formInfo = await hoursformRepo.GetFormById(formId);
             ViewBag.textAdmin = formInfo.CommentAdmin;
             ViewBag.textClient = formInfo.CommentClient;
-            
+            ViewBag.TotalHours = formInfo.TotalHours;
+            ViewBag.TotalSick = formInfo.TotalSick;
+            ViewBag.TotalOver = formInfo.TotalOver;
+            ViewBag.TotalLeave = formInfo.TotalLeave;
+            ViewBag.TotalTraining = formInfo.TotalTraining;
+            ViewBag.TotalOther = formInfo.TotalOther;
 
-            List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
+            List <HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
 
             return View(formsForId);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> PersonaliaControleren(string accountId)
-        {
-            UserPersonaliaModel personaliaModel = await accountRepo.ComparePersonaliaChanges(accountId);
-            //HoursFormModel formInfo = await hoursformRepo.GetFormById(formId);
-            //ViewBag.textAdmin = formInfo.CommentAdmin;
-            //ViewBag.textClient = formInfo.CommentClient;
-
-
-            //List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
-
-            return View(personaliaModel);
-        }
-
 
         [HttpGet]
         public async Task<IActionResult> AccountOverzicht(string searchString)
@@ -136,8 +112,10 @@ namespace QienUrenMVC.Controllers
 
         public async Task<IActionResult> DeleteAccount(string accountID)
         {
-            await hoursformRepo.RemoveAllFormPerAccount(accountID);
-            string succesfull = accountRepo.RemoveAccount(accountID);
+
+            await accountRepo.RemoveAccount(accountID);
+            await accountRepo.RemoveAllFormPerAccount(accountID);
+
             return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
         }
 
@@ -378,22 +356,48 @@ namespace QienUrenMVC.Controllers
             
             ViewBag.Year = year;
             ViewBag.Month = month;
+
+            int totalHours = 0;
+            int totalSick = 0;
+            int totalOver = 0;
+            int totalLeave = 0;
+            int totalTraining = 0;
+            int totalOther = 0;
+            foreach (var form in specificFormsForDate)
+            {
+                totalHours += form.TotalHours;
+                totalSick += form.TotalSick;
+                totalOver += form.TotalOver;
+                totalLeave += form.TotalLeave;
+                totalTraining += form.TotalTraining;
+                totalOther += form.TotalOther;
+            }
+
+            ViewBag.TotalHours = totalHours;
+            ViewBag.TotalSick = totalSick;
+            ViewBag.TotalOver = totalOver;
+            ViewBag.TotalLeave = totalLeave;
+            ViewBag.TotalTraining = totalTraining;
+            ViewBag.TotalOther = totalOther;
             return View(specificFormsForDate);
         }
 
         [HttpGet("{keuring}/{id}")]
-        public async Task<IActionResult> CheckControleren(string keuring, int id, string adminText, string clientText)
+        public async Task<IActionResult> CheckControleren(string keuring, int id, string adminText, string clientText, string CCaccountId, string CCfullName, string CCmonth, string CCyear, int CCstate)
         {
+
             if (keuring == "true")
             {
-                await hoursformRepo.ChangeState(3, id, adminText, clientText);
+                await hoursformRepo.ChangeState(3, id, clientText, adminText);
+                CCstate = 3;
             }
             else if (keuring == "false")
             {
-                await hoursformRepo.ChangeState(4, id, adminText, clientText);
+                await hoursformRepo.ChangeState(4, id, clientText, adminText);
+                CCstate = 4;
             }
 
-            return RedirectToRoute(new { controller = "Admin", action = "FormsForYear" });
+            return RedirectToRoute(new { controller = "Admin", action = "Controleren", formId = id, accountId = CCaccountId, fullName = CCfullName, month = CCmonth, year = CCyear, state = CCstate });
 
         }
 

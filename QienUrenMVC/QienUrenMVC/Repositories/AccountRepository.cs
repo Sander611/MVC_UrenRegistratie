@@ -120,13 +120,21 @@ namespace QienUrenMVC.Repositories
 
         }
 
-        public string RemoveAccount(string accountId)
+        public async Task RemoveAccount(string accountId)
         {
-            var account = repositoryContext.UserIdentity.SingleOrDefault(p => p.Id == accountId);
+            var account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
             repositoryContext.UserIdentity.Remove(account);
-            repositoryContext.SaveChanges();
-            return "Record has succesfully Deleted";
+            await repositoryContext.SaveChangesAsync();
 
+        }
+
+        public async Task RemoveAllFormPerAccount(string accountId)
+        {
+            var daysforForm = await repositoryContext.HoursPerDays.Where(p => p.Form.AccountId == accountId).ToListAsync();
+            var hourforms = await repositoryContext.HoursForms.Where(p => p.AccountId == accountId).ToListAsync();
+            repositoryContext.HoursPerDays.RemoveRange(daysforForm);
+            repositoryContext.HoursForms.RemoveRange(hourforms);
+            await repositoryContext.SaveChangesAsync();
         }
 
         public async Task<AccountModel> ModifyAccountActivity(string accountId, bool IsActive)

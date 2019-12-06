@@ -104,6 +104,16 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> HoursRegistration(int formid, int state)
         {
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formid);
+            HoursFormModel formInfo = await hoursformRepo.GetFormById(formid);
+
+
+            ViewBag.TotalHours = formInfo.TotalHours;
+            ViewBag.TotalSick = formInfo.TotalSick;
+            ViewBag.TotalOver = formInfo.TotalOver;
+            ViewBag.TotalLeave = formInfo.TotalLeave;
+            ViewBag.TotalOther = formInfo.TotalOther;
+            ViewBag.TotalTraining = formInfo.TotalTraining;
+
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
 
@@ -111,9 +121,10 @@ namespace QienUrenMVC.Controllers
             ViewBag.month = formsForId[0].Month;
             ViewBag.year = await hoursformRepo.GetYearOfForm(formid);
             ViewBag.status = state;
+
             if (state == 4)
             {
-                HoursFormModel formInfo = await hoursformRepo.GetFormById(formid);
+                
                 ViewBag.textAdmin = formInfo.CommentAdmin;
                 ViewBag.textClient = formInfo.CommentClient;
             }
@@ -130,19 +141,40 @@ namespace QienUrenMVC.Controllers
             ViewBag.CompanyNames = clientList;
             ViewBag.month = model[0].Month;
             ViewBag.year = await hoursformRepo.GetYearOfForm(model[0].FormId);
+            ViewBag.FormId = formid;
 
             if (ModelState.IsValid)
             {
+
+
                 List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
 
                 int totalHours = 0;
+                int totalSick = 0;
+                int totalOver = 0;
+                int totalLeave = 0;
+                int totalTraining = 0;
+                int totalOther = 0;
                 foreach(var perday in model)
                 {
                     totalHours += perday.Hours;
+                    totalSick += perday.IsSick;
+                    totalOver += perday.OverTimeHours;
+                    totalLeave += perday.IsLeave;
+                    totalTraining += perday.Training;
+                    totalOther += perday.Other;
                 }
 
-                await hoursformRepo.UpdateTotalHoursForm(model[0].FormId, totalHours);
+                await hoursformRepo.UpdateTotalHoursForm(model[0].FormId, totalHours, totalSick, totalOver, totalLeave, totalOther, totalTraining);
                 ViewBag.status = 0;
+                ViewBag.TotalHours = totalHours;
+                ViewBag.TotalSick = totalSick;
+                ViewBag.TotalOver = totalOver;
+                ViewBag.TotalLeave = totalLeave;
+                ViewBag.TotalOther = totalOther;
+                ViewBag.TotalTraining = totalTraining;
+
+     
 
                 if (versturen == true)
                 {
@@ -151,7 +183,7 @@ namespace QienUrenMVC.Controllers
                     foreach (var client in clientIds)
                     {
                         var verificationCode = hoursForm.Verification_code;
-                        var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}&token={verificationCode}";
+                        var varifyUrl = $"https://localhost:44306/Client/ControlerenClient?formId={formid}&accountId={medewerkerInfo.AccountId}&fullName={Name}&month={hoursForm.ProjectMonth}&year={hoursForm.Year}&state=5&token={verificationCode}";
                         ClientModel client1 = await clientRepo.GetById(client.GetValueOrDefault());
                         var message = new MimeMessage();
                         message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
@@ -327,6 +359,44 @@ namespace QienUrenMVC.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> YearOverview(int year = 0)
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var formListYears = hoursformRepo.GetAllYearsForUser(id);
+            ViewBag.formYears = formListYears;
+
+            List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
+
+            if (year == 0)
+            {
+                year = DateTime.Now.Year;
+            }
+
+            
+            List<HoursFormModel> forms = await hoursformRepo.GetAllFormsForAccountForYear(year, id);
+            List<HoursFormModel> sorted = new List<HoursFormModel>();
+
+            
+                foreach(var month in months)
+                {
+                    foreach (var form in forms)
+                    {
+                        if (form.ProjectMonth == month)
+                        {
+                            sorted.Add(form);
+                        }
+
+                    }
+                }
+
+            
+
+
+            return View(sorted);
         }
 
     }

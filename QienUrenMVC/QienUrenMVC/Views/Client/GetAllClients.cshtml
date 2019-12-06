@@ -2,34 +2,38 @@
 
 @{
     ViewData["Title"] = "Opdrachtgevers lijst";
+     Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 
 }
 
 
 <p>
-    <a href="createClient" class="button">Nieuwe opdrachtgever</a>
+    <a href="createClient" class="link">Nieuwe opdrachtgever</a>
 </p>
 
 @using (Html.BeginForm("GetAllClients", "Client", FormMethod.Get))
 {
     @Html.TextBox("searchString")
-    <input type="submit" value="Search" />
+    <input type="submit" value="Zoeken" class="btn btn-login" />
 }
-<table class="table">
+<br />
+<table class="tabel">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientName1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientName2)
-            </th>
+            <th colspan="6" class="kaartheader">Opdrachtgevers</th>
         </tr>
     </thead>
-    <tbody>
+    <thead class="kaartsubheader">
+        <tr>
+            <th class="headertekst">Naam</th>
+            <th class="headertekst">Contactpersoon 1</th>
+            <th class="headertekst">Contactpersoon 2</th>
+            <th class="headertekst">Gegevens</th>
+            <th class="headertekst">Wijzigen</th>
+            <th class="headertekst">Verwijderen</th>
+        </tr>
+    </thead>
+    <tbody class="kaartinhoud">
         @if (Model.Count() == 0)
         {
             <tr>
@@ -43,22 +47,22 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    <td class="inhoudtekst">
                         @item.CompanyName
                     </td>
-                    <td>
+                    <td class="inhoudtekst">
                         @item.ClientName1
                     </td>
-                    <td>
+                    <td class="inhoudtekst">
                         @item.ClientName2
                     </td>
-                    <td>
-                        @Html.ActionLink("Gegevens", "ClientDetails", new { Id = item.ClientId })
+                    <td class="inhoudtekst">
+                        @Html.ActionLink("Gegevens", "ClientDetails", new { Id = item.ClientId }, new { @class="link" })
                     </td>
-                    <td>
-                        @Html.ActionLink("Wijzigingen", "UpdateClient", new { id = item.ClientId })
+                    <td class="inhoudtekst">
+                        @Html.ActionLink("Wijzigen", "UpdateClient", new { id = item.ClientId }, new { @class="link" })
                     </td>
-                    <td>
+                    <td class="inhoudtekst">
                         @Html.ActionLink("Verwijderen", "DeleteClient", new { id = item.ClientId }, new { onclick = "return confirm('Weet u zeker dat u dit account wilt verwijderen?');" })
                     </td>
                 </tr>

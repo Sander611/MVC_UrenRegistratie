@@ -7,34 +7,47 @@
     
 }
 
-<h1 style="text-align:center">Accounts</h1>
+
 
 <p>
-    <a asp-action="CreateEmployee">Nieuwe gebruiker</a>
+    <a asp-action="CreateEmployee" class="link">Nieuwe gebruiker</a>
 </p>
 
 @using (Html.BeginForm("AccountOverzicht", "Admin", FormMethod.Get))
 {
     @Html.TextBox("searchString")
-    <input type="submit" value="Search" />
+    <input type="submit" value="Zoeken" class="btn btn-login" />
 }
-
-<table class="table">
+<br />
+<table class="tabel">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                Functie
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th></th>
+            <th class="kaartheader" colspan="6">Accounts</th>
         </tr>
     </thead>
-    <tbody>
+    <thead class="kaartsubheader">
+        <tr>
+            <th class="headertekst">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th class="headertekst">
+                Functie
+            </th>
+            <th class="headertekst">
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th class="headertekst">
+                Aanpassen
+            </th>
+            <th class="headertekst">
+                Urenformulieren
+            </th>
+            <th class="headertekst">
+                Verwijderen
+            </th>
+        </tr>
+    </thead>
+    <tbody class="kaartinhoud">
         @if (Model.Count() == 0)
         {
             <tr>
@@ -48,24 +61,24 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    <td class="inhoudtekst">
                         @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
                     </td>
                     @if (item.IsAdmin)
                     {
-                        <td>Admin</td>
+                        <td class="inhoudtekst">Admin</td>
                     }
                     else if (item.IsQienEmployee)
                     {
-                        <td>Werknemer Qien</td>
+                        <td class="inhoudtekst">Werknemer Qien</td>
                     }
                     else if (item.IsSeniorDeveloper)
                     {
-                        <td>Senior Developer</td>
+                        <td class="inhoudtekst">Senior Developer</td>
                     }
                     else if (item.IsTrainee)
                     {
-                        <td>Trainee</td>
+                        <td class="inhoudtekst">Trainee</td>
                     }
                     else
                     {
@@ -74,20 +87,24 @@
 
                     @if (item.IsActive == true)
                     {
-                        <td>
+                        <td class="inhoudtekst">
                             <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" />
                         </td>
                     }
                     else if (item.IsActive == false)
                     {
-                        <td>
+                        <td class="inhoudtekst">
                             <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" />
                         </td>
                     }
-                    <td>
-                        @Html.ActionLink("Edit", "EditAccount", new { accountID = item.AccountId }) |
-                        @Html.ActionLink("Uren Formulieren", "UrenFormulieren", new { id = item.AccountId, name = item.FirstName + " " + item.LastName }) |
-                        @Html.ActionLink("Delete", "DeleteAccount", new { accountID = item.AccountId }, new { onclick = "return confirm('Weet u zeker dat u dit account wilt verwijderen?');" })
+                    <td class="inhoudtekst">
+                        @Html.ActionLink("Aanpassen", "EditAccount", new { accountID = item.AccountId }, new { @class="link" })
+                    </td>
+                    <td class="inhoudtekst">
+                        @Html.ActionLink("Urenformulieren", "UrenFormulieren", new { id = item.AccountId, name = item.FirstName + " " + item.LastName },  new { @class="link" }) 
+                    </td>
+                    <td class="inhoudtekst">
+                        @Html.ActionLink("Verwijderen", "DeleteAccount", new { accountID = item.AccountId }, new { onclick = "return confirm('Weet u zeker dat u dit account en bijbehorende uren formulieren wilt verwijderen?');" })
                     </td>
                 </tr>
             }

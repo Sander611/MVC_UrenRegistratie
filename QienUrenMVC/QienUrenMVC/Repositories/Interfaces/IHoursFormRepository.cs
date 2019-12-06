@@ -24,10 +24,16 @@ namespace QienUrenMVC.Repositories
 
         Task ChangeState(int state, int id, string textAdmin, string textClient);
 
-        Task UpdateTotalHoursForm(int id, int totalHours);
+        Task UpdateTotalHoursForm(int id, int totalHours, int totalSick, int totalOver, int totalLeave, int totalOther, int TotalTraining);
 
         Task<int> GetYearOfForm(int id);
 
+        Task<List<int>> GetAllYearsForUser(string id);
+
         Task<HoursFormModel> GetFormById(int id);
+
+        Task<HoursFormModel> CheckIfExists(string id, string month, int year);
+
+        Task<List<HoursFormModel>> GetAllFormsForAccountForYear(int year, string id);
     }
 }

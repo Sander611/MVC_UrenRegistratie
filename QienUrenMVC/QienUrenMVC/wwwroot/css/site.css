@@ -137,3 +137,90 @@ body {
 .forgotpass {
     color: #9A33F8;
 }
+
+.kaartheader {
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    padding: 15px;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(156,39,176,.4);
+    background: #9A33F8;
+    color: #fff;
+    text-align: center;
+    font-size: 25px;
+}
+
+.kaartinhoud {
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    padding: 15px;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(156,39,176,.4);
+    background: white;
+    z-index: 3 !important;
+    color: black;
+    font-size: 15px;
+}
+
+.kaartsubheader {
+    background-color: #bf80ff;
+    padding: 15px;
+    z-index: 3 !important;
+    color: white;
+    font-size: 17px;
+}
+
+.tabel {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.headertekst {
+    padding: 10px;
+}
+
+.inhoudtekst {
+    padding: 10px;
+}
+
+.personaliainhoud {
+    text-align: left;
+    padding-left: 10px;
+    font-weight: bold;
+}
+
+.personaliatekst {
+    text-align: left;
+    padding-left: 80px;
+}
+
+.link {
+    align-content: center;
+    font-size: 15px;
+    color: #9A33F8;
+}
+
+    .link:hover {
+        color: #630e78;
+        text-decoration: none;
+    }
+
+.dashboardkaart {
+    border-radius: 3px;
+    padding: 15px;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(156,39,176,.4);
+    background: white;
+    z-index: 3 !important;
+    color: black;
+    font-size: 15px;
+}
+
+.personalialink {
+    color: #9A33F8;
+    text-align: center;
+}
+
+
+    .personalialink:hover {
+        color: #630e78;
+        text-decoration: none;
+    }
+
