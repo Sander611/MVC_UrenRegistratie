@@ -10,6 +10,7 @@ namespace QienUrenMVC.Data
     public class UserPersonalia
     {
         [Key]
+        public int PersonailiaId { get; set; }
         public string AccountId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

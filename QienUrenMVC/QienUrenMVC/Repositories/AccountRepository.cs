@@ -249,7 +249,7 @@ namespace QienUrenMVC.Repositories
             //var PreviousPersonalia = await repositoryContext.UserIdentity.Where(p => p.Id == accountId).ToListAsync();
             
             
-            UserPersonalia oldPersonalia = await repositoryContext.UserPersonalia.FirstAsync(p => p.AccountId == accountId);
+            UserPersonalia oldPersonalia = await repositoryContext.UserPersonalia.LastAsync(p => p.AccountId == accountId);
             UserIdentity newPersonalia = await repositoryContext.UserIdentity.FirstAsync(p => p.Id == accountId);
            
             UserPersonaliaModel userPersonaliaModel = new UserPersonaliaModel();
