@@ -129,13 +129,55 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> UrenFormulieren(string id, string name)
+        public async Task<IActionResult> UrenFormulieren(string id, string name, int year)
         {
             ViewBag.currUser = name;
+            ViewBag.currId = id;
 
-            List<HoursFormModel> allFormsForAccount = await hoursformRepo.GetSingleAccountForms(id);
+            var formListYears = await hoursformRepo.GetAllYearsForUser(id);
+            List<SelectListItem> SelectListYears = new List<SelectListItem>();
 
-            return View(allFormsForAccount);
+            var selected = false;
+            foreach (int y in formListYears)
+            {
+                if (y == year)
+                {
+                    selected = true;
+                }
+
+                SelectListYears.Add(
+                    new SelectListItem
+                    {
+                        Text = y.ToString(),
+                        Value = y.ToString(),
+                        Selected = selected
+                    }
+                );
+
+                selected = false;
+            }
+
+            ViewBag.formYears = SelectListYears;
+
+            List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
+
+            List<HoursFormModel> allFormsForAccount = await hoursformRepo.GetSingleAccountForms(id, year);
+            List<HoursFormModel> sorted = new List<HoursFormModel>();
+
+
+            foreach (var month in months)
+            {
+                foreach (var form in allFormsForAccount)
+                {
+                    if (form.ProjectMonth == month)
+                    {
+                        sorted.Add(form);
+                    }
+
+                }
+            }
+
+            return View(sorted);
         }
 
 
