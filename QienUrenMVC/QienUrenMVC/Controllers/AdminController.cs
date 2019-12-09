@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Identity;
 using QienUrenMVC.Data;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace QienUrenMVC.Controllers
 {
@@ -62,6 +61,20 @@ namespace QienUrenMVC.Controllers
             //List<AccountModel> changedaccounts = await accountRepo.GetChangedAccounts();
 
             return View(adminTaskModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ApprovePersonalia(string accountId)
+        {
+            await accountRepo.SetAccountChanged(accountId, false);
+            return RedirectToAction("Dashboard");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DisapprovePersonalia(string accountId)
+        {
+            await accountRepo.RevertAccountPersonalia(accountId);
+            return RedirectToAction("Dashboard");
         }
 
         [HttpGet]
@@ -325,15 +338,7 @@ namespace QienUrenMVC.Controllers
                 var user = await _userManager.FindByEmailAsync(acc.Email);
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-
-                var email = acc.Email;
-                //var link = $"https://localhost:44306/Identity/Account/ResetPassword?email={acc.Email}&token={encodedToken}";
-
-                var callbackUrl = Url.Page(
-                    "/Account/ResetPassword",
-                    pageHandler: null,
-                    values: new { area = "Identity", email, token },
-                    protocol: Request.Scheme);
+                var link = $"https://localhost:44306/Identity/Account/ResetPassword?email={acc.Email}&token={encodedToken}";
 
                 string tempPassword = acc.HashedPassword;
                 var message = new MimeMessage();
@@ -343,7 +348,7 @@ namespace QienUrenMVC.Controllers
 
                 message.Body = new TextPart("plain")
                 {
-                    Text = $"An account with this email was created. Here you can reset you password : {callbackUrl}"
+                    Text = $"An account with this emaik was created. Here you can reset you password :<a href='{link}'>link</a>"
                 };
                 using (var client = new SmtpClient())
                 {
@@ -360,37 +365,8 @@ namespace QienUrenMVC.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> YearOverview(int Year = 0)
+        public async Task<IActionResult> YearOverview(int Year)
         {
-            if (Year == 0)
-            {
-                Year = DateTime.Now.Year;
-            }
-
-            var formListYears = await hoursformRepo.GetAllExistingYears(Year);
-            List<SelectListItem> SelectListYears = new List<SelectListItem>();
-
-            var selected = false;
-            foreach (int y in formListYears)
-            {
-                if (y == Year)
-                {
-                    selected = true;
-                }
-
-                SelectListYears.Add(
-                    new SelectListItem
-                    {
-                        Text = y.ToString(),
-                        Value = y.ToString(),
-                        Selected = selected
-                    }
-                );
-
-                selected = false;
-            }
-            ViewBag.formYears = SelectListYears;
-
             List<string> allTraineesIds = await accountRepo.GetAccountIdsByRole("Trainee");
             List<string> allEmployeesIds = await accountRepo.GetAccountIdsByRole("Employee");
             List<string> allSoftwareDevelopersIds = await accountRepo.GetAccountIdsByRole("SoftwareDeveloper");
