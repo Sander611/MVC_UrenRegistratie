@@ -376,7 +376,7 @@ namespace QienUrenMVC.Repositories
             UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
 
 
-            UserPersonalia personalia = await repositoryContext.UserPersonalia.SingleOrDefaultAsync(p => p.AccountId == accountId);
+            UserPersonalia personalia = await repositoryContext.UserPersonalia.FirstOrDefaultAsync(p => p.AccountId == accountId);
 
             account.FirstName = personalia.FirstName;
             account.LastName = personalia.LastName;
