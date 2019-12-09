@@ -100,17 +100,18 @@
         </div>
     }
 
-    <div class="row">
-        @if (ViewBag.status == 0 || ViewBag.status == 4)
-        {
-            <button type="submit" class="btn btn-login" style="margin-right:10px; margin-left:15px;">Bewaren</button>
-            <button type="submit" asp-route-versturen="true" asp-route-id="formid" class="btn btn-login">Bewaren en versturen</button>
-        }
-        else if (ViewBag.status == 1 || ViewBag.status == 2 || ViewBag.status == 3 || ViewBag.status == 5)
-        {
-            <button disabled type="submit" class="btn btn-login" style="margin-right:10px; margin-left:15px;">Bewaren</button>
-            <button disabled type="submit" asp-route-versturen="true" asp-route-id="formid" class="btn btn-login">Bewaren en versturen</button>
-        }
-    </div>
+<div class="row">
+    @if (ViewBag.status == 0 || ViewBag.status == 4)
+    {
+        <button type="submit" class="btn btn-login" style="margin-right:10px; margin-left:15px;">Bewaren</button>
+        <button type="submit" asp-route-versturen="true" asp-route-id="formid" class="btn btn-login">Bewaren en versturen</button>
+    }
+    else if (ViewBag.status == 1 || ViewBag.status == 2 || ViewBag.status == 3 || ViewBag.status == 5)
+    {
+        <button disabled type="submit" class="btn btn-login" style="margin-right:10px; margin-left:15px;">Bewaren</button>
+        <button disabled type="submit" asp-route-versturen="true" asp-route-id="formid" class="btn btn-login">Bewaren en versturen</button>
+        <input style="width:200px;margin-right:10px;" value="Download" class="btn btn-primary" type="submit" asp-action="CreateSpreadSheet" asp-controller="Export" asp-route-id=@ViewBag.FormId />
+    }
+</div>
 
 </form>

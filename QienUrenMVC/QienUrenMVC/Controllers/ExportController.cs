@@ -12,23 +12,24 @@ namespace QienUrenMVC.Controllers
     public class ExportController
     {
         private readonly IHoursPerDayRepository hoursperdayRepo;
-        private readonly IAccountRepository AccountRepo;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IAccountRepository accountRepo;
+        private readonly IHoursFormRepository hoursFormRepo;
         public ExportController(
                                 IHoursPerDayRepository HoursPerDayRepo,
-                                IAccountRepository accountRepo,
-                                IHostingEnvironment hostingEnvironment
+                                IAccountRepository AccountRepo,
+                                IHoursFormRepository HoursFormRepo
                                 )
         {
             accountRepo = AccountRepo;
             hoursperdayRepo = HoursPerDayRepo;
-            _hostingEnvironment = hostingEnvironment;
+            hoursFormRepo = HoursFormRepo;
+
         }
-        public async Task<FileStreamResult> CreateSpreadSheet(int id, string CCfullName, string CCmonth, string CCyear)
+        public async Task<FileStreamResult> CreateSpreadSheet(int id)
         {
             List<HoursPerDayModel> hours = await hoursperdayRepo.GetAllDaysForForm(id);
-            //AccountModel account = await AccountRepo.GetAccountByFormId(id);
-
+            AccountModel account = await accountRepo.GetAccountByFormId(id);
+            HoursFormModel hoursForm = await hoursFormRepo.GetFormById(id);
 
             var stream = new MemoryStream();
             using (ExcelPackage ock = new ExcelPackage(stream))
@@ -89,7 +90,7 @@ namespace QienUrenMVC.Controllers
 
             stream.Position = 0;
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            var fileName = $"UrenFormilier {CCfullName} {CCmonth} {CCyear}.xlsx";
+            var fileName = $"UrenFormilier {account.FirstName} {account.LastName} {hoursForm.ProjectMonth} {hoursForm.Year}.xlsx";
             FileStreamResult s = new FileStreamResult(stream, contentType)
             {
                 FileDownloadName = fileName
