@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using QienUrenMVC.Data;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace QienUrenMVC.Controllers
 {
@@ -367,6 +368,36 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> YearOverview(int Year)
         {
+            if (Year == 0)
+            {
+                Year = DateTime.Now.Year;
+            }
+
+
+            var formListYears = await hoursformRepo.GetAllExistingYears(Year);
+            List<SelectListItem> SelectListYears = new List<SelectListItem>();
+
+            var selected = false;
+            foreach (int y in formListYears)
+            {
+                if (y == Year)
+                {
+                    selected = true;
+                }
+
+                SelectListYears.Add(
+                    new SelectListItem
+                    {
+                        Text = y.ToString(),
+                        Value = y.ToString(),
+                        Selected = selected
+                    }
+                );
+
+                selected = false;
+            }
+            ViewBag.formYears = SelectListYears;
+
             List<string> allTraineesIds = await accountRepo.GetAccountIdsByRole("Trainee");
             List<string> allEmployeesIds = await accountRepo.GetAccountIdsByRole("Employee");
             List<string> allSoftwareDevelopersIds = await accountRepo.GetAccountIdsByRole("SoftwareDeveloper");
