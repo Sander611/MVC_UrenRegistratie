@@ -9,7 +9,7 @@ namespace QienUrenMVC.Repositories
         Task<HoursFormModel> EditForm(HoursFormModel editform);
         Task<List<HoursFormModel>> GetAllHoursForms();
 
-        Task<List<HoursFormModel>> GetSingleAccountForms(string id);
+        Task<List<HoursFormModel>> GetSingleAccountForms(string id, int year);
 
         Task<HoursFormModel> CreateNewForm(HoursFormModel hoursFormModel);
         Task<List<AdminTaskModel>> GetAllClientAcceptedForms();
