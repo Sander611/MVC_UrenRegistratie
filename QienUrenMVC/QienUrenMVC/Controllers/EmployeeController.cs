@@ -137,6 +137,8 @@ namespace QienUrenMVC.Controllers
             AccountModel medewerkerInfo = await accountRepo.GetAccountByFormId(formid);
             string Name = $"{medewerkerInfo.FirstName}{medewerkerInfo.LastName}";
             HoursFormModel hoursForm = await hoursformRepo.GetFormById(formid);
+            hoursForm.DateSend = DateTime.Now;
+            await hoursformRepo.EditForm(hoursForm);
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
             ViewBag.month = model[0].Month;
