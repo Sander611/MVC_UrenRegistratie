@@ -179,9 +179,9 @@ namespace QienUrenMVC.Repositories
         }
 
 
-        public async Task<List<HoursFormModel>> GetSingleAccountForms(string accountId)
+        public async Task<List<HoursFormModel>> GetSingleAccountForms(string accountId, int year)
         {
-            var formsEntities = await context.HoursForms.Where(p => p.AccountId == accountId).ToListAsync();
+            var formsEntities = await context.HoursForms.Where(p => p.AccountId == accountId && p.Year == year || p.AccountId == accountId && year == 0 ).OrderByDescending(m => m.Year).ToListAsync();
 
             List<HoursFormModel> allFormsForUser = new List<HoursFormModel>();
 

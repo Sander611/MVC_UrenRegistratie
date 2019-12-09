@@ -2,14 +2,14 @@
 
 @{
     ViewData["Title"] = "UrenFormulieren";
-            Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 
 }
 
 
-@*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
+@Html.DropDownList("year", (IEnumerable
+        <SelectListItem>)ViewBag.formYears,"Alle Jaren", new { onchange = "window.location.href='/Admin/UrenFormulieren/" + ViewBag.currId +"?name=" + ViewBag.currUser + "&year=' + this.value;" })
+
 
 <table class="tabel">
     <thead>
@@ -61,97 +61,98 @@
         </tr>
     </thead>
     <tbody class="kaartinhoud table table-striped">
-@foreach (var item in Model) {
-        <tr>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.ProjectMonth)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.DateDue)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.DateSend)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.TotalHours)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.TotalOver)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.TotalSick)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.TotalLeave)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.TotalTraining)
-            </td>
-            <td class="inhoudtekst">
-                @Html.DisplayFor(modelItem => item.TotalOther)
-            </td>
-
-
-
-
-            @if (item.IsAcceptedClient == 0)
-            {
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td class="inhoudtekst">
-                    <img style="width: 15px; height:auto;" src="~/Images/user-edit-solid.svg" /> Beschikbaar voor medewerker
+                    @Html.DisplayFor(modelItem => item.ProjectMonth)
                 </td>
-            }
-
-            else if (item.IsAcceptedClient == 1 || item.IsAcceptedClient == 2)
-            {
                 <td class="inhoudtekst">
-                    <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In afwachting van keuring Admin
+                    @Html.DisplayFor(modelItem => item.Year)
                 </td>
-            }
-
-            else if (item.IsAcceptedClient == 3)
-            {
                 <td class="inhoudtekst">
-                    <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" /> Goedgekeurd door Admin
+                    @Html.DisplayFor(modelItem => item.DateDue)
                 </td>
-            }
-
-            else if (item.IsAcceptedClient == 4)
-            {
                 <td class="inhoudtekst">
-                    <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" /> Afgekeurd door Admin
+                    @Html.DisplayFor(modelItem => item.DateSend)
                 </td>
-            }
-
-            else if (item.IsAcceptedClient == 5)
-            {
                 <td class="inhoudtekst">
-                    <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In afwachting van keuring Opdrachtgever
+                    @Html.DisplayFor(modelItem => item.TotalHours)
                 </td>
-            }
-
-
-
-
-
-            @if (item.IsLocked == true)
-            {
                 <td class="inhoudtekst">
-                    <img style="width: 15px; height:auto;" src="~/Images/lock-solid.svg" />
+                    @Html.DisplayFor(modelItem => item.TotalOver)
                 </td>
-            }
-            else if (item.IsLocked == false)
-            {
                 <td class="inhoudtekst">
-                    <img style="width: 15px; height:auto;" src="~/Images/lock-open-solid.svg" />
+                    @Html.DisplayFor(modelItem => item.TotalSick)
                 </td>
-            }
-            <td>
-                @Html.ActionLink("Inzien", "Controleren", new { formId = item.FormId, accountId = item.AccountId, fullName = @ViewBag.currUser, month = item.ProjectMonth, year = item.Year, state = item.IsAcceptedClient }, new { @class="link" })
-            </td>
-        </tr>
-}
+                <td class="inhoudtekst">
+                    @Html.DisplayFor(modelItem => item.TotalLeave)
+                </td>
+                <td class="inhoudtekst">
+                    @Html.DisplayFor(modelItem => item.TotalTraining)
+                </td>
+                <td class="inhoudtekst">
+                    @Html.DisplayFor(modelItem => item.TotalOther)
+                </td>
+
+
+
+
+                @if (item.IsAcceptedClient == 0)
+                {
+                    <td class="inhoudtekst">
+                        <img style="width: 15px; height:auto;" src="~/Images/user-edit-solid.svg" /> Beschikbaar voor medewerker
+                    </td>
+                }
+
+                else if (item.IsAcceptedClient == 1 || item.IsAcceptedClient == 2)
+                {
+                    <td class="inhoudtekst">
+                        <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In afwachting van keuring Admin
+                    </td>
+                }
+
+                else if (item.IsAcceptedClient == 3)
+                {
+                    <td class="inhoudtekst">
+                        <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" /> Goedgekeurd door Admin
+                    </td>
+                }
+
+                else if (item.IsAcceptedClient == 4)
+                {
+                    <td class="inhoudtekst">
+                        <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" /> Afgekeurd door Admin
+                    </td>
+                }
+
+                else if (item.IsAcceptedClient == 5)
+                {
+                    <td class="inhoudtekst">
+                        <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In afwachting van keuring Opdrachtgever
+                    </td>
+                }
+
+
+
+
+
+                @if (item.IsLocked == true)
+                {
+                    <td class="inhoudtekst">
+                        <img style="width: 15px; height:auto;" src="~/Images/lock-solid.svg" />
+                    </td>
+                }
+                else if (item.IsLocked == false)
+                {
+                    <td class="inhoudtekst">
+                        <img style="width: 15px; height:auto;" src="~/Images/lock-open-solid.svg" />
+                    </td>
+                }
+                <td>
+                    @Html.ActionLink("Inzien", "Controleren", new { formId = item.FormId, accountId = item.AccountId, fullName = @ViewBag.currUser, month = item.ProjectMonth, year = item.Year, state = item.IsAcceptedClient }, new { @class = "link" })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
