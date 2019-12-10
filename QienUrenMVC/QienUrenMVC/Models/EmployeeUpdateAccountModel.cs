@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,12 @@ namespace QienUrenMVC.Models
     public class EmployeeUpdateAccountModel
     {
         public string AccountId { get; set; }
+
+        [DisplayName("Werkgever")]
+        [Required(ErrorMessage = "Er moet een werkgever gekozen worden")]
+        public int? ClientId { get; set; }
+
+        public IEnumerable<SelectListItem> ClientNames { get; set; }
 
         [Required(ErrorMessage = "Een voornaam is verplicht")]
         [DisplayName("Naam")]
