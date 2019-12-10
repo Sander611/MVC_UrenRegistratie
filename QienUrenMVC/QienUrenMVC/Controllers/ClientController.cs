@@ -30,9 +30,9 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllClients()
+        public async Task<IActionResult> GetAllClients(string searchString)
         {
-            List<ClientModel> result = await clientRepo.Get();
+            List<ClientModel> result = await clientRepo.Get(searchString);
             return View(result);
         }
 
