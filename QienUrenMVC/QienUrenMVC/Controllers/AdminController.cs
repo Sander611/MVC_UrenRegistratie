@@ -196,7 +196,7 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> EditAccount(string accountID)
         {
-
+           
             AccountModel accountUser = await accountRepo.GetOneAccount(accountID);
             EmployeeUpdateAccountModel tempacc = new EmployeeUpdateAccountModel()
             {
