@@ -4,107 +4,104 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 
 }
+<div class="col-md-12">
     <div>
-        <div class="row">
-
-            <div class="col-sm" style="text-align:center">
-                <h1>@ViewBag.month (@ViewBag.year)</h1>
-                <h2 style="text-align:center; color:black;">@ViewBag.fullName</h2>
-            </div>
-
-
-        </div>
-
-        <div>
-            <table width="600px">
-                <thead>
-                    <table class="table table-hover">
-                        <thead style="background-color:#9A33F8;">
-                            <tr>
-                                <th>Totaal Uren</th>
-                                <th>Totaal Ziek</th>
-                                <th>Totaal Overuren</th>
-                                <th>Totaal Verlof</th>
-                                <th>Totaal Training</th>
-                                <th>Totaal Overig</th>
-                            </tr>
-                        </thead>
-                        <tbody style="background-color:rgba(154, 51, 248, 0.12)">
-                            <tr>
-                                <td>@ViewBag.TotalHours</td>
-                                <td>@ViewBag.TotalSick</td>
-                                <td>@ViewBag.TotalOver</td>
-                                <td>@ViewBag.TotalLeave</td>
-                                <td>@ViewBag.TotalTraining</td>
-                                <td>@ViewBag.TotalOther</td>
-                            </tr>
-                        </tbody>
-                    </table>
-        </div>
-        <div>
-            <table class="table table-hover">
-                <thead style="background-color:#9A33F8;">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Day)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Hours)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.OverTimeHours)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.IsLeave)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.IsSick)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Training)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Other)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Reasoning)
-                        </th>
-                    </tr>
-                </thead>
-                <tbody style="background-color:rgba(154, 51, 248, 0.12)">
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Day) - @Html.DisplayFor(modelItem => item.Month)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Hours)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OverTimeHours)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IsLeave)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IsSick)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Training)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Other)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Reasoning)
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        <table class="tabel">
+            <thead>
+                <tr>
+                    <th class="kaartheader" colspan="7">Totaaluren @ViewBag.month (@ViewBag.year)</th>
+                </tr>
+            </thead>
+            <thead class="kaartsubheader">
+                <tr>
+                    <th class="headertekst" style="font-size:17px">Totaal Uren</th>
+                    <th class="headertekst" style="font-size:17px">Totaal Ziek</th>
+                    <th class="headertekst" style="font-size:17px">Totaal Overuren</th>
+                    <th class="headertekst" style="font-size:17px">Totaal Verlof</th>
+                    <th class="headertekst" style="font-size:17px">Totaal training</th>
+                    <th class="headertekst" style="font-size:17px">Totaal Overig</th>
+                </tr>
+            </thead>
+            <tbody class="kaartinhoud">
+                <tr>
+                    <td class="inhoudtekst">@ViewBag.TotalHours</td>
+                    <td class="inhoudtekst">@ViewBag.TotalSick</td>
+                    <td class="inhoudtekst">@ViewBag.TotalOver</td>
+                    <td class="inhoudtekst">@ViewBag.TotalLeave</td>
+                    <td class="inhoudtekst">@ViewBag.TotalTraining</td>
+                    <td class="inhoudtekst">@ViewBag.TotalOther</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+
+    <table class="tabel">
+        <thead>
+            <tr>
+                <th class="kaartheader" colspan="8">@ViewBag.fullName (@ViewBag.month, @ViewBag.year)</th>
+            </tr>
+        </thead>
+        <thead class="kaartsubheader">
+            <tr>
+                <th class="headertekst">
+                    @Html.DisplayNameFor(model => model.Day)
+                </th>
+                <th class="headertekst">
+                    @Html.DisplayNameFor(model => model.Hours)
+                </th>
+                <th class="headertekst">
+                    @Html.DisplayNameFor(model => model.OverTimeHours)
+                </th>
+                <th class="headertekst">
+                    @Html.DisplayNameFor(model => model.IsLeave)
+                </th>
+                <th class="headertekst">
+                    @Html.DisplayNameFor(model => model.IsSick)
+                </th>
+                <th class="headertekst">
+                    @Html.DisplayNameFor(model => model.Training)
+                </th>
+                <th class="headertekst">
+                    @Html.DisplayNameFor(model => model.Other)
+                </th>
+                <th class="headertekst">
+                    @Html.DisplayNameFor(model => model.Reasoning)
+                </th>
+            </tr>
+        </thead>
+        <tbody class="kaartinhoud table table-striped">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="inhoudtekst">
+                        @Html.DisplayFor(modelItem => item.Day) - @Html.DisplayFor(modelItem => item.Month)
+                    </td>
+                    <td class="inhoudtekst">
+                        @Html.DisplayFor(modelItem => item.Hours)
+                    </td>
+                    <td class="inhoudtekst">
+                        @Html.DisplayFor(modelItem => item.OverTimeHours)
+                    </td>
+                    <td class="inhoudtekst">
+                        @Html.DisplayFor(modelItem => item.IsLeave)
+                    </td>
+                    <td class="inhoudtekst">
+                        @Html.DisplayFor(modelItem => item.IsSick)
+                    </td>
+                    <td class="inhoudtekst">
+                        @Html.DisplayFor(modelItem => item.Training)
+                    </td>
+                    <td class="inhoudtekst">
+                        @Html.DisplayFor(modelItem => item.Other)
+                    </td>
+                    <td class="inhoudtekst">
+                        @Html.DisplayFor(modelItem => item.Reasoning)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <div>
     @using (Html.BeginForm("CheckControleren", "Admin", FormMethod.Get))
@@ -122,7 +119,7 @@
                 @if (ViewBag.status == 0 || ViewBag.status == 3 || ViewBag.status == 4 || ViewBag.status == 5)
                 {
                     <div>
-                        @Html.TextArea("adminText", (string)ViewBag.textAdmin, new { @readonly="readonly", style = "width: 100%; max-width: 100%; height: 200px;" })
+                        @Html.TextArea("adminText", (string)ViewBag.textAdmin, new { @readonly = "readonly", style = "width: 100%; max-width: 100%; height: 200px;" })
                     </div>
 
                 }
