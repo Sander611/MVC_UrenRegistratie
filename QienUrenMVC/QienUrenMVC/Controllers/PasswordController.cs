@@ -48,8 +48,11 @@ namespace QienUrenMVC.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(InputModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                return View(model);
+            }
+            
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null && await _userManager.IsEmailConfirmedAsync(user))
                 {
@@ -63,9 +66,6 @@ namespace QienUrenMVC.Controllers
 
                 }
                 return View("ForgotPasswordConfirmation");
-            }
-            return View(model);
-
         }
     }
 }
