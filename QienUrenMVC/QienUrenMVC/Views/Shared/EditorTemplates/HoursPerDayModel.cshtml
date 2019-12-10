@@ -4,6 +4,7 @@
 @Html.HiddenFor(p => p.Month)
 @Html.HiddenFor(p => p.FormId)
 @Html.HiddenFor(p => p.Day)
+@Html.HiddenFor(p =>p.ClientId)
 
     
     <tr>
@@ -16,7 +17,7 @@
         </td>
 
         <td class="inhoudtekst">
-            <select asp-for="ClientId" asp-items="ViewBag.CompanyNames"></select>
+            @ViewBag.NameClient
         </td>
 
         <td class="inhoudtekst">

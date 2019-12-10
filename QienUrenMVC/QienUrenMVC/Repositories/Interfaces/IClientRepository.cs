@@ -12,5 +12,6 @@ namespace QienUrenMVC.Repositories
         Task<ClientModel> CreateNewClient(ClientModel clientModel);
         Task DeleteClient(int id);
         Task<ClientModel> Update(ClientModel client);
+        Task<string> GetNameByID(int id);
     }
 }

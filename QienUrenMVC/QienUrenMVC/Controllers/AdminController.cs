@@ -275,12 +275,15 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateEmployee()
         {
+            var clientList = hoursperdayRepo.GetClientList();
+            ViewBag.CompanyNames = clientList;
+
             return View();
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateEmployee(AccountModelCreateView model)
+        public async Task<IActionResult> CreateEmployee(AccountModelCreateView model, int ClientId)
         {
             if (ModelState.IsValid)
             {
@@ -298,6 +301,9 @@ namespace QienUrenMVC.Controllers
                     }
                     model.ProfileImage.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
+
+                var clientList = hoursperdayRepo.GetClientList();
+                ViewBag.CompanyNames = clientList;
 
                 AccountModel newAccount = new AccountModel()
                 {
@@ -375,7 +381,7 @@ namespace QienUrenMVC.Controllers
                     DateDue = firstDay.AddDays(days + 5)
                 };
 
-                await hoursformRepo.CreateNewForm(hoursForm);
+                await hoursformRepo.CreateNewForm(hoursForm, ClientId);
 
 
                 var user = await _userManager.FindByEmailAsync(acc.Email);
