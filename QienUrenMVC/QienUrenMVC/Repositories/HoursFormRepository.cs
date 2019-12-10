@@ -482,5 +482,6 @@ namespace QienUrenMVC.Repositories
             List<int> Years = await context.HoursForms.Select(m => m.Year).Distinct().OrderBy(x => x).ToListAsync();
             return Years;
         }
+
     }
 }

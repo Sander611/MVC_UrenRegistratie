@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <select asp-for="ClientId" asp-items="ViewBag.CompanyNames"></select>
+               
 
                 <div class="row" style="margin-top:50px;">
                     <div class="col">
@@ -55,11 +55,21 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-7">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Email" class="control-label"></label>
                             <input asp-for="Email" class="form-control" />
                             <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                
+
+                
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="ClientId" class="control-label"></label> <br />
+                            <select asp-for="ClientId" asp-items="ViewBag.CompanyNames"></select>
+                            <span asp-validation-for="ClientId" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
