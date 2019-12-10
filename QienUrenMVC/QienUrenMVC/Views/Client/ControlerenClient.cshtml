@@ -108,19 +108,33 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label style="font-weight:bold">Reden Opdrachtgever:</label>
-
+                            @if (ViewBag.status == 0 || ViewBag.status == 3 || ViewBag.status == 4 || ViewBag.status == 1 || ViewBag.status == 2)
+                            {
                                 <div>
-                                    @Html.TextArea("clientText", (string)ViewBag.textClient, new { style = "width: 100%; max-width: 100%; height: 200px;" })
+                                    @Html.TextArea("clientText", (string)ViewBag.textClient, new { @readonly = "readonly", style = "width: 100%; max-width: 100%; height: 200px;" })
                                 </div>
-
+                            }
+                            @if (ViewBag.status == 5)
+                            {
+                                @Html.TextArea("clientText", (string)ViewBag.textClient, new { style = "width: 100%; max-width: 100%; height: 200px;" })
+                            }
 
                         </div>
 
                         <div class="col-md-2" style="margin-top:40px; margin-bottom:40px;">
+                            @if (ViewBag.status == 0 || ViewBag.status == 3 || ViewBag.status == 4 || ViewBag.status == 1 || ViewBag.status == 2)
+                            {
+                                <input disabled style="width:200px;" value="Goedkeuren" class="btn btn-success" type="submit" asp-action="CheckControleren" asp-controller="Admin" asp-route-id=@ViewBag.formId asp-route-keuring="true" />
+                                <input disabled style="width:200px;" value="Afkeuren" class="btn btn-danger" type="submit" asp-action="CheckControleren" asp-controller="Admin" asp-route-id=@ViewBag.formId asp-route-keuring="false" />
+                                <input style="width:200px;" value="Download" class="btn btn-primary" type="submit" asp-action="CreateSpreadSheet" asp-controller="Export" asp-route-id=@ViewBag.formId />
+                            }
+                            else if (ViewBag.status == 5 || ViewBag.status == 0)
+                            {
+                                <input style="width:200px;" value="Goedkeuren" class="btn btn-success" type="submit" asp-action="CheckControleren" asp-controller="Client" asp-route-id=@ViewBag.formId asp-route-keuring="true" />
+                                <input style="width:200px;" value="Afkeuren" class="btn btn-danger" type="submit" asp-action="CheckControleren" asp-controller="Client" asp-route-id=@ViewBag.formId asp-route-keuring="false" />
+                                <input style="width:200px;" value="Download" class="btn btn-primary" type="submit" asp-action="CreateSpreadSheet" asp-controller="Export" asp-route-id=@ViewBag.formId />
+                            }
 
-                            <input style="width:200px;" value="Goedkeuren" class="btn btn-success" type="submit" asp-action="CheckControleren" asp-controller="Client" asp-route-id=@ViewBag.formId asp-route-keuring="true" />
-                            <input style="width:200px;" value="Afkeuren" class="btn btn-danger" type="submit" asp-action="CheckControleren" asp-controller="Client" asp-route-id=@ViewBag.formId asp-route-keuring="false" />
-                            <input style="width:200px;" value="Download" class="btn btn-primary" type="submit" asp-action="CreateSpreadSheet" asp-controller="Export" asp-route-id=@ViewBag.formId />
                         </div>
                     </div>
             </form>
