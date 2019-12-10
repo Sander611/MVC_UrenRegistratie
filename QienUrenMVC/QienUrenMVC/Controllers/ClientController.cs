@@ -74,12 +74,12 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateClient(ClientModel updatedClient)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var client = await clientRepo.Update(updatedClient);
-                return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
+                return View(updatedClient);
             }
-            return View(updatedClient);
+            var client = await clientRepo.Update(updatedClient);
+            return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
 
         [Authorize(Roles = "Admin")]
@@ -147,7 +147,7 @@ namespace QienUrenMVC.Controllers
         /// De methodes hieronder kunnen door NIET-identity users benaderd worden.
 
 
-        public async Task<IActionResult> ControlerenClient(int formId, string accountId, string fullName, string month, string year, int state, Guid token)
+        public async Task<IActionResult> ControlerenClient(int formId, string accountId, string fullName, string month, string year, Guid token)
         {
             HoursFormModel hoursForm = await hoursformRepo.GetFormById(formId);
             if (hoursForm.Verification_code == token)
@@ -165,7 +165,7 @@ namespace QienUrenMVC.Controllers
                 ViewBag.fullName = fullName;
                 ViewBag.month = month;
                 ViewBag.year = year;
-                ViewBag.status = state;
+                ViewBag.status = hoursForm.IsAcceptedClient;
 
                 HoursFormModel formInfo = await hoursformRepo.GetFormById(formId);
 
@@ -201,13 +201,12 @@ namespace QienUrenMVC.Controllers
         
         public IActionResult checkedPage(bool keuringBool)
         {
-            if (keuringBool)
-            {
-                ViewBag.keuring = "goedgekeurd!";
-            }
-            else
+            ViewBag.keuring = "goedgekeurd!";
+
+            if (!keuringBool)
             {
                 ViewBag.keuring = "afgekeurd!";
+                
             }
 
             return View();

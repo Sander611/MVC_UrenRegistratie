@@ -11,7 +11,8 @@ namespace QienUrenMVC.Models
     public class AccountModelCreateView
     {
         public string AccountId { get; set; }
-
+        [DisplayName("Werkgever")]
+        [Required(ErrorMessage = "Er moet een werkgever gekozen worden")]
         public int? ClientId { get; set; }
 
         public IEnumerable<SelectListItem> ClientNames { get; set; }
