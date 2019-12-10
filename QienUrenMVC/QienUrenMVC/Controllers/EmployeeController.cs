@@ -137,7 +137,7 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model, bool versturen, int formid)
         {
             AccountModel medewerkerInfo = await accountRepo.GetAccountByFormId(formid);
-            string Name = $"{medewerkerInfo.FirstName}{medewerkerInfo.LastName}";
+            string Name = $"{medewerkerInfo.FirstName} {medewerkerInfo.LastName}";
             HoursFormModel hoursForm = await hoursformRepo.GetFormById(formid);
             hoursForm.DateSend = DateTime.Now;
             await hoursformRepo.EditForm(hoursForm);

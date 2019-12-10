@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Opdrachtgevers lijst";
-     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 
 }
 
@@ -11,11 +11,13 @@
     <a href="createClient" class="link">Nieuwe opdrachtgever</a>
 </p>
 
+
 @using (Html.BeginForm("GetAllClients", "Client", FormMethod.Get))
 {
     @Html.TextBox("searchString")
     <input type="submit" value="Zoeken" class="btn btn-login" />
 }
+<div id="errorField" style="color:red; font-weight:bold;">@ViewBag.error</div>
 <br />
 <table class="tabel">
     <thead>
@@ -57,10 +59,10 @@
                         @item.ClientName2
                     </td>
                     <td class="inhoudtekst">
-                        @Html.ActionLink("Gegevens", "ClientDetails", new { Id = item.ClientId }, new { @class="link" })
+                        @Html.ActionLink("Gegevens", "ClientDetails", new { Id = item.ClientId }, new { @class = "link" })
                     </td>
                     <td class="inhoudtekst">
-                        @Html.ActionLink("Wijzigen", "UpdateClient", new { id = item.ClientId }, new { @class="link" })
+                        @Html.ActionLink("Wijzigen", "UpdateClient", new { id = item.ClientId }, new { @class = "link" })
                     </td>
                     <td class="inhoudtekst">
                         @Html.ActionLink("Verwijderen", "DeleteClient", new { id = item.ClientId }, new { onclick = "return confirm('Weet u zeker dat u dit account wilt verwijderen?');" })
@@ -70,3 +72,17 @@
         }
     </tbody>
 </table>
+
+<script>
+    function errorShow() {
+    var objText = document.getElementById("errorField").innerHTML;
+    if (objText != "") {
+
+        setTimeout(
+            function () {
+                document.getElementById('errorField').style.display = 'none';
+            }, 5000);
+    }
+    }
+    window.onload = errorShow;
+</script>

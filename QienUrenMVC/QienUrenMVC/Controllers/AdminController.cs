@@ -193,6 +193,7 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> EditAccount(string accountID)
         {
+
             AccountModel accountUser = await accountRepo.GetOneAccount(accountID);
             EmployeeUpdateAccountModel tempacc = new EmployeeUpdateAccountModel()
             {
@@ -227,7 +228,7 @@ namespace QienUrenMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                var uniqueFilename = "";
+                string uniqueFilename = "";
                 var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 if (updatedAccount.ProfileImage != null)
                 {
