@@ -31,5 +31,7 @@ namespace QienUrenMVC.Models
 
         public List<AccountModel> changedAccounts { get; set; }
 
+        public List<AllHoursYearModel> allHoursYear { get; set; }
+
     }
 }

@@ -29,6 +29,8 @@ namespace QienUrenMVC.Controllers
         private readonly IHoursPerDayRepository hoursperdayRepo;
         private readonly UserManager<UserIdentity> _userManager;
 
+        public List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
+
         public AdminController(
                                 IWebHostEnvironment hostingEnvironment,
                                 IAccountRepository AccountRepo,
@@ -50,19 +52,18 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Dashboard()
         {
+            DateTime dt = DateTime.Now;
+            var currYear = dt.Year;
             AdminTaskModel adminTaskModel = new AdminTaskModel
             {
                 uncheckedForms = await hoursformRepo.GetAllClientAcceptedForms(),
                 changedAccounts = await accountRepo.GetChangedAccounts(),
+                allHoursYear = await hoursformRepo.GetAllHoursYear(currYear)
 
-            };
+        };
 
-            DateTime dt = DateTime.Now;
-            var currMonth = dt.Month;
-            var currYear = dt.Year;
 
-            // month, uren, ziekteuren, overwerkuren
-            List<AllHoursYearModel> allHoursYear = await hoursformRepo.GetAllHoursYear(currYear, currMonth);
+            
 
             var roles = new List<SelectListItem>
             {
@@ -170,7 +171,7 @@ namespace QienUrenMVC.Controllers
 
             ViewBag.formYears = SelectListYears;
 
-            List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
+            
 
             List<HoursFormModel> allFormsForAccount = await hoursformRepo.GetSingleAccountForms(id, year);
             List<HoursFormModel> sorted = new List<HoursFormModel>();
