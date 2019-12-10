@@ -90,7 +90,7 @@ namespace QienUrenMVC.Controllers
 
             stream.Position = 0;
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            var fileName = $"UrenFormilier {account.FirstName} {account.LastName} {hoursForm.ProjectMonth} {hoursForm.Year}.xlsx";
+            var fileName = $"UrenFormulier {account.FirstName} {account.LastName} {hoursForm.ProjectMonth} {hoursForm.Year}.csv";
             FileStreamResult s = new FileStreamResult(stream, contentType)
             {
                 FileDownloadName = fileName
