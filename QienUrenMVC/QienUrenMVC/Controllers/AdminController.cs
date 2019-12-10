@@ -56,6 +56,14 @@ namespace QienUrenMVC.Controllers
                 changedAccounts = await accountRepo.GetChangedAccounts(),
 
             };
+
+            DateTime dt = DateTime.Now;
+            var currMonth = dt.Month;
+            var currYear = dt.Year;
+
+            // month, uren, ziekteuren, overwerkuren
+            List<AllHoursYearModel> allHoursYear = await hoursformRepo.GetAllHoursYear(currYear, currMonth);
+
             var roles = new List<SelectListItem>
             {
                 new SelectListItem{Value = "1", Text = "Iedereen"},
