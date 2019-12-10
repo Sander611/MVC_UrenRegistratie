@@ -22,6 +22,8 @@ namespace QienUrenMVC.Data
         public DateTime? CreationDate { get; set; }
         public string ProfileImage { get; set; }
 
+        public string MobilePhone { get; set; }
+
         [Required]
         public bool IsAdmin { get; set; }
         [Required]

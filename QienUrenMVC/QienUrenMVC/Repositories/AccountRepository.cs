@@ -240,7 +240,9 @@ namespace QienUrenMVC.Repositories
             personalia.IsSeniorDeveloper = entity.IsSeniorDeveloper;
             personalia.IsTrainee = entity.IsTrainee;
             personalia.IsChanged = entity.IsChanged;
-            //Email and phonenumber are missing..
+            personalia.ZIP = entity.ZIP;
+            personalia.MobilePhone = entity.PhoneNumber;
+            
 
             entity.FirstName = account.FirstName;
             entity.LastName = account.LastName;
@@ -298,6 +300,8 @@ namespace QienUrenMVC.Repositories
             userPersonaliaModel.previousPersonalia.IsQienEmployee = oldPersonalia.IsQienEmployee;
             userPersonaliaModel.previousPersonalia.IsSeniorDeveloper = oldPersonalia.IsSeniorDeveloper;
             userPersonaliaModel.previousPersonalia.IsChanged = oldPersonalia.IsChanged;
+            userPersonaliaModel.previousPersonalia.MobilePhone = oldPersonalia.MobilePhone;
+
 
 
             //new personalia
@@ -316,6 +320,7 @@ namespace QienUrenMVC.Repositories
             userPersonaliaModel.newPersonalia.IsQienEmployee = newPersonalia.IsQienEmployee;
             userPersonaliaModel.newPersonalia.IsSeniorDeveloper = newPersonalia.IsSeniorDeveloper;
             userPersonaliaModel.newPersonalia.IsChanged = newPersonalia.IsChanged;
+            userPersonaliaModel.newPersonalia.MobilePhone = newPersonalia.PhoneNumber;
             return userPersonaliaModel;
         }
 
