@@ -227,7 +227,7 @@ namespace QienUrenMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                var uniqueFilename = "";
+                string uniqueFilename = "";
                 var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 if (updatedAccount.ProfileImage != null)
                 {
