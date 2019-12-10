@@ -14,6 +14,7 @@ using QienUrenMVC.Data;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace QienUrenMVC.Controllers
 {
@@ -55,12 +56,14 @@ namespace QienUrenMVC.Controllers
                 changedAccounts = await accountRepo.GetChangedAccounts(),
 
             };
-            
-
-
-            //List<AdminTaskModel> uncheckedForms = await hoursformRepo.GetAllClientAcceptedForms();
-            //List<AccountModel> changedaccounts = await accountRepo.GetChangedAccounts();
-
+            var roles = new List<SelectListItem>
+            {
+                new SelectListItem{Value = "1", Text = "Iedereen"},
+                new SelectListItem{Value = "2", Text = "Trainees"},
+                new SelectListItem{Value = "3", Text = "Qien Medewerker"},
+                new SelectListItem{Value = "4", Text = "Senior Medewerker"}
+            };
+            ViewBag.Roles = roles;
             return View(adminTaskModel);
         }
 

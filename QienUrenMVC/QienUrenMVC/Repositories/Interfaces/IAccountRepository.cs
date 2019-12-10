@@ -18,9 +18,11 @@ namespace QienUrenMVC.Repositories
         Task<List<string>> GetAccountIdsByRole(string role);
         Task<AccountModel> GetAccountByFormId(int formId);
         Task<List<AccountModel>> GetChangedAccounts();
-
+        Task<List<AccountModel>> GetAllAccountsWithoutString();
         Task<UserPersonaliaModel> ComparePersonaliaChanges(string accountId);
-
+        Task<List<AccountModel>> GetAllSeniors();
+        Task<List<AccountModel>> GetAllQienMedewerkers();
+        Task<List<AccountModel>> GetAllTrainees();
         Task SetAccountChanged(string accountId, bool isChanged);
 
         Task RevertAccountPersonalia(string accountId);
