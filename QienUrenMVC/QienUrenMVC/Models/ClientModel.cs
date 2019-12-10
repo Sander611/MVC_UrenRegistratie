@@ -18,17 +18,23 @@ namespace QienUrenMVC.Models
         [Required(ErrorMessage = "Een bedrijfsnaam is verplicht")]
         [DisplayName("Bedrijfsnaam")]
         public string CompanyName { get; set; }
+
+
         [Required(ErrorMessage = "Een contactpersoon naam is verplicht")]
         [DisplayName("Contactperson naam")]
         public string ClientName1 { get; set; }
-        [Required(ErrorMessage = "Een contactpersoon naam is verplicht")]
+
+
         [DisplayName("Contactperson naam")]
         public string ClientName2 { get; set; }
+
+
         [Required(ErrorMessage = "Een E-mailadres is verplicht")]
         [DisplayName("E-mailadres")]
         [EmailAddress(ErrorMessage = "Ongeldig Email Address")]
         public string ClientEmail1 { get; set; }
-        [Required(ErrorMessage = "Een E-mailadres is verplicht")]
+
+
         [DisplayName("E-mailadres")]
         [EmailAddress(ErrorMessage = "Ongeldig Email Address")]
         public string ClientEmail2 { get; set; }

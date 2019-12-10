@@ -17,10 +17,10 @@ namespace QienUrenMVC.Repositories
         {
             context = _context;
         }
-        public async Task<List<ClientModel>> Get()
+        public async Task<List<ClientModel>> Get(string searchString)
         {
             var allClients = new List<ClientModel>();
-            foreach (var client in await context.Clients.ToListAsync())
+            foreach (var client in await context.Clients.Where(x => x.CompanyName.Contains(searchString) || x.ClientName1.Contains(searchString) || x.ClientName2.Contains(searchString) || searchString == null).ToListAsync())
 
                 allClients.Add(new ClientModel
                 {
