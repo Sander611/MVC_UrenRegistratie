@@ -24,7 +24,7 @@ namespace QienUrenMVC.Repositories
         {
             var allAccounts = new List<AccountModel>();
             foreach (var account in await repositoryContext.UserIdentity.Where(
-                                                                            x=>x.FirstName.Contains(searchString) || x.LastName.Contains(searchString) || (x.FirstName + " " + x.LastName) == searchString || searchString == null
+                                                                            x => x.FirstName.Contains(searchString) || x.LastName.Contains(searchString) || (x.FirstName + " " + x.LastName) == searchString || searchString == null
                                                                           ).ToListAsync())
 
                 allAccounts.Add(new AccountModel
@@ -46,11 +46,37 @@ namespace QienUrenMVC.Repositories
                     IsQienEmployee = account.IsQienEmployee,
                     IsSeniorDeveloper = account.IsSeniorDeveloper,
                     IsTrainee = account.IsTrainee
-                }) ;
+                });
 
             return allAccounts;
         }
+        public async Task<List<AccountModel>> GetAllAccountsWithoutString()
+        {
+            var allAccounts = new List<AccountModel>();
+            foreach (var account in await repositoryContext.UserIdentity.ToListAsync())
+                allAccounts.Add(new AccountModel
+                {
+                    AccountId = account.Id,
+                    FirstName = account.FirstName,
+                    LastName = account.LastName,
+                    Email = account.Email,
+                    DateOfBirth = account.DateOfBirth,
+                    Address = account.Address,
+                    ZIP = account.ZIP,
+                    MobilePhone = account.PhoneNumber,
+                    City = account.City,
+                    IBAN = account.IBAN,
+                    CreationDate = account.CreationDate,
+                    ProfileImage = account.ProfileImage,
+                    IsAdmin = account.IsAdmin,
+                    IsActive = account.IsActive,
+                    IsQienEmployee = account.IsQienEmployee,
+                    IsSeniorDeveloper = account.IsSeniorDeveloper,
+                    IsTrainee = account.IsTrainee
+                });
 
+            return allAccounts;
+        }
         public async Task<List<AccountModel>> GetChangedAccounts()
         {
             var allAccounts = new List<AccountModel>();
@@ -86,7 +112,7 @@ namespace QienUrenMVC.Repositories
         public async Task<AccountModel> AddNewAccount(AccountModel account)
         {
 
-            
+
             UserIdentity accountEntity = new UserIdentity
             {
                 FirstName = account.FirstName,
@@ -234,24 +260,24 @@ namespace QienUrenMVC.Repositories
             entity.IsTrainee = account.IsTrainee;
             entity.IsChanged = account.IsChanged;
 
-            
+
             //saving User info in Userpersonalia table
             repositoryContext.UserPersonalia.Add(personalia);
 
-            
+
             await repositoryContext.SaveChangesAsync();
-            
+
             return account;
         }
 
-        public async Task <UserPersonaliaModel> ComparePersonaliaChanges(string accountId)
+        public async Task<UserPersonaliaModel> ComparePersonaliaChanges(string accountId)
         {
             //var PreviousPersonalia = await repositoryContext.UserIdentity.Where(p => p.Id == accountId).ToListAsync();
-            
-            
+
+
             UserPersonalia oldPersonalia = await repositoryContext.UserPersonalia.FirstAsync(p => p.AccountId == accountId);
             UserIdentity newPersonalia = await repositoryContext.UserIdentity.FirstAsync(p => p.Id == accountId);
-           
+
             UserPersonaliaModel userPersonaliaModel = new UserPersonaliaModel();
 
             userPersonaliaModel.previousPersonalia = new UserPersonaliaModel();
@@ -319,13 +345,16 @@ namespace QienUrenMVC.Repositories
         {
             List<string> ids = new List<string>();
 
-            if (role == "Trainee") {
+            if (role == "Trainee")
+            {
                 ids = await repositoryContext.UserIdentity.Where(p => p.IsTrainee == true).Select(m => m.Id).ToListAsync();
             }
-            else if (role == "Employee") {
+            else if (role == "Employee")
+            {
                 ids = await repositoryContext.UserIdentity.Where(p => p.IsQienEmployee == true).Select(m => m.Id).ToListAsync();
             }
-            else if (role == "SoftwareDeveloper") {
+            else if (role == "SoftwareDeveloper")
+            {
                 ids = await repositoryContext.UserIdentity.Where(p => p.IsSeniorDeveloper == true).Select(m => m.Id).ToListAsync();
             }
 
@@ -361,7 +390,7 @@ namespace QienUrenMVC.Repositories
             };
         }
 
-        public async Task SetAccountChanged(string accountId,bool isChanged)
+        public async Task SetAccountChanged(string accountId, bool isChanged)
         {
             UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
 
@@ -385,9 +414,90 @@ namespace QienUrenMVC.Repositories
             account.City = personalia.City;
             account.IsChanged = false;
 
-            
+
             repositoryContext.Update(account);
             await repositoryContext.SaveChangesAsync();
+        }
+        public async Task<List<AccountModel>> GetAllTrainees()
+        {
+            var allAccounts = new List<AccountModel>();
+            foreach (var account in await repositoryContext.UserIdentity.Where(p => p.IsTrainee == true).ToListAsync())
+                allAccounts.Add(new AccountModel
+                {
+                    AccountId = account.Id,
+                    FirstName = account.FirstName,
+                    LastName = account.LastName,
+                    Email = account.Email,
+                    DateOfBirth = account.DateOfBirth,
+                    Address = account.Address,
+                    ZIP = account.ZIP,
+                    MobilePhone = account.PhoneNumber,
+                    City = account.City,
+                    IBAN = account.IBAN,
+                    CreationDate = account.CreationDate,
+                    ProfileImage = account.ProfileImage,
+                    IsAdmin = account.IsAdmin,
+                    IsActive = account.IsActive,
+                    IsQienEmployee = account.IsQienEmployee,
+                    IsSeniorDeveloper = account.IsSeniorDeveloper,
+                    IsTrainee = account.IsTrainee
+                });
+
+            return allAccounts;
+        }
+        public async Task<List<AccountModel>> GetAllSeniors()
+        {
+            var allAccounts = new List<AccountModel>();
+            foreach (var account in await repositoryContext.UserIdentity.Where(p => p.IsSeniorDeveloper == true).ToListAsync())
+                allAccounts.Add(new AccountModel
+                {
+                    AccountId = account.Id,
+                    FirstName = account.FirstName,
+                    LastName = account.LastName,
+                    Email = account.Email,
+                    DateOfBirth = account.DateOfBirth,
+                    Address = account.Address,
+                    ZIP = account.ZIP,
+                    MobilePhone = account.PhoneNumber,
+                    City = account.City,
+                    IBAN = account.IBAN,
+                    CreationDate = account.CreationDate,
+                    ProfileImage = account.ProfileImage,
+                    IsAdmin = account.IsAdmin,
+                    IsActive = account.IsActive,
+                    IsQienEmployee = account.IsQienEmployee,
+                    IsSeniorDeveloper = account.IsSeniorDeveloper,
+                    IsTrainee = account.IsTrainee
+                });
+
+            return allAccounts;
+        }
+        public async Task<List<AccountModel>> GetAllQienMedewerkers()
+        {
+            var allAccounts = new List<AccountModel>();
+            foreach (var account in await repositoryContext.UserIdentity.Where(p => p.IsQienEmployee == true).ToListAsync())
+                allAccounts.Add(new AccountModel
+                {
+                    AccountId = account.Id,
+                    FirstName = account.FirstName,
+                    LastName = account.LastName,
+                    Email = account.Email,
+                    DateOfBirth = account.DateOfBirth,
+                    Address = account.Address,
+                    ZIP = account.ZIP,
+                    MobilePhone = account.PhoneNumber,
+                    City = account.City,
+                    IBAN = account.IBAN,
+                    CreationDate = account.CreationDate,
+                    ProfileImage = account.ProfileImage,
+                    IsAdmin = account.IsAdmin,
+                    IsActive = account.IsActive,
+                    IsQienEmployee = account.IsQienEmployee,
+                    IsSeniorDeveloper = account.IsSeniorDeveloper,
+                    IsTrainee = account.IsTrainee
+                });
+
+            return allAccounts;
         }
     }
 }

@@ -23,249 +23,253 @@
                 <a style="text-align:center;" asp-controller="Admin" asp-action=""  class="link">Mutatieformulier</a>            
         </div>
   
-            <div class="col-md-10">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                       
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
 
 
-                        <table class="tabel">
-                            <thead>
+
+                    <table class="tabel">
+                        <thead>
+                            <tr>
+                                <th colspan="5" class="kaartheader">Takenlijst</th>
+                            </tr>
+                        </thead>
+                        <thead class="kaartsubheader">
+                            <tr>
+                                <th class="headertekst">Naam</th>
+                                <th class="headertekst">Taak</th>
+                                <th class="headertekst">Ingeleverd</th>
+                                <th class="headertekst">Goedkeuring</th>
+                                <th class="headertekst">Controleren</th>
+                            </tr>
+                        </thead>
+                        <tbody class="kaartinhoud">
+
+                            @foreach (var changedAccount in Model.changedAccounts)
+                            {
+                                var account = changedAccount;
                                 <tr>
-                                    <th colspan="5" class="kaartheader">Takenlijst</th>
+                                    <td class="inhoudtekst">
+
+                                        @Html.DisplayFor(modelItem => account.FirstName)
+
+                                    </td>
+                                    <td class="inhoudtekst">
+                                        @Html.ActionLink("Bekijk Aanpassingen", "PersonaliaControleren", new
+                                        {
+                                            accountId = account.AccountId,
+                                   FirstName = account.FirstName,
+                                   LastName = account.LastName,
+                                   Email = account.Email,
+                                   DateOfBirth = account.DateOfBirth,
+                                   Adress = account.Address,
+                                   Zip = account.ZIP,
+                                   MobilePhone = account.MobilePhone,
+                                   City = account.City,
+                                   IBAN = account.IBAN,
+                                   CreationDate = account.CreationDate,
+                                   ProfileImage = account.CreationDate,
+                                   IsAdmin = account.IsAdmin,
+                                   IsTrainee = account.IsTrainee,
+                                   IsQienEmployee = account.IsQienEmployee,
+                                   IsSeniorDeveloper = account.IsSeniorDeveloper,
+                                   IsActive = account.IsActive,
+                                   IsChanged = account.IsChanged
+                                        }, new { @class = "link" })
+                                    </td>
                                 </tr>
-                            </thead>
-                            <thead class="kaartsubheader">
+                            }
+
+                            @foreach (var item in Model.uncheckedForms)
+                            {
                                 <tr>
-                                    <th class="headertekst">Naam</th>
-                                    <th class="headertekst">Taak</th>
-                                    <th class="headertekst">Ingeleverd</th>
-                                    <th class="headertekst">Goedkeuring</th>
-                                    <th class="headertekst">Controleren</th>
+                                    <td class="inhoudtekst">
+
+                                        @Html.DisplayFor(modelItem => item.FullName)
+                                    </td>
+                                    <td class="inhoudtekst">
+                                        @Html.DisplayFor(modelItem => item.Info)
+                                    </td>
+                                    <td class="inhoudtekst">
+                                        @Html.DisplayFor(modelItem => item.HandInTime)
+                                    </td>
+                                    @if (item.stateClientCheck == 1)
+                                    {
+                                        <td align=center>
+                                            <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" />
+                                        </td>
+                                    }
+                                    else if (item.stateClientCheck == 2)
+                                    {
+                                        <td align=center>
+                                            <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" />
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            In afwachting..
+                                        </td>
+                                    }
+                                    <td class="inhoudtekst">
+                                        @Html.ActionLink("Controleren", "Controleren", new { formId = item.formId, accountId = item.accountId, fullName = item.FullName, month = item.Month, year = item.Year, state = item.stateClientCheck }, new { @class = "link" })
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody class="kaartinhoud">
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                                @foreach (var changedAccount in Model.changedAccounts)
-                                {
-                                    var account = changedAccount;
-                                    <tr>
-                                        <td class="inhoudtekst">
+            <div class="row">
+                <div class="col-lg-7 col-md-12">
+                    <table style="font-size:10px;" class="tabel">
+                        <thead>
+                            <tr>
+                                <th colspan="5" class="kaartheader">Totaaluren 2019</th>
+                            </tr>
+                        </thead>
+                        <thead class="kaartsubheader">
+                            <tr>
+                                <th class="headertekst" style="font-size:14px">
+                                    Maand
+                                </th>
+                                <th class="headertekst" style="font-size:14px">
+                                    Trainees
+                                </th>
+                                <th class="headertekst" style="font-size:14px">
+                                    Medewerkers
+                                </th>
+                                <th class="headertekst" style="font-size:14px">
+                                    Sr. Developers
+                                </th>
+                                <th class="headertekst" style="font-size:14px">
+                                    Totaal
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="kaartinhoud">
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">Januari</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
+                            </tr>
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">Februari</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
 
-                                            @Html.DisplayFor(modelItem => account.FirstName)
+                            </tr>
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">Maart</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
 
-                                        </td>
-                                        <td class="inhoudtekst">
-                                            @Html.ActionLink("Bekijk Aanpassingen", "PersonaliaControleren", new {accountId = account.AccountId, 
-                                       FirstName = account.FirstName, 
-                                       LastName = account.LastName, 
-                                       Email = account.Email, 
-                                       DateOfBirth = account.DateOfBirth, 
-                                       Adress = account.Address, 
-                                       Zip = account.ZIP, 
-                                       MobilePhone = account.MobilePhone ,
-                                       City = account.City,
-                                       IBAN = account.IBAN,
-                                       CreationDate = account.CreationDate,
-                                       ProfileImage = account.CreationDate,
-                                       IsAdmin = account.IsAdmin,
-                                       IsTrainee = account.IsTrainee,
-                                       IsQienEmployee = account.IsQienEmployee,
-                                       IsSeniorDeveloper = account.IsSeniorDeveloper,
-                                       IsActive = account.IsActive,
-                                       IsChanged = account.IsChanged } ,  new { @class = "link" })
-                                        </td>
-                                    </tr>
-                                }
+                            </tr>
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">April</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
+                            </tr>
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">Mei</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
+                            </tr>
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">Juni</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
 
-                                @foreach (var item in Model.uncheckedForms)
-                                {
-                                    <tr>
-                                        <td class="inhoudtekst">
+                            </tr>
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">Juli</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
 
-                                            @Html.DisplayFor(modelItem => item.FullName)
-                                        </td>
-                                        <td class="inhoudtekst">
-                                            @Html.DisplayFor(modelItem => item.Info)
-                                        </td>
-                                        <td class="inhoudtekst">
-                                            @Html.DisplayFor(modelItem => item.HandInTime)
-                                        </td>
-                                        @if (item.stateClientCheck == 1)
-                                        {
-                                            <td align=center>
-                                                <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" />
-                                            </td>
-                                        }
-                                        else if (item.stateClientCheck == 2)
-                                        {
-                                            <td align=center>
-                                                <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" />
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td>
-                                                In afwachting..
-                                            </td>
-                                        }
-                                        <td class="inhoudtekst">
-                                            @Html.ActionLink("Controleren", "Controleren", new { formId = item.formId, accountId = item.accountId, fullName = item.FullName, month = item.Month, year = item.Year, state = item.stateClientCheck }, new { @class = "link" } )
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            </tr>
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">Augustus</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
+
+                            </tr>
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">September</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
+
+                            </tr>
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">Oktober</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
+
+                            </tr>
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">"November</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
+
+                            </tr>
+                            <tr>
+                                <td class="inhoudtekst" style="font-size:13px">December</td>
+                                <td class="inhoudtekst" style="font-size:13px">345</td>
+                                <td class="inhoudtekst" style="font-size:13px">548</td>
+                                <td class="inhoudtekst" style="font-size:13px">245</td>
+                                <td class="inhoudtekst" style="font-size:13px">1138</td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
                 </div>
 
-                <div class="row">
-                    <div class="col-lg-7 col-md-12">
-                        <table style="font-size:10px;" class="tabel">
-                            <thead>
-                                <tr>
-                                    <th colspan="5" class="kaartheader">Totaaluren 2019</th>
-                                </tr>
-                            </thead>
-                            <thead class="kaartsubheader">
-                                <tr>
-                                    <th class="headertekst" style="font-size:14px">
-                                        Maand
-                                    </th>
-                                    <th class="headertekst" style="font-size:14px">
-                                        Trainees
-                                    </th>
-                                    <th class="headertekst" style="font-size:14px">
-                                        Medewerkers
-                                    </th>
-                                    <th class="headertekst" style="font-size:14px">
-                                        Sr. Developers
-                                    </th>
-                                    <th class="headertekst" style="font-size:14px">
-                                        Totaal
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="kaartinhoud">
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">Januari</td>
-                                    <td class="inhoudtekst" style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-                                </tr>
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">Februari</td>
-                                    <td class="inhoudtekst" style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-
-                                </tr>
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">Maart</td>
-                                    <td class="inhoudtekst" style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-
-                                </tr>
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">April</td>
-                                    <td class="inhoudtekst" style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-                                </tr>
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">Mei</td>
-                                    <td class="inhoudtekst" style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-                                </tr>
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">Juni</td>
-                                    <td class="inhoudtekst" style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-
-                                </tr>
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">Juli</td>
-                                    <td class="inhoudtekst" style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-
-                                </tr>
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">Augustus</td>
-                                    <td class="inhoudtekst" style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-
-                                </tr>
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">September</td>
-                                    <td class="inhoudtekst" style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-
-                                </tr>
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">Oktober</td>
-                                    <td class="inhoudtekst"  style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-
-                                </tr>
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">"November</td>
-                                    <td class="inhoudtekst" style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-
-                                </tr>
-                                <tr>
-                                    <td class="inhoudtekst" style="font-size:13px">December</td>
-                                    <td class="inhoudtekst" style="font-size:13px">345</td>
-                                    <td class="inhoudtekst" style="font-size:13px">548</td>
-                                    <td class="inhoudtekst" style="font-size:13px">245</td>
-                                    <td class="inhoudtekst" style="font-size:13px">1138</td>
-
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-
-
+                @using (Html.BeginForm("SendEmail", "Email", FormMethod.Post))
+                {
+                    @*<form asp-controller="EmailController" asp-action="SendEmail" method="post">*@
                     <div class="col-lg-5 col-md-12">
                         <div class="kaartheader">
                             <h3>Mail Service</h3>
                         </div>
                         <div class="kaartinhoud">
                             <div class="form-group">
-                            <label for="sel1">Mail naar:</label>
-                            <select class="form-control" id="sel1">
-                                <option>Iedereen</option>
-                                <option>Trainees</option>
-                                <option>Werknemers</option>
-                                <option>Senior Developers</option>
-                            </select>
-                        </div>
-                        <div>
-                            <textarea value="" rows="16" cols="28" style="resize: none;"></textarea>
-                        </div>
-                        <input type="submit" value="Verstuur" class="btn btn-login"/>
+                                <label for="sel1">Mail naar:</label>
+                                <div>
+                                    @Html.DropDownList("Roles", (List<SelectListItem>)ViewBag.Roles, "--- Select group ---")
+                                </div>
+                            </div>
+                            <div>
+                                @Html.TextArea("adminText", (string)ViewBag.textAdmin, new { style = "width: 100%; max-width: 100%; height: 200px;" })
+                            </div>
+                            <input style="width:200px;" value="Verstuur" class="btn btn-login" type="submit" asp-action="SendEmail" asp-controller="Email" />
                         </div>
                     </div>
-                </div>
+                        @*</form>*@
+                }
             </div>
+        </div>
     </div>
