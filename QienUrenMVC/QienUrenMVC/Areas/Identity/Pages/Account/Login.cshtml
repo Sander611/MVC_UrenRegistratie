@@ -1,8 +1,17 @@
 ﻿@page
 @model LoginModel
 
-
-<body>
+@section head{
+    <style type="text/css">
+        body {
+            background-image: url('/Images/unsplash-background.png');
+            margin: 0;
+            background-size: cover;
+            
+        }
+    </style>
+}
+<body class="picture">
 
 
     <div class="logincontainer">
@@ -56,6 +65,7 @@
         <br />
     </div>
 </body>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

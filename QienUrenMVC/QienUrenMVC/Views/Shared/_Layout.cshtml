@@ -16,9 +16,10 @@
 
     </header>
 
-    <div class="container">
+    <div class="container picture">
         <main role="main" class="pb-3">
             @RenderBody()
+            @RenderSection("head", required: false);
         </main>
     </div>
 
