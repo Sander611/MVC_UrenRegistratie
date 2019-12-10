@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using QienUrenMVC.Models;
@@ -29,13 +30,16 @@ namespace QienUrenMVC.Controllers
             hoursperdayRepo = HoursPerDayRepo;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetAllClients()
+        public async Task<IActionResult> GetAllClients(string searchString, string errorText)
         {
-            List<ClientModel> result = await clientRepo.Get();
+            ViewBag.error = errorText;
+            List<ClientModel> result = await clientRepo.Get(searchString);
             return View(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> ClientDetails(int id)
         {
@@ -43,12 +47,14 @@ namespace QienUrenMVC.Controllers
             return View(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult CreateClient()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateClient(ClientModel newClient)
         {
@@ -56,6 +62,7 @@ namespace QienUrenMVC.Controllers
             return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> UpdateClient(int id)
         {
@@ -63,6 +70,7 @@ namespace QienUrenMVC.Controllers
             return View(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> UpdateClient(ClientModel updatedClient)
         {
@@ -74,51 +82,32 @@ namespace QienUrenMVC.Controllers
             return View(updatedClient);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<RedirectToRouteResult> DeleteClient(int id)
         {
             var client = await clientRepo.GetById(id);
-            if (client == null)
+            HoursPerDayModel formsById = await hoursperdayRepo.GetAllFormsByClientId(id);
+
+            if (client == null || formsById != null)
             {
-                throw new Exception("Cannot delete the client because it doesn't exist");
+                if(formsById != null)
+                {
+                    return RedirectToRoute(new { controller = "Client", action = "GetAllClients", errorText = "Deze werkgever kan niet worden verwijderd. Er zijn nog urenformulieren gekoppeld aan deze werkgever." });
+                    //throw new Exception("Cannot delete the client because it has forms assigned to it.");
+                }
+                else
+                {
+                    
+                    throw new Exception("Cannot delete the client because it doesn't exist.");
+                }
+                
             }
 
             await clientRepo.DeleteClient(id);
             return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
-        public async Task<IActionResult> ControlerenClient(int formId, string accountId, string fullName, string month, string year, int state, Guid token)
-        {
-            HoursFormModel hoursForm = await hoursformRepo.GetFormById(formId);
-            if (hoursForm.Verification_code == token)
-            {
-                ViewBag.formId = formId;
-                ViewBag.accountId = accountId;
-                ViewBag.fullName = fullName;
-                ViewBag.month = month;
-                ViewBag.year = year;
-                ViewBag.status = state;
 
-                HoursFormModel formInfo = await hoursformRepo.GetFormById(formId);
-
-                ViewBag.textClient = formInfo.CommentClient;
-            }
-            List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
-
-            return View(formsForId);
-        }
-        [HttpPost]
-        public async Task<IActionResult> CheckControleren([FromQuery]bool keuring, int id, string adminText, string clientText)
-        {
-            if (keuring == true)
-            {
-                await hoursformRepo.ChangeState(1, id, clientText, adminText);
-            }
-            else if (keuring == false)
-            {
-                await hoursformRepo.ChangeState(2, id, clientText, adminText);
-            }
-            await SendEMail(keuring, id);
-            return RedirectToRoute(new { controller = "Identity", action = "Login" });
-        }
+        [Authorize(Roles = "Admin")]
         public async Task SendEMail(bool keuring, int id)
         {
             AccountModel medewerkerInfo = await accountRepo.GetAccountByFormId(id);
@@ -152,6 +141,76 @@ namespace QienUrenMVC.Controllers
                 smptcli.Send(message);
                 smptcli.Disconnect(true);
             }
+        }
+
+
+        /// De methodes hieronder kunnen door NIET-identity users benaderd worden.
+
+
+        public async Task<IActionResult> ControlerenClient(int formId, string accountId, string fullName, string month, string year, int state, Guid token)
+        {
+            HoursFormModel hoursForm = await hoursformRepo.GetFormById(formId);
+            if (hoursForm.Verification_code == token)
+            {
+                
+                ViewBag.TotalHours = hoursForm.TotalHours;
+                ViewBag.TotalSick = hoursForm.TotalSick;
+                ViewBag.TotalOver = hoursForm.TotalOver;
+                ViewBag.TotalLeave = hoursForm.TotalLeave;
+                ViewBag.TotalOther = hoursForm.TotalOther;
+                ViewBag.TotalTraining = hoursForm.TotalTraining;
+
+                ViewBag.formId = formId;
+                ViewBag.accountId = accountId;
+                ViewBag.fullName = fullName;
+                ViewBag.month = month;
+                ViewBag.year = year;
+                ViewBag.status = state;
+
+                HoursFormModel formInfo = await hoursformRepo.GetFormById(formId);
+
+                ViewBag.textClient = formInfo.CommentClient;
+            }
+            List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
+
+            return View(formsForId);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CheckControleren([FromQuery]bool keuring, int id, string adminText, string clientText)
+        {
+
+            if (keuring == true)
+            {
+                await hoursformRepo.ChangeState(1, id, clientText, adminText);
+            }
+            else if (keuring == false)
+            {
+                await hoursformRepo.ChangeState(2, id, clientText, adminText);
+            }
+            await SendEMail(keuring, id);
+
+            return RedirectToRoute(new
+            {
+                controller = "Client",
+                action = "checkedPage",
+                keuringBool = keuring
+            });
+        }
+
+        
+        public IActionResult checkedPage(bool keuringBool)
+        {
+            if (keuringBool)
+            {
+                ViewBag.keuring = "goedgekeurd!";
+            }
+            else
+            {
+                ViewBag.keuring = "afgekeurd!";
+            }
+
+            return View();
         }
     }
 }

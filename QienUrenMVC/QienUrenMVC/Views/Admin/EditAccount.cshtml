@@ -10,25 +10,37 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="EditAccount">
+        <form method="post" enctype="multipart/form-data" asp-action="EditAccount">
             <div asp-validation-summary="All" class="text-danger"></div>
 
             <input type="hidden" value="@Model.AccountId" name="AccountId" />
             <input type="hidden" value="@Model.HashedPassword" name="HashedPassword" />
             <input type="hidden" value="@Model.ProfileImage" name="ProfileImage" />
+            @Html.HiddenFor(m => m.ImageProfileString)
             <div class="kaartheader">
                 <h1 style="text-align:center">Accountgegevens aanpassen</h1>
                 <h4 style="text-align:center">@ViewBag.currUser</h4>
             </div>
             <div class="kaartinhoud">
-            <div class="row">
-                <div class="col-md-4">
-                    <div>
-                        <img style="border: 3px solid #9A33F8; width:360px; height:360px;" class="img-fluid" src="~/Images/ProfileImages/@Model.ProfileImage" alt="Profielfoto" />
+                <div class="row">
+                    <div style="text-align:center" class="col-md-6 offset-md-3">
+                        <div>
+                            <img asp-append-version="true" style="border: 3px solid #9A33F8; width:360px; height:360px;" class="img-fluid" src="~/Images/ProfileImages/@Model.ImageProfileString" alt="Profielfoto" />
+                        </div>
                     </div>
                 </div>
-                <div style="margin-top:10px;" class="col-md-8">
-                    <div class="row">
+                <br />
+                <div class="form-group row">
+                    <div class="col-md-4 offset-md-4">
+                        <div class="custom-file">
+                            <input asp-for="ProfileImage" class="form-control custom-file-input" />
+
+                            <label class="custom-file-label">Upload Profielfoto</label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                    <div class="row" style="margin-top:10px;">
                         <div class="col">
                             <div class="form-group">
                                 <label asp-for="FirstName" class="control-label"></label>
@@ -88,132 +100,143 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label asp-for="DateOfBirth" class="control-label"></label>
-                        <input asp-for="DateOfBirth" class="form-control" />
-                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="DateOfBirth" class="control-label"></label>
+                            <input asp-for="DateOfBirth" class="form-control" />
+                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="IBAN" class="control-label"></label>
+                            <input asp-for="IBAN" class="form-control" />
+                            <span asp-validation-for="IBAN" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label asp-for="IBAN" class="control-label"></label>
-                        <input asp-for="IBAN" class="form-control" />
-                        <span asp-validation-for="IBAN" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col">
-                    @*<div class="form-group form-check">
-                    <input class="form-check-input" asp-for="IsTrainee" type="radio" name="functieRadios" id="functieTrainee" value="True">
-                    <label class="form-check-label" for="functieTrainee">
-                        Trainee
-                    </label>
-                </div>*@
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input id="checkTrainee" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsTrainee" /> @Html.DisplayNameFor(model => model.IsTrainee)
+                <hr />
+                <div class="row">
+                    <div class="col">
+                        @*<div class="form-group form-check">
+                        <input class="form-check-input" asp-for="IsTrainee" type="radio" name="functieRadios" id="functieTrainee" value="True">
+                        <label class="form-check-label" for="functieTrainee">
+                            Trainee
                         </label>
+                    </div>*@
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input id="checkTrainee" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsTrainee" /> @Html.DisplayNameFor(model => model.IsTrainee)
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    @*<div class="form-group form-check">
-                    <input class="form-check-input" asp-for="IsQienEmployee" type="radio" name="functieRadios" id="functieQienEmployee" value="True">
-                    <label class="form-check-label" for="functieQienEmployee">
-                        Medewerker Qien
-                    </label>
-                </div>*@
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input id="checkQienEmployee" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsQienEmployee" /> @Html.DisplayNameFor(model => model.IsQienEmployee)
+                    <div class="col">
+                        @*<div class="form-group form-check">
+                        <input class="form-check-input" asp-for="IsQienEmployee" type="radio" name="functieRadios" id="functieQienEmployee" value="True">
+                        <label class="form-check-label" for="functieQienEmployee">
+                            Medewerker Qien
                         </label>
+                    </div>*@
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input id="checkQienEmployee" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsQienEmployee" /> @Html.DisplayNameFor(model => model.IsQienEmployee)
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    @*<div class="form-group form-check">
-                    <input class="form-check-input" asp-for="IsSeniorDeveloper" type="radio" name="functieRadios" id="functieSeniorDeveloper" value="True">
-                    <label class="form-check-label" for="functieSeniorDeveloper">
-                        Senior Developer
-                    </label>
-                </div>*@
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input id="checkSeniorDeveloper" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsSeniorDeveloper" /> @Html.DisplayNameFor(model => model.IsSeniorDeveloper)
+                    <div class="col">
+                        @*<div class="form-group form-check">
+                        <input class="form-check-input" asp-for="IsSeniorDeveloper" type="radio" name="functieRadios" id="functieSeniorDeveloper" value="True">
+                        <label class="form-check-label" for="functieSeniorDeveloper">
+                            Senior Developer
                         </label>
+                    </div>*@
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input id="checkSeniorDeveloper" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsSeniorDeveloper" /> @Html.DisplayNameFor(model => model.IsSeniorDeveloper)
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-
-
-
-            @*<div class="form-group">
-            <label asp-for="HashedPassword" class="control-label"></label>
-            <input asp-for="HashedPassword" class="form-control" />
-            <span asp-validation-for="HashedPassword" class="text-danger"></span>
-        </div>*@
-
-            @*<div class="form-group">
-            <label asp-for="CreationDate" class="control-label"></label>
-            <input asp-for="CreationDate" class="form-control" />
-            <span asp-validation-for="CreationDate" class="text-danger"></span>
-        </div>*@
-            @*<div class="form-group">
-            <label asp-for="ProfileImage" class="control-label"></label>
-            <input asp-for="ProfileImage" class="form-control" />
-            <span asp-validation-for="ProfileImage" class="text-danger"></span>
-        </div>*@
 
 
 
 
+                @*<div class="form-group">
+                <label asp-for="HashedPassword" class="control-label"></label>
+                <input asp-for="HashedPassword" class="form-control" />
+                <span asp-validation-for="HashedPassword" class="text-danger"></span>
+            </div>*@
+
+                @*<div class="form-group">
+                <label asp-for="CreationDate" class="control-label"></label>
+                <input asp-for="CreationDate" class="form-control" />
+                <span asp-validation-for="CreationDate" class="text-danger"></span>
+            </div>*@
+                @*<div class="form-group">
+                <label asp-for="ProfileImage" class="control-label"></label>
+                <input asp-for="ProfileImage" class="form-control" />
+                <span asp-validation-for="ProfileImage" class="text-danger"></span>
+            </div>*@
 
 
 
-            @*<div class="form-group form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
-            </label>
-        </div>
-        <div class="form-group form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" asp-for="IsTrainee" /> @Html.DisplayNameFor(model => model.IsTrainee)
-            </label>
-        </div>
-        <div class="form-group form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" asp-for="IsQienEmployee" /> @Html.DisplayNameFor(model => model.IsQienEmployee)
-            </label>
-        </div>
-        <div class="form-group form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" asp-for="IsSeniorDeveloper" /> @Html.DisplayNameFor(model => model.IsSeniorDeveloper)
-            </label>
-        </div>*@
-            <hr />
-            <div class="form-group form-check">
+
+
+
+
+                @*<div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
                 </label>
             </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsTrainee" /> @Html.DisplayNameFor(model => model.IsTrainee)
+                </label>
             </div>
-            <br />   
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsQienEmployee" /> @Html.DisplayNameFor(model => model.IsQienEmployee)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsSeniorDeveloper" /> @Html.DisplayNameFor(model => model.IsSeniorDeveloper)
+                </label>
+            </div>*@
+                <hr />
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    </label>
+                </div>
+            </div>
+
+            @section Scripts{
+                <script>
+                    $(document).ready(function () {
+                        $('.custom-file-input').on("change", function () {
+                            //console.log($(this).val());
+                            var filename = $(this).val().split("\\").pop();
+                            $(this).next('.custom-file-label').html(filename);
+                        });
+                    });
+                </script>
+            }
+
+            <br />
+            <div>
+                <div class="form-group">
+                    <input type="submit" value="Opslaan" class="btn btn-login" />
+                </div>
+            </div>
+            <div>
                 <div>
-                    <div class="form-group">
-                        <input type="submit" value="Opslaan" class="btn btn-login" />
-                    </div>
-                </div>             
-                <div>
-                    <div>
-                        <a asp-action="AccountOverzicht" style="color:#9A33F8">Terug</a>
-                    </div>
-                </div>        
+                    <a asp-action="AccountOverzicht" style="color:#9A33F8">Terug</a>
+                </div>
+            </div>
         </form>
     </div>
 </div>

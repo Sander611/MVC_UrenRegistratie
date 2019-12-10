@@ -10,6 +10,7 @@ namespace QienUrenMVC.Repositories
         public IEnumerable<SelectListItem> GetClientList();
         Task<List<HoursPerDayModel>> Update(List<HoursPerDayModel> daychange);
         Task<List<HoursPerDayModel>> GetAllDaysForForm(int formId);
+        Task<HoursPerDayModel> GetAllFormsByClientId(int id);
 
         //Task RemoveAllDaysForForm(int formId);
     }
