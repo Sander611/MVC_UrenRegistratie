@@ -123,6 +123,8 @@ namespace QienUrenMVC.Controllers
             ViewBag.month = formsForId[0].Month;
             ViewBag.year = await hoursformRepo.GetYearOfForm(formid);
             ViewBag.status = state;
+            AccountModel account = await accountRepo.GetAccountByFormId(formid);
+            ViewBag.accountId = account.AccountId;
 
             if (state == 4)
             {
@@ -415,8 +417,7 @@ namespace QienUrenMVC.Controllers
 
                 selected = false;
             }
-            ViewBag.formYears = SelectListYears;
-
+            
             List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
            
             List<HoursFormModel> forms = await hoursformRepo.GetAllFormsForAccountForYear(year, id);
@@ -435,7 +436,7 @@ namespace QienUrenMVC.Controllers
                     }
                 }
 
-            
+            ViewBag.accountId = id;
 
 
             return View(sorted);
