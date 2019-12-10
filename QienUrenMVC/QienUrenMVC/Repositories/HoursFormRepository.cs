@@ -238,7 +238,7 @@ namespace QienUrenMVC.Repositories
             return editform;
         }
 
-        public async Task<HoursFormModel> CreateNewForm(HoursFormModel hoursFormModel)
+        public async Task<HoursFormModel> CreateNewForm(HoursFormModel hoursFormModel, int ClientId)
         {
             DateTime day = DateTime.Today;
             var firstDay = new DateTime(day.Year, day.Month, 1);
@@ -326,7 +326,7 @@ namespace QienUrenMVC.Repositories
                     IsLeave = 0,
                     Other = 0,
                     Reasoning = "",
-                    ClientId = null,
+                    ClientId = ClientId,
                     IsSick = 0
 
                 });

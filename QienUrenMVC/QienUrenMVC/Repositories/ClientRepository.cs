@@ -49,6 +49,13 @@ namespace QienUrenMVC.Repositories
             };
         }
 
+        public  async Task<string> GetNameByID(int id)
+        {
+            var oneClient = await context.Clients.FindAsync(id);
+            string CompanyName = oneClient.CompanyName;
+            return CompanyName;
+        }
+
         public async Task<ClientModel> CreateNewClient(ClientModel clientModel)
         {
             Client newClient = new Client()

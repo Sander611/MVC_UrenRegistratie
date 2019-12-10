@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,10 @@ namespace QienUrenMVC.Models
     public class AccountModelCreateView
     {
         public string AccountId { get; set; }
+
+        public int? ClientId { get; set; }
+
+        public IEnumerable<SelectListItem> ClientNames { get; set; }
 
         [Required(ErrorMessage = "Een voornaam is verplicht")]
         [DisplayName("Naam")]

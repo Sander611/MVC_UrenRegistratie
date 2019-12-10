@@ -105,8 +105,10 @@ namespace QienUrenMVC.Controllers
         {
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formid);
             HoursFormModel formInfo = await hoursformRepo.GetFormById(formid);
+            var clientIDmonth = formsForId[0].ClientId;
 
-
+            var ClientName = await clientRepo.GetNameByID(clientIDmonth.Value);
+            ViewBag.NameClient = ClientName;
             ViewBag.TotalHours = formInfo.TotalHours;
             ViewBag.TotalSick = formInfo.TotalSick;
             ViewBag.TotalOver = formInfo.TotalOver;
@@ -244,7 +246,7 @@ namespace QienUrenMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateFormForAccount(HoursFormModel hoursformModel)
+        public async Task<IActionResult> CreateFormForAccount(HoursFormModel hoursformModel, int ClientId)
         {
             hoursformModel.AccountId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             hoursformModel.TotalHours = 0;
@@ -254,7 +256,7 @@ namespace QienUrenMVC.Controllers
             hoursformModel.CommentAdmin = "";
             hoursformModel.CommentClient = "";
 
-            var result = await hoursformRepo.CreateNewForm(hoursformModel);
+            var result = await hoursformRepo.CreateNewForm(hoursformModel, ClientId);
 
             return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" });
         }
