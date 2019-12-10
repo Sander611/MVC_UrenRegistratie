@@ -1,7 +1,5 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-
-
 .logincontainer {
     width: 280px;
     position: absolute;
@@ -64,7 +62,6 @@ for details on configuring this project to bundle and minify static web assets. 
     margin: 0 10px;
 }
 
-
 .row {
     width: 100%;
     align-content: center;
@@ -72,7 +69,6 @@ for details on configuring this project to bundle and minify static web assets. 
 
 .loginform {
     width: 100%;
-
 }
 
 .form-login {
@@ -92,6 +88,7 @@ a.navbar-brand {
     float: right;
     margin-bottom: 50px;
 }
+
 .qienlogo {
     height: 110px;
     display: inline;
@@ -111,10 +108,12 @@ a.navbar-brand {
     border: none;
     cursor: pointer;
 }
+
 .dropdown {
     position: relative;
     display: inline-block;
 }
+
 .dropdown-content {
     display: none;
     position: absolute;
@@ -125,10 +124,17 @@ a.navbar-brand {
     min-height: 400px;
 }
 
-button .hover {display: none;}
-button:hover .normal {display:none;}
-button:hover .hover {display:inline;}
+button .hover {
+    display: none;
+}
 
+button:hover .normal {
+    display: none;
+}
+
+button:hover .hover {
+    display: inline;
+}
 
 .dropdown-content a {
     color: white;
@@ -139,9 +145,10 @@ button:hover .hover {display:inline;}
     text-align: center;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
-.dropdown-content a:hover {
-    background-color: #6a24ab
-}
+
+    .dropdown-content a:hover {
+        background-color: #6a24ab
+    }
 
 .dropdown:hover .dropdown-content {
     display: block;
@@ -151,46 +158,47 @@ button:hover .hover {display:inline;}
     padding-top: 30px;
     padding-bottom: 30px;
 }
-
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
     font-size: 14px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
-
-
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
 .footerlogin {
     position: absolute;
     bottom: 0;
     width: 100%;
     white-space: nowrap;
-   // line-height: 60px;
+    // line-height: 60px;
     height: 15%;
     background-color: #9A33F8 /* Vertically center the text there */
 }
+
 .btn-login {
     background-color: #9A33F8;
     border-color: #9A33F8;
     color: #fff;
 }
+
 .forgotpass {
     color: #9A33F8;
 }
@@ -275,9 +283,7 @@ body {
     text-align: center;
 }
 
-
     .personalialink:hover {
         color: #630e78;
         text-decoration: none;
     }
-
