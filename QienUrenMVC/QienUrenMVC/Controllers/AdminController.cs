@@ -385,9 +385,16 @@ namespace QienUrenMVC.Controllers
 
 
                 var user = await _userManager.FindByEmailAsync(acc.Email);
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-                var link = $"https://localhost:44306/Identity/Account/ResetPassword?email={acc.Email}&token={encodedToken}";
+                var passtoken = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(passtoken));
+                //var link = $"https://localhost:44306/Identity/Account/ResetPassword?email={acc.Email}&token={encodedToken}";
+                var email = acc.Email;
+
+                var callbackUrl = Url.Page(
+                   "/Account/ResetPassword",
+                   pageHandler: null,
+                   values: new { area = "Identity", email, token },
+                   protocol: Request.Scheme);
 
                 string tempPassword = acc.HashedPassword;
                 var message = new MimeMessage();
@@ -397,7 +404,7 @@ namespace QienUrenMVC.Controllers
 
                 message.Body = new TextPart("plain")
                 {
-                    Text = $"An account with this emaik was created. Here you can reset you password :<a href='{link}'>link</a>"
+                    Text = $"An account with this email was created. Here you can reset you password :{callbackUrl}"
                 };
                 using (var client = new SmtpClient())
                 {
