@@ -281,9 +281,3 @@ body {
         text-decoration: none;
     }
 
-
-body {
-    background-image: url('../Images/unsplash-background.jpg');
-    background-repeat: no-repeat;
-   background-size:cover;
-}
