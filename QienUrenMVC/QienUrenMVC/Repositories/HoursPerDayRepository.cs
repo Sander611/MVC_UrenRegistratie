@@ -89,6 +89,27 @@ namespace QienUrenMVC.Repositories
                 return new SelectList(clients, "Value", "Text");
         }
 
+        public async Task<HoursPerDayModel> GetAllFormsByClientId(int id)
+        {
+            HoursPerDay entity = await context.HoursPerDays.Where(p => p.ClientId == id).FirstOrDefaultAsync();
+            HoursPerDayModel model = new HoursPerDayModel
+            {
+                FormId = entity.FormId,
+                Day = entity.Day,
+                Hours = entity.Hours,
+                Month = entity.Month,
+                Training = entity.Training,
+                IsLeave = entity.IsLeave,
+                IsSick = entity.IsSick,
+                Other = entity.Other,
+                OverTimeHours = entity.OverTimeHours,
+                ClientId = entity.ClientId,
+                HoursPerDayId = entity.HoursPerDayId,
+                Reasoning = entity.Reasoning
+            };
+
+            return (model);
+        }
 
 
 
@@ -119,41 +140,42 @@ namespace QienUrenMVC.Repositories
 
 
 
-    //public async Task<List<HoursPerDay>> GetAllDaysFromOneForm(int formId)
-    //{
-    //    var form = await context.HoursPerDays.SingleAsync(p => p.FormId == formId);
-    //    return new List<HoursPerDay>
-    //    {
 
-    //    };
-    //}
+        //public async Task<List<HoursPerDay>> GetAllDaysFromOneForm(int formId)
+        //{
+        //    var form = await context.HoursPerDays.SingleAsync(p => p.FormId == formId);
+        //    return new List<HoursPerDay>
+        //    {
+
+        //    };
+        //}
 
 
 
-    //public async Task<HoursPerDay> SaveADay(HoursPerDay dayedit)
-    //{
-    //    HoursPerDay newHoursPerDay = new HoursPerDay()
-    //    {
-    //        HoursPerDayId = dayedit.HoursPerDayId,
+        //public async Task<HoursPerDay> SaveADay(HoursPerDay dayedit)
+        //{
+        //    HoursPerDay newHoursPerDay = new HoursPerDay()
+        //    {
+        //        HoursPerDayId = dayedit.HoursPerDayId,
 
-    //        ClientId = dayedit.ClientId,
-    //        Day = dayedit.Day,
-    //        Month = dayedit.Month,
-    //        Other = dayedit.Other,
-    //        Hours = dayedit.Hours,
-    //        FormId = dayedit.FormId,
-    //        Training = dayedit.Training,
-    //        Year = dayedit.Year,
-    //        IsLeave = dayedit.IsLeave,
-    //        IsSick = dayedit.IsSick,
-    //        ProjectDay = dayedit.ProjectDay,
-    //        OverTimeHours = dayedit.OverTimeHours,
-    //        Reasoning = dayedit.Reasoning
-    //    };
+        //        ClientId = dayedit.ClientId,
+        //        Day = dayedit.Day,
+        //        Month = dayedit.Month,
+        //        Other = dayedit.Other,
+        //        Hours = dayedit.Hours,
+        //        FormId = dayedit.FormId,
+        //        Training = dayedit.Training,
+        //        Year = dayedit.Year,
+        //        IsLeave = dayedit.IsLeave,
+        //        IsSick = dayedit.IsSick,
+        //        ProjectDay = dayedit.ProjectDay,
+        //        OverTimeHours = dayedit.OverTimeHours,
+        //        Reasoning = dayedit.Reasoning
+        //    };
 
-    //    context.HoursPerDays.Add(newHoursPerDay);
-    //    await context.SaveChangesAsync();
-    //    return dayedit;
-    //}
-}
+        //    context.HoursPerDays.Add(newHoursPerDay);
+        //    await context.SaveChangesAsync();
+        //    return dayedit;
+        //}
+    }
 }
