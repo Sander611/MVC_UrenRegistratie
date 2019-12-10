@@ -38,7 +38,7 @@ namespace QienUrenMVC.Controllers
             return user?.Id;
         }
 
-        public async Task<IActionResult> Index(string accountId)
+        public async Task<IActionResult> Index(string accountId, int ClientId)
         {
 
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
@@ -71,7 +71,7 @@ namespace QienUrenMVC.Controllers
                         CommentClient = "",
                         TotalHours = 0
                     };
-                    var result = await hoursformRepo.CreateNewForm(hoursformModel);
+                    var result = await hoursformRepo.CreateNewForm(hoursformModel, ClientId);
                 }
 
 
