@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 
 }
+
 <div class="col-md-12">
     <div>
         <table class="tabel">
@@ -33,7 +34,72 @@
                 </tr>
             </tbody>
         </table>
+
     </div>
+    <div>
+        <table class="table table-hover">
+            <thead style="background-color:#9A33F8;">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Day)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Hours)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OverTimeHours)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsLeave)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsSick)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Training)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Other)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Reasoning)
+                    </th>
+                </tr>
+            </thead>
+            <tbody style="background-color:rgba(154, 51, 248, 0.12)">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Day) - @Html.DisplayFor(modelItem => item.Month)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Hours)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OverTimeHours)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsLeave)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsSick)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Training)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Other)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Reasoning)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
     <table class="tabel">
         <thead>
@@ -167,5 +233,8 @@
     }
 </div>
 
-
-
+<div>
+    <div>
+        <a asp-action="Dashboard" style="color:#9A33F8">Terug</a>
+    </div>
+</div>

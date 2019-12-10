@@ -8,7 +8,7 @@
 
 
 @Html.DropDownList("year", (IEnumerable
-        <SelectListItem>)ViewBag.formYears, new { onchange = "window.location.href='/Employee/YearOverview?year=' + this.value;"})
+        <SelectListItem>)ViewBag.formYears, new { onchange = "window.location.href='/Employee/YearOverview?year=' + this.value;" })
 <br />
 <br />
 
@@ -38,7 +38,7 @@
             <th class="headertekst" style="font-size:15px;">
                 @Html.DisplayNameFor(model => model.TotalSick)
             </th>
-            <th class="headertekst" style="font-size:15px;"> 
+            <th class="headertekst" style="font-size:15px;">
                 @Html.DisplayNameFor(model => model.TotalOver)
             </th>
             <th class="headertekst" style="font-size:15px;">
@@ -142,9 +142,15 @@
                 }
 
                 <td class="inhoudtekst">
-                    @Html.ActionLink("Inzien", "HoursRegistration", new { formid = item.FormId, state = item.IsAcceptedClient }, new { @class="link"})
+                    @Html.ActionLink("Inzien", "HoursRegistration", new { formid = item.FormId, state = item.IsAcceptedClient }, new { @class = "link" })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<div>
+    <div>
+        <a asp-action="EmployeeDashboard" style="color:#9A33F8">Terug</a>
+    </div>
+</div>
