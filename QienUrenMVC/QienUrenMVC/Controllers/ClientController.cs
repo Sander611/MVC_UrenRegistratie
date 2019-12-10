@@ -74,12 +74,12 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateClient(ClientModel updatedClient)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var client = await clientRepo.Update(updatedClient);
-                return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
+                return View(updatedClient);
             }
-            return View(updatedClient);
+            var client = await clientRepo.Update(updatedClient);
+            return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
 
         [Authorize(Roles = "Admin")]
@@ -201,13 +201,12 @@ namespace QienUrenMVC.Controllers
         
         public IActionResult checkedPage(bool keuringBool)
         {
-            if (keuringBool)
-            {
-                ViewBag.keuring = "goedgekeurd!";
-            }
-            else
+            ViewBag.keuring = "goedgekeurd!";
+
+            if (!keuringBool)
             {
                 ViewBag.keuring = "afgekeurd!";
+                
             }
 
             return View();

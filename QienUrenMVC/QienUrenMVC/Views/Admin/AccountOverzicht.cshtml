@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "AccountOverzicht";
 
-        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
 }
 
 
@@ -98,10 +98,10 @@
                         </td>
                     }
                     <td class="inhoudtekst">
-                        @Html.ActionLink("Aanpassen", "EditAccount", new { accountID = item.AccountId }, new { @class="link" })
+                        @Html.ActionLink("Aanpassen", "EditAccount", new { accountID = item.AccountId }, new { @class = "link" })
                     </td>
                     <td class="inhoudtekst">
-                        @Html.ActionLink("Urenformulieren", "UrenFormulieren", new { id = item.AccountId, name = item.FirstName + " " + item.LastName },  new { @class="link" }) 
+                        @Html.ActionLink("Urenformulieren", "UrenFormulieren", new { id = item.AccountId, name = item.FirstName + " " + item.LastName }, new { @class = "link" })
                     </td>
                     <td class="inhoudtekst">
                         @Html.ActionLink("Verwijderen", "DeleteAccount", new { accountID = item.AccountId }, new { onclick = "return confirm('Weet u zeker dat u dit account en bijbehorende uren formulieren wilt verwijderen?');" })
@@ -112,3 +112,8 @@
 
     </tbody>
 </table>
+<div>
+    <div>
+        <a asp-action="Dashboard" style="color:#9A33F8">Terug</a>
+    </div>
+</div>

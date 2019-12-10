@@ -73,16 +73,22 @@
     </tbody>
 </table>
 
+<div>
+    <div>
+        <a asp-action="Dashboard" asp-controller="Admin" style="color:#9A33F8">Terug</a>
+    </div>
+</div>
+
 <script>
     function errorShow() {
-    var objText = document.getElementById("errorField").innerHTML;
-    if (objText != "") {
+        var objText = document.getElementById("errorField").innerHTML;
+        if (objText != "") {
 
-        setTimeout(
-            function () {
-                document.getElementById('errorField').style.display = 'none';
-            }, 5000);
-    }
+            setTimeout(
+                function () {
+                    document.getElementById('errorField').style.display = 'none';
+                }, 5000);
+        }
     }
     window.onload = errorShow;
 </script>
