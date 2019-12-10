@@ -7,7 +7,7 @@ namespace QienUrenMVC.Repositories
 {
     public interface IClientRepository
     {
-        Task<List<ClientModel>> Get();
+        Task<List<ClientModel>> Get(string searchString);
         Task<ClientModel> GetById(int id);
         Task<ClientModel> CreateNewClient(ClientModel clientModel);
         Task DeleteClient(int id);
