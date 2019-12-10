@@ -32,8 +32,9 @@ namespace QienUrenMVC.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetAllClients(string searchString)
+        public async Task<IActionResult> GetAllClients(string searchString, string errorText)
         {
+            ViewBag.error = errorText;
             List<ClientModel> result = await clientRepo.Get(searchString);
             return View(result);
         }
@@ -85,9 +86,21 @@ namespace QienUrenMVC.Controllers
         public async Task<RedirectToRouteResult> DeleteClient(int id)
         {
             var client = await clientRepo.GetById(id);
-            if (client == null)
+            HoursPerDayModel formsById = await hoursperdayRepo.GetAllFormsByClientId(id);
+
+            if (client == null || formsById != null)
             {
-                throw new Exception("Cannot delete the client because it doesn't exist");
+                if(formsById != null)
+                {
+                    return RedirectToRoute(new { controller = "Client", action = "GetAllClients", errorText = "Deze werkgever kan niet worden verwijderd. Er zijn nog urenformulieren gekoppeld aan deze werkgever." });
+                    //throw new Exception("Cannot delete the client because it has forms assigned to it.");
+                }
+                else
+                {
+                    
+                    throw new Exception("Cannot delete the client because it doesn't exist.");
+                }
+                
             }
 
             await clientRepo.DeleteClient(id);
@@ -139,6 +152,14 @@ namespace QienUrenMVC.Controllers
             HoursFormModel hoursForm = await hoursformRepo.GetFormById(formId);
             if (hoursForm.Verification_code == token)
             {
+                
+                ViewBag.TotalHours = hoursForm.TotalHours;
+                ViewBag.TotalSick = hoursForm.TotalSick;
+                ViewBag.TotalOver = hoursForm.TotalOver;
+                ViewBag.TotalLeave = hoursForm.TotalLeave;
+                ViewBag.TotalOther = hoursForm.TotalOther;
+                ViewBag.TotalTraining = hoursForm.TotalTraining;
+
                 ViewBag.formId = formId;
                 ViewBag.accountId = accountId;
                 ViewBag.fullName = fullName;
