@@ -422,7 +422,10 @@ namespace QienUrenMVC.Controllers
 
                 selected = false;
             }
-            
+
+            ViewBag.formYears = SelectListYears;
+
+
             List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
            
             List<HoursFormModel> forms = await hoursformRepo.GetAllFormsForAccountForYear(year, id);
