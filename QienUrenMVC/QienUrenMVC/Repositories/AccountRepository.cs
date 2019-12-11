@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QienUrenMVC.Data;
 using QienUrenMVC.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,9 +15,11 @@ namespace QienUrenMVC.Repositories
     {
         private readonly ApplicationDbContext repositoryContext;
         private readonly UserManager<UserIdentity> _userManager;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
-        public AccountRepository(UserManager<UserIdentity> userManager, ApplicationDbContext context)
+        public AccountRepository(UserManager<UserIdentity> userManager, ApplicationDbContext context, IWebHostEnvironment hostingEnvironment)
         {
+            this.hostingEnvironment = hostingEnvironment;
             _userManager = userManager;
             this.repositoryContext = context;
         }
@@ -149,6 +153,12 @@ namespace QienUrenMVC.Repositories
         public async Task RemoveAccount(string accountId)
         {
             var account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
+            string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages/");
+            string totalPath = Path.Combine(uploadsFolder + account.ProfileImage);
+            if (System.IO.File.Exists(totalPath))
+            {
+                System.IO.File.Delete(totalPath);
+            }
             repositoryContext.UserIdentity.Remove(account);
             await repositoryContext.SaveChangesAsync();
 
