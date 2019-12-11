@@ -148,6 +148,7 @@ namespace QienUrenMVC.Controllers
             ViewBag.month = model[0].Month;
             ViewBag.year = await hoursformRepo.GetYearOfForm(model[0].FormId);
             ViewBag.FormId = formid;
+            ViewBag.accountId = medewerkerInfo.AccountId;
 
             if (ModelState.IsValid)
             {
@@ -296,8 +297,10 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> EmployeePersonalia(EmployeeUpdateAccountModel updatedAccount)
         {
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                return View(updatedAccount);
+            }
                 string uniqueFilename = "";
                 var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 if (updatedAccount.ProfileImage != null)
@@ -345,8 +348,8 @@ namespace QienUrenMVC.Controllers
                 return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId});
             }
 
-            return View(updatedAccount);
-        }
+            
+        
 
         [HttpGet]
         public IActionResult ChangePassword()
@@ -357,8 +360,10 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if(ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                return View(model);
+            }
                 var user = await _userManager.GetUserAsync(User);
                 if(user == null)
                 {
@@ -379,9 +384,9 @@ namespace QienUrenMVC.Controllers
 
                 await _signInManager.RefreshSignInAsync(user);
                 return View("ChangePasswordConfirmation");
-            }
+            
 
-            return View(model);
+          
         }
 
         [HttpGet]

@@ -483,5 +483,52 @@ namespace QienUrenMVC.Repositories
             return Years;
         }
 
+        public async Task<List<AllHoursYearModel>> GetAllHoursYear(int currYear)
+        {
+            List<HoursForm> hoursForms = await context.HoursForms.Where(p => p.Year == currYear).ToListAsync();
+            List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
+            List<AllHoursYearModel> models = new List<AllHoursYearModel>();
+
+            foreach(string month in months)
+            {
+                AllHoursYearModel model = new AllHoursYearModel() { };
+                model.Month = month;
+
+                int totalHours = 0;
+                int totalSick = 0;
+                int totalOvertime = 0;
+                int totalTraining = 0;
+                int totalLeave = 0;
+                int totalOther = 0;
+
+                foreach(var hf in hoursForms)
+                {
+                    if (hf.ProjectMonth == month)
+                    {
+                        totalHours += hf.TotalHours;
+                        totalSick += hf.TotalSick;
+                        totalLeave += hf.TotalLeave;
+                        totalOvertime += hf.TotalOver;
+                        totalOther += hf.TotalOther;
+                        totalTraining += hf.TotalTraining;
+                    }
+
+                }
+
+                model.TotalHours = totalHours;
+                model.TotalSick = totalSick;
+                model.TotalOvertime = totalOvertime;
+                model.TotalLeave = totalLeave;
+                model.TotalOther = totalOther;
+                model.TotalTraining = totalTraining;
+
+                models.Add(model);
+
+
+            }
+
+            return (models);
+
     }
+}
 }

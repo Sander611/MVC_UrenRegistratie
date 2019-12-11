@@ -101,10 +101,27 @@
                         @Html.ActionLink("Aanpassen", "EditAccount", new { accountID = item.AccountId }, new { @class = "link" })
                     </td>
                     <td class="inhoudtekst">
-                        @Html.ActionLink("Urenformulieren", "UrenFormulieren", new { id = item.AccountId, name = item.FirstName + " " + item.LastName }, new { @class = "link" })
+                        @if (item.IsAdmin)
+                        {
+                            <p>-</p>
+
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Urenformulieren", "UrenFormulieren", new { id = item.AccountId, name = item.FirstName + " " + item.LastName }, new { @class = "link" })
+                        }
                     </td>
                     <td class="inhoudtekst">
-                        @Html.ActionLink("Verwijderen", "DeleteAccount", new { accountID = item.AccountId }, new { onclick = "return confirm('Weet u zeker dat u dit account en bijbehorende uren formulieren wilt verwijderen?');" })
+                        @if (item.IsAdmin)
+                        {
+                            <p>-</p>
+
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Verwijderen", "DeleteAccount", new { accountID = item.AccountId }, new { onclick = "return confirm('Weet u zeker dat u dit account en bijbehorende uren formulieren wilt verwijderen?');" })
+
+                        }
                     </td>
                 </tr>
             }

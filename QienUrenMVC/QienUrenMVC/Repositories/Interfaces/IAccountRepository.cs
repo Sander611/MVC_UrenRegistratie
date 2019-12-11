@@ -26,5 +26,6 @@ namespace QienUrenMVC.Repositories
         Task SetAccountChanged(string accountId, bool isChanged);
 
         Task RevertAccountPersonalia(string accountId);
+        Task setUserActive(string id);
     }
 }

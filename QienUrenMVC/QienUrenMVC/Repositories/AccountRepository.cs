@@ -124,7 +124,7 @@ namespace QienUrenMVC.Repositories
                 PhoneNumber = account.MobilePhone,
                 City = account.City,
                 IBAN = account.IBAN,
-                CreationDate = DateTime.Now,
+                CreationDate = account.CreationDate,
                 ProfileImage = account.ProfileImage,
                 IsAdmin = account.IsAdmin,
                 IsActive = account.IsActive,
@@ -405,6 +405,12 @@ namespace QienUrenMVC.Repositories
             await repositoryContext.SaveChangesAsync();
         }
 
+        public async Task setUserActive(string id)
+        {
+            UserIdentity user = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == id);
+            user.IsActive = true;
+            await repositoryContext.SaveChangesAsync();
+        }
         public async Task RevertAccountPersonalia(string accountId)
         {
             UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
