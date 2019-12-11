@@ -328,7 +328,7 @@ namespace QienUrenMVC.Controllers
                     MobilePhone = model.MobilePhone,
                     City = model.City,
                     IBAN = model.IBAN,
-                    CreationDate = model.CreationDate,
+                    CreationDate = DateTime.Now,
                     ProfileImage = uniqueFilename,
                     IsAdmin = model.IsAdmin,
                     IsActive = model.IsActive,

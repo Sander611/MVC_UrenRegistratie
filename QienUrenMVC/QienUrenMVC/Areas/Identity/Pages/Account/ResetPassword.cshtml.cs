@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using QienUrenMVC.Data;
+using QienUrenMVC.Repositories;
 
 namespace QienUrenMVC.Areas.Identity.Pages.Account
 {
@@ -17,10 +18,12 @@ namespace QienUrenMVC.Areas.Identity.Pages.Account
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<UserIdentity> _userManager;
+        private readonly IAccountRepository accountRepo;
 
-        public ResetPasswordModel(UserManager<UserIdentity> userManager)
+        public ResetPasswordModel(UserManager<UserIdentity> userManager, IAccountRepository AccountRepo)
         {
             _userManager = userManager;
+            accountRepo = AccountRepo;
         }
 
         [BindProperty]
@@ -80,6 +83,7 @@ namespace QienUrenMVC.Areas.Identity.Pages.Account
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
+                await accountRepo.setUserActive(user.Id);
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
