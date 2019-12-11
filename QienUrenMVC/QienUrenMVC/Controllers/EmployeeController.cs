@@ -148,6 +148,7 @@ namespace QienUrenMVC.Controllers
             ViewBag.month = model[0].Month;
             ViewBag.year = await hoursformRepo.GetYearOfForm(model[0].FormId);
             ViewBag.FormId = formid;
+            ViewBag.accountId = medewerkerInfo.AccountId;
 
             if (!ModelState.IsValid)
             {
@@ -300,53 +301,52 @@ namespace QienUrenMVC.Controllers
                 return View(updatedAccount);
             }
             string uniqueFilename = "";
-                var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
-                if (updatedAccount.ProfileImage != null)
+            var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
+            if (updatedAccount.ProfileImage != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
+                string filePath = Path.Combine(uploadsFolder, updatedAccount.ImageProfileString);
+                uniqueFilename = updatedAccount.ImageProfileString;
+                System.IO.File.Delete(filePath);
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
-                    string filePath = Path.Combine(uploadsFolder, updatedAccount.ImageProfileString);
-                    uniqueFilename = updatedAccount.ImageProfileString;
-                    System.IO.File.Delete(filePath);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        updatedAccount.ProfileImage.CopyTo(stream);
-                    }
+                    updatedAccount.ProfileImage.CopyTo(stream);
                 }
-                if (existingAccount == null)
-                {
-                    return View(updatedAccount);
-                }
-                AccountModel acc = new AccountModel()
-                {
-                    AccountId = updatedAccount.AccountId,
-                    FirstName = updatedAccount.FirstName,
-                    LastName = updatedAccount.LastName,
-                    Email = updatedAccount.Email,
-                    DateOfBirth = updatedAccount.DateOfBirth,
-                    Address = updatedAccount.Address,
-                    ZIP = updatedAccount.ZIP,
-                    MobilePhone = updatedAccount.MobilePhone,
-                    City = updatedAccount.City,
-                    IBAN = updatedAccount.IBAN,
-                    CreationDate = updatedAccount.CreationDate,
-                    ProfileImage = uniqueFilename,
-                    IsAdmin = updatedAccount.IsAdmin,
-                    IsActive = updatedAccount.IsActive,
-                    IsQienEmployee = updatedAccount.IsQienEmployee,
-                    IsSeniorDeveloper = updatedAccount.IsSeniorDeveloper,
-                    IsTrainee = updatedAccount.IsTrainee,
-                    IsChanged = updatedAccount.IsChanged
+            }
+            if (existingAccount == null)
+            {
+                return View(updatedAccount);
+            }
+            AccountModel acc = new AccountModel()
+            {
+                AccountId = updatedAccount.AccountId,
+                FirstName = updatedAccount.FirstName,
+                LastName = updatedAccount.LastName,
+                Email = updatedAccount.Email,
+                DateOfBirth = updatedAccount.DateOfBirth,
+                Address = updatedAccount.Address,
+                ZIP = updatedAccount.ZIP,
+                MobilePhone = updatedAccount.MobilePhone,
+                City = updatedAccount.City,
+                IBAN = updatedAccount.IBAN,
+                CreationDate = updatedAccount.CreationDate,
+                ProfileImage = uniqueFilename,
+                IsAdmin = updatedAccount.IsAdmin,
+                IsActive = updatedAccount.IsActive,
+                IsQienEmployee = updatedAccount.IsQienEmployee,
+                IsSeniorDeveloper = updatedAccount.IsSeniorDeveloper,
+                IsTrainee = updatedAccount.IsTrainee,
+                IsChanged = updatedAccount.IsChanged
 
-                };
+            };
 
-                acc.IsChanged = true;
-                    
-                    await accountRepo.UpdateAccount(acc, uniqueFilename);
-                ViewBag.imageurl = uniqueFilename;
-                return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId});
-            
+            acc.IsChanged = true;
 
+            await accountRepo.UpdateAccount(acc, uniqueFilename);
+            ViewBag.imageurl = uniqueFilename;
+            return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId });
         }
+
 
         [HttpGet]
         public IActionResult ChangePassword()
@@ -417,7 +417,10 @@ namespace QienUrenMVC.Controllers
 
                 selected = false;
             }
-            
+
+            ViewBag.formYears = SelectListYears;
+
+
             List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
            
             List<HoursFormModel> forms = await hoursformRepo.GetAllFormsForAccountForYear(year, id);

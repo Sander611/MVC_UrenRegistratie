@@ -4,7 +4,35 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 
 }
-
+    <div>
+        <table class="tabel">
+            <thead>
+                <tr>
+                    <th class="kaartheader" colspan="7">Totaaluren</th>
+                </tr>
+            </thead>
+            <thead class="kaartsubheader">
+                <tr>
+                    <th class="headertekst" style="font-size:17px">Totaal Opdracht</th>
+                    <th class="headertekst" style="font-size:17px">Totaal Ziek</th>
+                    <th class="headertekst" style="font-size:17px">Totaal Overwerk</th>
+                    <th class="headertekst" style="font-size:17px">Totaal Verlof</th>
+                    <th class="headertekst" style="font-size:17px">Totaal Training</th>
+                    <th class="headertekst" style="font-size:17px">Totaal Overig</th>
+                </tr>
+            </thead>
+            <tbody class="kaartinhoud">
+                <tr>
+                    <td class="inhoudtekst">@ViewBag.TotalHours</td>
+                    <td class="inhoudtekst">@ViewBag.TotalSick</td>
+                    <td class="inhoudtekst">@ViewBag.TotalOver</td>
+                    <td class="inhoudtekst">@ViewBag.TotalLeave</td>
+                    <td class="inhoudtekst">@ViewBag.TotalTraining</td>
+                    <td class="inhoudtekst">@ViewBag.TotalOther</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 <div>
     <table class="tabel">
