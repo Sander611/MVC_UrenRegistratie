@@ -465,13 +465,18 @@ namespace QienUrenMVC.Repositories
             UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
 
 
-            UserPersonalia personalia = await repositoryContext.UserPersonalia.FirstOrDefaultAsync(p => p.AccountId == accountId);
+            
+            var personalias = from pers in repositoryContext.UserPersonalia where pers.AccountId == accountId
+                              orderby pers.PersonailiaId descending select pers;
+
+            UserPersonalia personalia = await personalias.LastAsync();
 
             account.FirstName = personalia.FirstName;
             account.LastName = personalia.LastName;
             account.ZIP = personalia.ZIP;
             account.Address = personalia.Address;
             account.City = personalia.City;
+            account.PhoneNumber = personalia.MobilePhone;
             account.IsChanged = false;
 
 
