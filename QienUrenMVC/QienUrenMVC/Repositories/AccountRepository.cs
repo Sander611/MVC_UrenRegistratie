@@ -272,6 +272,55 @@ namespace QienUrenMVC.Repositories
             return account;
         }
 
+        public async Task<AccountModel> AdminUpdateAccount(AccountModel account, string uniqueFilename)
+        {
+            UserIdentity entity = repositoryContext.UserIdentity.Single(p => p.Id == account.AccountId);
+
+            UserPersonalia personalia = new UserPersonalia();
+            personalia.AccountId = entity.Id;
+            personalia.FirstName = entity.FirstName;
+            personalia.LastName = entity.LastName;
+            personalia.Address = entity.Address;
+            personalia.City = entity.City;
+            personalia.CreationDate = entity.CreationDate;
+            personalia.DateOfBirth = entity.DateOfBirth;
+            personalia.IBAN = entity.IBAN;
+            personalia.IsActive = entity.IsActive;
+            personalia.IsAdmin = entity.IsAdmin;
+            personalia.IsQienEmployee = entity.IsQienEmployee;
+            personalia.IsSeniorDeveloper = entity.IsSeniorDeveloper;
+            personalia.IsTrainee = entity.IsTrainee;
+            personalia.IsChanged = entity.IsChanged;
+            personalia.ZIP = entity.ZIP;
+            personalia.MobilePhone = entity.PhoneNumber;
+
+
+            entity.FirstName = account.FirstName;
+            entity.LastName = account.LastName;
+            entity.Address = account.Address;
+            entity.City = account.City;
+            entity.CreationDate = account.CreationDate;
+            entity.DateOfBirth = account.DateOfBirth;
+            entity.Email = account.Email;
+            entity.IBAN = account.IBAN;
+            entity.ProfileImage = uniqueFilename;
+            entity.ZIP = account.ZIP;
+            entity.IsActive = account.IsActive;
+            entity.IsAdmin = account.IsAdmin;
+            entity.IsQienEmployee = account.IsQienEmployee;
+            entity.IsSeniorDeveloper = account.IsSeniorDeveloper;
+            entity.PhoneNumber = account.MobilePhone;
+            entity.IsTrainee = account.IsTrainee;
+
+            //saving User info in Userpersonalia table
+            repositoryContext.UserPersonalia.Add(personalia);
+
+
+            await repositoryContext.SaveChangesAsync();
+
+            return account;
+        }
+
         public async Task<UserPersonaliaModel> ComparePersonaliaChanges(string accountId)
         {
             //var PreviousPersonalia = await repositoryContext.UserIdentity.Where(p => p.Id == accountId).ToListAsync();

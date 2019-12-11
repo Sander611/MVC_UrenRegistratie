@@ -14,6 +14,7 @@ namespace QienUrenMVC.Repositories
         Task RemoveAccount(string accountId);
         Task RemoveAllFormPerAccount(string accountId);
         Task<AccountModel> UpdateAccount(AccountModel account, string UniqueFilename);
+        Task<AccountModel> AdminUpdateAccount(AccountModel account, string uniqueFilename);
         Task<List<AccountModel>> getPersonaliaFromAccount(string accountId);
         Task<List<string>> GetAccountIdsByRole(string role);
         Task<AccountModel> GetAccountByFormId(int formId);
