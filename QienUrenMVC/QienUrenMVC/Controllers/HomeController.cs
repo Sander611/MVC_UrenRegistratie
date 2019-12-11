@@ -20,11 +20,13 @@ namespace QienUrenMVC.Controllers
 
         private readonly ILogger<HomeController> _logger;
         private readonly IHoursFormRepository hoursformRepo;
+        private readonly IAccountRepository accountRepo;
 
-        public HomeController(IHoursFormRepository HoursFormRepo,  ILogger<HomeController> logger)
+        public HomeController(IHoursFormRepository HoursFormRepo,  ILogger<HomeController> logger, IAccountRepository AccountRepo)
         {
             _logger = logger;
             hoursformRepo = HoursFormRepo;
+            accountRepo = AccountRepo;
         }
 
         private readonly UserManager<UserIdentity> _userManager;
@@ -41,11 +43,23 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> Index(string accountId, int ClientId)
         {
 
-            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            ClaimsPrincipal currentUser = this.User;
+
+            if (currentUser.Identity.IsAuthenticated)
+            {
+                AccountModel accModel = await accountRepo.GetOneAccount(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                if (!accModel.IsActive)
+                {
+                    return Redirect("Identity/Account/Login");
+                }
+
+            }
 
 
             if (currentUser.IsInRole("Admin") == true)
             {
+              
+
                 return RedirectToRoute(new { controller = "Admin", action = "Dashboard" });
             }
             if (User.IsInRole("Employee") == true)
