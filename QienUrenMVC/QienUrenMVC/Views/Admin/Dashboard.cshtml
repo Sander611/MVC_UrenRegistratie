@@ -20,7 +20,7 @@
                 <a style="text-align:center;" asp-controller="Admin" asp-action="AccountOverzicht" class="link">Accountbeheer</a>
                 <a style="text-align:center;" asp-controller="Client" asp-action="GetAllClients"  class="link">Werkgevers</a>
                 <a style="text-align:center;" asp-controller="Admin" asp-action="YearOverview" asp-route-Year="@DateTime.Now.Year"  class="link">Jaaroverzicht</a>
-                <a style="text-align:center;" asp-controller="Admin" asp-action=""  class="link">Mutatieformulier</a>            
+                @*<a style="text-align:center;" asp-controller="Admin" asp-action=""  class="link">Mutatieformulier</a>*@            
         </div>
   
         <div class="col-md-10">
@@ -49,36 +49,47 @@
                             @foreach (var changedAccount in Model.changedAccounts)
                             {
                                 var account = changedAccount;
-                                <tr>
-                                    <td class="inhoudtekst">
+                            <tr>
+                                <td class="inhoudtekst">
 
-                                        @Html.DisplayFor(modelItem => account.FirstName)
+                                    @Html.DisplayFor(modelItem => account.FirstName)
 
-                                    </td>
-                                    <td class="inhoudtekst">
-                                        @Html.ActionLink("Bekijk Aanpassingen", "PersonaliaControleren", new
-                                        {
-                                            accountId = account.AccountId,
-                                   FirstName = account.FirstName,
-                                   LastName = account.LastName,
-                                   Email = account.Email,
-                                   DateOfBirth = account.DateOfBirth,
-                                   Adress = account.Address,
-                                   Zip = account.ZIP,
-                                   MobilePhone = account.MobilePhone,
-                                   City = account.City,
-                                   IBAN = account.IBAN,
-                                   CreationDate = account.CreationDate,
-                                   ProfileImage = account.CreationDate,
-                                   IsAdmin = account.IsAdmin,
-                                   IsTrainee = account.IsTrainee,
-                                   IsQienEmployee = account.IsQienEmployee,
-                                   IsSeniorDeveloper = account.IsSeniorDeveloper,
-                                   IsActive = account.IsActive,
-                                   IsChanged = account.IsChanged
-                                        }, new { @class = "link" })
-                                    </td>
-                                </tr>
+                                </td>
+                                <td class="inhoudtekst">
+                                    Aanvraag aanpassingen personalia
+                                </td>
+
+                                <td class="inhoudtekst">
+                                    -
+                                </td>
+                                <td align=center class="inhoudtekst">
+                                    -
+                                </td>
+
+                                <td class="inhoudtekst">
+                                    @Html.ActionLink("Inzien", "PersonaliaControleren", new
+                                    {
+                                       accountId = account.AccountId,
+                                       FirstName = account.FirstName,
+                                       LastName = account.LastName,
+                                       Email = account.Email,
+                                       DateOfBirth = account.DateOfBirth,
+                                       Adress = account.Address,
+                                       Zip = account.ZIP,
+                                       MobilePhone = account.MobilePhone,
+                                       City = account.City,
+                                       IBAN = account.IBAN,
+                                       CreationDate = account.CreationDate,
+                                       ProfileImage = account.CreationDate,
+                                       IsAdmin = account.IsAdmin,
+                                       IsTrainee = account.IsTrainee,
+                                       IsQienEmployee = account.IsQienEmployee,
+                                       IsSeniorDeveloper = account.IsSeniorDeveloper,
+                                       IsActive = account.IsActive,
+                                       IsChanged = account.IsChanged
+                                    }, new { @class = "link" })
+                                </td>
+                            </tr>
                             }
 
                             @foreach (var item in Model.uncheckedForms)
@@ -123,11 +134,11 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-7 col-md-12">
+                <div class="col">
                     <table style="font-size:10px;" class="tabel">
                         <thead>
                             <tr>
-                                <th colspan="5" class="kaartheader">Totaaluren 2019</th>
+                                <th colspan="7" class="kaartheader">Totaaluren 2019</th>
                             </tr>
                         </thead>
                         <thead class="kaartsubheader">
@@ -136,6 +147,9 @@
                                 <th class="headertekst">Uren</th>
                                 <th class="headertekst">Ziek</th>
                                 <th class="headertekst">Overuren</th>
+                                <th class="headertekst">Training</th>
+                                <th class="headertekst">Verlof</th>
+                                <th class="headertekst">Overig</th>
                             </tr>
                         </thead>
                         <tbody class="kaartinhoud">
@@ -154,17 +168,25 @@
                                 <td class="inhoudtekst">
                                     @Html.DisplayFor(modelItem => YearHours.TotalOvertime)
                                 </td>
+                                <td class="inhoudtekst">
+                                    @Html.DisplayFor(modelItem => YearHours.TotalTraining)
+                                </td>
+                                <td class="inhoudtekst">
+                                    @Html.DisplayFor(modelItem => YearHours.TotalLeave)
+                                </td>
+                                <td class="inhoudtekst">
+                                    @Html.DisplayFor(modelItem => YearHours.TotalOther)
+                                </td>
                             </tr>
                             }
 
                         </tbody>
                     </table>
                 </div>
-
-                @using (Html.BeginForm("SendEmail", "Email", FormMethod.Post))
+               @using (Html.BeginForm("SendEmail", "Email", FormMethod.Post))
                 {
-                    @*<form asp-controller="EmailController" asp-action="SendEmail" method="post">*@
-                    <div class="col-lg-5 col-md-12">
+                    
+                    <div class="col">
                         <div class="kaartheader">
                             <h3>Mail Service</h3>
                         </div>
@@ -176,13 +198,17 @@
                                 </div>
                             </div>
                             <div>
-                                @Html.TextArea("adminText", (string)ViewBag.textAdmin, new { style = "width: 100%; max-width: 100%; height: 200px;" })
+                                @Html.TextArea("adminText", (string)ViewBag.textAdmin, new { style = "width: 100%; max-width: 100%; height: 397px; max-height: 100%;" })
                             </div>
                             <input style="width:200px;" value="Verstuur" class="btn btn-login" type="submit" asp-action="SendEmail" asp-controller="Email" />
                         </div>
                     </div>
-                        @*</form>*@
+                    
                 }
+
+
+
             </div>
+                
         </div>
     </div>
