@@ -275,7 +275,7 @@ namespace QienUrenMVC.Controllers
                     IsSeniorDeveloper = updatedAccount.IsSeniorDeveloper,
                     IsTrainee = updatedAccount.IsTrainee
                 };
-                await accountRepo.UpdateAccount(acc, uniqueFilename);
+                await accountRepo.AdminUpdateAccount(acc, uniqueFilename);
                 return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht", accountId = acc.AccountId });
             }
         }
