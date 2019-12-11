@@ -148,6 +148,7 @@ namespace QienUrenMVC.Controllers
             ViewBag.month = model[0].Month;
             ViewBag.year = await hoursformRepo.GetYearOfForm(model[0].FormId);
             ViewBag.FormId = formid;
+            ViewBag.accountId = medewerkerInfo.AccountId;
 
             if (ModelState.IsValid)
             {
