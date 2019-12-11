@@ -12,12 +12,6 @@ namespace QienUrenMVC.Models
     {
         public string AccountId { get; set; }
 
-        [DisplayName("Werkgever")]
-        [Required(ErrorMessage = "Er moet een werkgever gekozen worden")]
-        public int? ClientId { get; set; }
-
-        public IEnumerable<SelectListItem> ClientNames { get; set; }
-
         [Required(ErrorMessage = "Een voornaam is verplicht")]
         [DisplayName("Naam")]
         public string FirstName { get; set; }

@@ -14,7 +14,6 @@ using QienUrenMVC.Data;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
 
 namespace QienUrenMVC.Controllers
 {
@@ -28,6 +27,8 @@ namespace QienUrenMVC.Controllers
         private readonly IHoursFormRepository hoursformRepo;
         private readonly IHoursPerDayRepository hoursperdayRepo;
         private readonly UserManager<UserIdentity> _userManager;
+
+        public List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
 
         public AdminController(
                                 IWebHostEnvironment hostingEnvironment,
@@ -50,12 +51,19 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Dashboard()
         {
+            DateTime dt = DateTime.Now;
+            var currYear = dt.Year;
             AdminTaskModel adminTaskModel = new AdminTaskModel
             {
                 uncheckedForms = await hoursformRepo.GetAllClientAcceptedForms(),
                 changedAccounts = await accountRepo.GetChangedAccounts(),
+                allHoursYear = await hoursformRepo.GetAllHoursYear(currYear)
 
-            };
+        };
+
+
+            
+
             var roles = new List<SelectListItem>
             {
                 new SelectListItem{Value = "1", Text = "Iedereen"},
@@ -112,12 +120,6 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> PersonaliaControleren(string accountId)
         {
             UserPersonaliaModel personaliaModel = await accountRepo.ComparePersonaliaChanges(accountId);
-            //HoursFormModel formInfo = await hoursformRepo.GetFormById(formId);
-            //ViewBag.textAdmin = formInfo.CommentAdmin;
-            //ViewBag.textClient = formInfo.CommentClient;
-
-
-            //List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formId);
 
             return View(personaliaModel);
         }
@@ -162,7 +164,7 @@ namespace QienUrenMVC.Controllers
 
             ViewBag.formYears = SelectListYears;
 
-            List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
+            
 
             List<HoursFormModel> allFormsForAccount = await hoursformRepo.GetSingleAccountForms(id, year);
             List<HoursFormModel> sorted = new List<HoursFormModel>();
@@ -229,7 +231,11 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> EditAccount(EmployeeUpdateAccountModel updatedAccount)
         {
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                return View(updatedAccount);
+            }
+            else
             {
                 string uniqueFilename = "";
                 var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
@@ -272,8 +278,6 @@ namespace QienUrenMVC.Controllers
                 await accountRepo.UpdateAccount(acc, uniqueFilename);
                 return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht", accountId = acc.AccountId });
             }
-
-            return View(updatedAccount);
         }
 
         [HttpGet]
@@ -289,10 +293,13 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEmployee(AccountModelCreateView model, int ClientId)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-
-                //var formFile = HttpContext.Request.Form.Files[0];
+                return View(model);
+            }
+            else 
+            {
+                
                 string uniqueFilename = "user-circle-solid.svg";
                 if (model.ProfileImage != null)
                 {
@@ -391,7 +398,6 @@ namespace QienUrenMVC.Controllers
                 var user = await _userManager.FindByEmailAsync(acc.Email);
                 var passtoken = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(passtoken));
-                //var link = $"https://localhost:44306/Identity/Account/ResetPassword?email={acc.Email}&token={encodedToken}";
                 var email = acc.Email;
 
                 var callbackUrl = Url.Page(
@@ -420,7 +426,6 @@ namespace QienUrenMVC.Controllers
                 }
                 return RedirectToRoute(new { controller = "Admin", action = "AccountOverzicht" });
             }
-            return View(model);
         }
 
 
