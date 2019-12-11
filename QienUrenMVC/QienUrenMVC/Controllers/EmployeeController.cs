@@ -149,11 +149,12 @@ namespace QienUrenMVC.Controllers
             ViewBag.year = await hoursformRepo.GetYearOfForm(model[0].FormId);
             ViewBag.FormId = formid;
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                return View(model);
+            }
 
-
-                List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
+            List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
 
                 int totalHours = 0;
                 int totalSick = 0;
@@ -243,8 +244,6 @@ namespace QienUrenMVC.Controllers
 
                 }
                 return View(model);
-            }
-            return View(model);
         }
 
         [HttpPost]
@@ -296,9 +295,11 @@ namespace QienUrenMVC.Controllers
         public async Task<IActionResult> EmployeePersonalia(EmployeeUpdateAccountModel updatedAccount)
         {
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                string uniqueFilename = "";
+                return View(updatedAccount);
+            }
+            string uniqueFilename = "";
                 var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 if (updatedAccount.ProfileImage != null)
                 {
@@ -343,9 +344,8 @@ namespace QienUrenMVC.Controllers
                     await accountRepo.UpdateAccount(acc, uniqueFilename);
                 ViewBag.imageurl = uniqueFilename;
                 return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId});
-            }
+            
 
-            return View(updatedAccount);
         }
 
         [HttpGet]
@@ -357,8 +357,10 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if(ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                return View(model);
+            }
                 var user = await _userManager.GetUserAsync(User);
                 if(user == null)
                 {
@@ -379,9 +381,7 @@ namespace QienUrenMVC.Controllers
 
                 await _signInManager.RefreshSignInAsync(user);
                 return View("ChangePasswordConfirmation");
-            }
-
-            return View(model);
+            
         }
 
         [HttpGet]
