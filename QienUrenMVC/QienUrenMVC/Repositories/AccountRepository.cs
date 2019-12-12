@@ -24,6 +24,8 @@ namespace QienUrenMVC.Repositories
             this.repositoryContext = context;
         }
 
+        //Finds all account according to search term
+
         public async Task<List<AccountModel>> GetAllAccounts(string searchString)
         {
             var allAccounts = new List<AccountModel>();
@@ -54,6 +56,9 @@ namespace QienUrenMVC.Repositories
 
             return allAccounts;
         }
+
+        //all accounts, no search filter
+
         public async Task<List<AccountModel>> GetAllAccountsWithoutString()
         {
             var allAccounts = new List<AccountModel>();
@@ -81,6 +86,8 @@ namespace QienUrenMVC.Repositories
 
             return allAccounts;
         }
+
+        //finds accounts where personalia has changed in order to be able to approve
         public async Task<List<AccountModel>> GetChangedAccounts()
         {
             var allAccounts = new List<AccountModel>();
@@ -112,6 +119,8 @@ namespace QienUrenMVC.Repositories
 
             return allAccounts;
         }
+
+        //creates a new account
 
         public async Task<AccountModel> AddNewAccount(AccountModel account)
         {
@@ -150,6 +159,8 @@ namespace QienUrenMVC.Repositories
 
         }
 
+        //removes account from database and all accompanying forms
+
         public async Task RemoveAccount(string accountId)
         {
             var account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
@@ -172,6 +183,8 @@ namespace QienUrenMVC.Repositories
             repositoryContext.HoursForms.RemoveRange(hourforms);
             await repositoryContext.SaveChangesAsync();
         }
+
+        //modify active or not
 
         public async Task<AccountModel> ModifyAccountActivity(string accountId, bool IsActive)
         {
@@ -204,6 +217,8 @@ namespace QienUrenMVC.Repositories
 
         }
 
+        //finds one account
+
         public async Task<AccountModel> GetOneAccount(string accountId)
         {
             UserIdentity account = await repositoryContext.UserIdentity.SingleAsync(p => p.Id == accountId);
@@ -230,6 +245,8 @@ namespace QienUrenMVC.Repositories
                 IsTrainee = account.IsTrainee
             };
         }
+
+        //update personal info of an account
 
         public async Task<AccountModel> UpdateAccount(AccountModel account, string uniqueFilename)
         {
@@ -282,6 +299,8 @@ namespace QienUrenMVC.Repositories
             return account;
         }
 
+        //allow admin to update account without having to ask for confirmation
+
         public async Task<AccountModel> AdminUpdateAccount(AccountModel account, string uniqueFilename)
         {
             UserIdentity entity = repositoryContext.UserIdentity.Single(p => p.Id == account.AccountId);
@@ -330,6 +349,8 @@ namespace QienUrenMVC.Repositories
 
             return account;
         }
+
+        //compare old and new personal info to approve
 
         public async Task<UserPersonaliaModel> ComparePersonaliaChanges(string accountId)
         {
@@ -388,6 +409,7 @@ namespace QienUrenMVC.Repositories
             return userPersonaliaModel;
         }
 
+        //finds personalia from particular account
 
         public async Task<List<AccountModel>> getPersonaliaFromAccount(string accountId)
         {
@@ -410,6 +432,8 @@ namespace QienUrenMVC.Repositories
             return PersonaliaPerUser;
         }
 
+        //finds account by their role (not identity role)
+
         public async Task<List<string>> GetAccountIdsByRole(string role)
         {
             List<string> ids = new List<string>();
@@ -431,6 +455,8 @@ namespace QienUrenMVC.Repositories
 
 
         }
+
+        //use formid to find the accompanying account
         public async Task<AccountModel> GetAccountByFormId(int formId)
         {
             HoursForm hoursForm = await repositoryContext.HoursForms.SingleAsync(a => a.FormId == formId);
@@ -458,7 +484,7 @@ namespace QienUrenMVC.Repositories
                 IsTrainee = account.IsTrainee
             };
         }
-
+        //personalia changes
         public async Task SetAccountChanged(string accountId, bool isChanged)
         {
             UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
@@ -499,6 +525,8 @@ namespace QienUrenMVC.Repositories
             repositoryContext.Update(account);
             await repositoryContext.SaveChangesAsync();
         }
+
+        //lists of users by roles for mail service
         public async Task<List<AccountModel>> GetAllTrainees()
         {
             var allAccounts = new List<AccountModel>();

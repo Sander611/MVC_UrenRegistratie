@@ -27,7 +27,7 @@ namespace QienUrenMVC.Repositories
         {
             this.client = client;
         }
-
+        //update list of hours etc worked for each day
         public async Task<List<HoursPerDayModel>> Update(List<HoursPerDayModel> daychangeList)
         {
             foreach (var daychange in daychangeList)
@@ -52,6 +52,7 @@ namespace QienUrenMVC.Repositories
             return daychangeList;
         }
 
+        //get all days for the monthly form
         public async Task<List<HoursPerDayModel>> GetAllDaysForForm(int formId)
         {
             var allDaysForFormId = new List<HoursPerDayModel>();
@@ -76,6 +77,7 @@ namespace QienUrenMVC.Repositories
             return allDaysForFormId;
         }
 
+        //get the list of clients
         public  IEnumerable<SelectListItem> GetClientList()
         {
                  List<SelectListItem> clients = context.Clients.AsNoTracking()
@@ -89,6 +91,8 @@ namespace QienUrenMVC.Repositories
                 return new SelectList(clients, "Value", "Text");
         }
 
+
+        //get forms according to which client employees are working for
         public async Task<HoursPerDayModel> GetAllFormsByClientId(int id)
         {
             HoursPerDay entity = await context.HoursPerDays.Where(p => p.ClientId == id).FirstOrDefaultAsync();
