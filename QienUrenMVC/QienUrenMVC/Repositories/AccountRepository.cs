@@ -484,7 +484,7 @@ namespace QienUrenMVC.Repositories
                 IsTrainee = account.IsTrainee
             };
         }
-
+        //personalia changes
         public async Task SetAccountChanged(string accountId, bool isChanged)
         {
             UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
@@ -525,6 +525,8 @@ namespace QienUrenMVC.Repositories
             repositoryContext.Update(account);
             await repositoryContext.SaveChangesAsync();
         }
+
+        //lists of users by roles for mail service
         public async Task<List<AccountModel>> GetAllTrainees()
         {
             var allAccounts = new List<AccountModel>();
