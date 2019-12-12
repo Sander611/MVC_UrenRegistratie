@@ -49,12 +49,10 @@ namespace QienUrenMVC.Controllers
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
                 message.To.Add(new MailboxAddress($"{account.FirstName} {account.LastName}", account.Email));
-                message.Subject = "Bericht van Admin";
+                message.Subject = "[Qien Urenregistratie-systeem] Bericht van Admin";
                 message.Body = new TextPart("plain")
                 {
-                    Text = $"Beste {account.FirstName} {account.LastName}," +
-                        $" U heeft een bericht van admin onvangen. " +
-                        $"Het bericht is " +
+                    Text = $"Beste {account.FirstName} {account.LastName},\n" +
                         $"{messageAdmin}"
                 };
                 using (var smptcli = new SmtpClient())

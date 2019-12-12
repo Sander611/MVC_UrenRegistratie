@@ -65,7 +65,7 @@ namespace QienUrenMVC.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Wachtwoord Wijzigen",
+                    "[Qien Urenregistratie-systeem] Wachtwoord Wijzigen",
                     $"Wijzig je wachtwoord door <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>hier op te klikken </a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
