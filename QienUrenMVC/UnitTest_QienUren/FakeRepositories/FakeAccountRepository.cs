@@ -12,11 +12,15 @@ namespace UnitTest_QienUren.FakeRepositories
         public Task<AccountModel> AddNewAccount(AccountModel account)
         {
             throw new NotImplementedException();
+
+
         }
 
-        public Task<AccountModel> AdminUpdateAccount(AccountModel account, string uniqueFilename)
+        public async Task<AccountModel> AdminUpdateAccount(AccountModel account, string uniqueFilename)
         {
-            throw new NotImplementedException();
+            var userpersonalia = new UserPersonaliaModel();
+
+            return account;
         }
 
         public Task<UserPersonaliaModel> ComparePersonaliaChanges(string accountId)
@@ -34,14 +38,16 @@ namespace UnitTest_QienUren.FakeRepositories
             throw new NotImplementedException();
         }
 
-        public Task<List<AccountModel>> GetAllAccounts(string searchString)
+        public async Task<List<AccountModel>> GetAllAccounts(string searchString)
         {
-            throw new NotImplementedException();
+            var allAccounts = new List<AccountModel>();
+            return allAccounts;       
         }
 
-        public Task<List<AccountModel>> GetAllAccountsWithoutString()
+        public async Task<List<AccountModel>> GetAllAccountsWithoutString()
         {
-            throw new NotImplementedException();
+            var allAccounts = new List<AccountModel>();
+            return allAccounts;
         }
 
         public Task<List<AccountModel>> GetAllQienMedewerkers()

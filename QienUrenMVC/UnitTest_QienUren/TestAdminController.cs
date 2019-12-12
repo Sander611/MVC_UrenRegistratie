@@ -59,9 +59,36 @@ namespace UnitTest_QienUren
             //Arrange
             var controller = new AdminController(null, null, null, new FakeHoursFormRepository(), null, null);
             //Act
-            var result = controller.DisapprovePersonalia("1234");
+            var result = controller.Controleren(1, "1234", "Jansen", "Januari", "2019", 1);
             //Assert
-            Assert.IsInstanceOfType(result, typeof(List<HoursPerDayModel>));
+            Assert.IsTrue(result.IsCompleted);
         }
-    }
+        [TestMethod]
+        public void Should_Return_Personalia_Model()
+        {
+            //Arrange
+            var controller = new AdminController(null, new FakeAccountRepository(), null, null, null, null);
+            //Act
+            var result = controller.PersonaliaControleren("1234");
+            //Assert
+            Assert.IsTrue(result.IsCompleted);
+        }
+        [TestMethod]
+        public void Should_Return_Redirect_After_Edit_Account()
+        {
+            //Arrange
+            var controller = new AdminController(null, new FakeAccountRepository(), null, null, null, null);
+            //Act
+            var result = controller.EditAccount("466471b2-6323-4242-baf1-61a175a16e4e");
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>));
+
+        }
+
+
+        //create employee
+        //year overview
+        //formsforyear
+        //checkcontroleren
+}
 }
