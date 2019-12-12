@@ -1,5 +1,4 @@
-﻿
-@model QienUrenMVC.Models.HoursPerDayModel
+﻿@model QienUrenMVC.Models.HoursPerDayModel
 
 @Html.HiddenFor(p => p.HoursPerDayId)
 @Html.HiddenFor(p => p.Month)
@@ -7,42 +6,42 @@
 @Html.HiddenFor(p => p.Day)
 
 
-    <tr>
-        <td class="inhoudtekst">
-            @Model.Day - @Model.Month
-        </td>
+<tr>
+    <td class="inhoudtekst">
+        @Model.Day - @Model.Month
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.DisplayFor(model => model.Hours, new { style = "width:50px" })
-        </td>
+    <td class="inhoudtekst">
+        @Html.DisplayFor(model => model.Hours, new { style = "width:50px" })
+    </td>
 
-        <td class="inhoudtekst">
-            <select disabled asp-for="ClientId" asp-items="ViewBag.CompanyNames"></select>
-        </td>
+    <td class="inhoudtekst">
+        <select disabled asp-for="ClientId" asp-items="ViewBag.CompanyNames"></select>
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.DisplayFor(model => model.IsSick, new { style = "width:50px" })
-        </td>
+    <td class="inhoudtekst">
+        @Html.DisplayFor(model => model.IsSick, new { style = "width:50px" })
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.DisplayFor(model => model.OverTimeHours, new { style = "width:50px" })
-        </td>
+    <td class="inhoudtekst">
+        @Html.DisplayFor(model => model.OverTimeHours, new { style = "width:50px" })
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.DisplayFor(model => model.IsLeave, new { style = "width:50px" })
-        </td>
+    <td class="inhoudtekst">
+        @Html.DisplayFor(model => model.IsLeave, new { style = "width:50px" })
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.DisplayFor(model => model.Training, new { style = "width:50px" })
-        </td>
+    <td class="inhoudtekst">
+        @Html.DisplayFor(model => model.Training, new { style = "width:50px" })
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.DisplayFor(model => model.Other, new { style = "width:50px" })
-        </td>
+    <td class="inhoudtekst">
+        @Html.DisplayFor(model => model.Other, new { style = "width:50px" })
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.DisplayFor(model => model.Reasoning)
-        </td>
-    </tr>
+    <td class="inhoudtekst">
+        @Html.DisplayFor(model => model.Reasoning)
+    </td>
+</tr>
 
 

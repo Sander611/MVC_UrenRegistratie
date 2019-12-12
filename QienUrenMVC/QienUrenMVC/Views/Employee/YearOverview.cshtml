@@ -11,7 +11,6 @@
         <SelectListItem>)ViewBag.formYears, new { onchange = "window.location.href='/Employee/YearOverview?year=' + this.value;" })
 <br />
 <br />
-
 <table class="tabel">
     <thead>
         <tr>
@@ -61,7 +60,7 @@
     </thead>
     <tbody class="kaartinhoud table table-striped">
         @foreach (var item in Model)
-        {
+         {
             <tr>
                 <td class="inhoudtekst">
                     @Html.DisplayFor(modelItem => item.ProjectMonth)
@@ -140,12 +139,11 @@
                         <img style="width: 15px; height:auto;" src="~/Images/lock-open-solid.svg" />
                     </td>
                 }
-
                 <td class="inhoudtekst">
                     @Html.ActionLink("Inzien", "HoursRegistration", new { formid = item.FormId, state = item.IsAcceptedClient }, new { @class = "link" })
                 </td>
             </tr>
-        }
+         }
     </tbody>
 </table>
 

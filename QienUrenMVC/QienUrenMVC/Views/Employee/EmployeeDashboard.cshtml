@@ -6,56 +6,10 @@
     ViewData["Title"] = "EmployeeDashboard";
     Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 }
-@*@using (Html.BeginForm("CreateFormForAccount", "Employee", FormMethod.Post))
-    {
-        <input type="submit" value="Aanmaken" />
-    }*@
+
 @Html.HiddenFor(model => model.Account.AccountId)
 
-    <style>
-        body {
-            font-family: Arial;
-        }
-
-        /* Style the tab */
-        .tab {
-            overflow: hidden;
-            background-color: #bf80ff;
-        }
-
-            /* Style the buttons inside the tab */
-            .tab button {
-                background-color: inherit;
-                float: left;
-                border: none;
-                outline: none;
-                cursor: pointer;
-                padding: 14px 16px;
-                transition: 0.3s;
-                font-size: 17px;
-                color:white;
-               
-            }
-
-                /* Change background color of buttons on hover */
-                .tab button:hover {
-                    background-color: #7f06b8;
-                }
-
-                /* Create an active/current tablink class */
-                .tab button.active {
-                    background-color: #7f06b8;
-                }
-
-        /* Style the tab content */
-        .tabcontent {
-            display: none;
-            padding: 6px 12px;
- 
-        }
-    </style>
 <div class="row">
-
     <div class="dashboardkaart col-md-2">
         <div class="kaartheader">
             <img asp-append-version="true" style="margin-bottom:10px; width:170px; height:170px; border-radius:50%; border: 1px solid #9A33F8; background-color:white;" class="img-fluid" src="~/Images/ProfileImages/@Model.Account.ProfileImage" />
@@ -89,7 +43,7 @@
                     <p style="text-align:center;"> @Html.ActionLink("Personalia aanpassen", "EmployeePersonalia", new { accountID = Model.Account.AccountId }, new { @class = "personalialink" })</p>
                 </tr>
                 <tr>
-                    <p style="text-align:center;"> @Html.ActionLink("Jaar overzicht", "YearOverview", new { year = DateTime.Now.Year }, new { @class = "personalialink" })</p>
+                    <p style="text-align:center;"> @Html.ActionLink("Jaaroverzicht", "YearOverview", new { year = DateTime.Now.Year }, new { @class = "personalialink" })</p>
                 </tr>
             </tbody>
         </table>
@@ -218,7 +172,6 @@
                         <a href="https://www.youtube.com/user/kudvenkat" target="_blank" class="link">Kudvenkat</a> (De goeroe van Youtube) 
                     </div>
                 </div>
-
                     <script>
                         function openTab(evt, Name) {
                             var i, tabcontent, tablinks;
