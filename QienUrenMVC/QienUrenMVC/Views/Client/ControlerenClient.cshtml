@@ -133,7 +133,8 @@
                             {
                                 <input style="width:200px;" value="Goedkeuren" class="btn btn-success" type="submit" asp-action="CheckControleren" asp-controller="Client" asp-route-id=@ViewBag.formId asp-route-keuring="true" />
                                 <input style="width:200px;" value="Afkeuren" class="btn btn-danger" type="submit" asp-action="CheckControleren" asp-controller="Client" asp-route-id=@ViewBag.formId asp-route-keuring="false" />
-                                <input style="width:200px;" value="Download" class="btn btn-primary" type="submit" asp-action="ExportSCV" asp-controller="Export" asp-route-id=@ViewBag.formId />
+                                <input style="width:200px;" value="Download als .xls" class="btn btn-primary" type="submit" asp-action="CreateSpreadSheet" asp-controller="Export" asp-route-id=@ViewBag.formId />
+                                <input style="width:200px;" value="Download als .csv" class="btn btn-info" type="submit" asp-action="ExportSCV" asp-controller="Export" asp-route-id=@ViewBag.formId />
                             }
                         </div>
                     </div>
