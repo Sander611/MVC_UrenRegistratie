@@ -46,11 +46,18 @@ namespace QienUrenMVC.Controllers
             _userManager = userManager;
         }
 
-        // method om als admin op een gebruiker te klikken en alle forms als overzicht te krijgen (doormiddel van dropdownmenus voor maand, jaar )
 
         [HttpGet]
         public async Task<IActionResult> Dashboard()
         {
+            ///
+            /// This method loads the view of the Admin dashboard
+            /// The view will get the following data:
+            /// "uncheckedForms", containing all hourforms that are checked by the Client.
+            /// "changedAccounts", containing all requests from users that have changed their personal data.
+            /// "allHoursYear", containing all total hours from every user and displays it together as total for different sections.
+            ///
+
             DateTime dt = DateTime.Now;
             var currYear = dt.Year;
             AdminTaskModel adminTaskModel = new AdminTaskModel
@@ -59,7 +66,7 @@ namespace QienUrenMVC.Controllers
                 changedAccounts = await accountRepo.GetChangedAccounts(),
                 allHoursYear = await hoursformRepo.GetAllHoursYear(currYear)
 
-        };
+            };
 
 
             
@@ -78,6 +85,10 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> ApprovePersonalia(string accountId)
         {
+            ///
+            /// This method is executed when the Admin accepts changes made by a User for his/hers personalia.
+            /// A method in the AccountRepository gets called in which the changes will be implemented.
+            ///
             await accountRepo.SetAccountChanged(accountId, false);
             return RedirectToAction("Dashboard");
         }
@@ -85,6 +96,10 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> DisapprovePersonalia(string accountId)
         {
+            ///
+            /// This method is executed when the Admin declines changes made by a User for his/hers personalia.
+            /// A method in the AccountRepository gets called in which the request will be dismissed.
+            ///
             await accountRepo.RevertAccountPersonalia(accountId);
             return RedirectToAction("Dashboard");
         }
@@ -92,6 +107,11 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Controleren(int formId, string accountId, string fullName, string month, string year, int state)
         {
+            ///
+            /// This method prepares the "controleren" view in which the admin is able to see the users hourforms and 
+            /// accept or decline send hourforms.
+            /// It makes a call to the hoursperdayRepository to get the hours filled in by an user for each day.
+            ///
 
             ViewBag.formId = formId;
             ViewBag.accountId = accountId;
@@ -119,6 +139,9 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> PersonaliaControleren(string accountId)
         {
+            ///
+            /// This method generates the view in which an admin can accept or dismiss the users changes made to their own personalia.
+            ///
             UserPersonaliaModel personaliaModel = await accountRepo.ComparePersonaliaChanges(accountId);
 
             return View(personaliaModel);
@@ -127,6 +150,11 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> AccountOverzicht(string searchString)
         {
+            ///
+            /// This method gets all necessary data for the view "AccountOverzicht", in which the Admin can view all accounts existing
+            /// in the application.
+            /// In order to get this list of accounts a call is made to the AccountRepository.
+            ///
 
             List<AccountModel> listAccounts = await accountRepo.GetAllAccounts(searchString);
 
