@@ -300,7 +300,7 @@ namespace QienUrenMVC.Controllers
             {
                 return View(updatedAccount);
             }
-            string uniqueFilename = "";
+            string uniqueFilename = updatedAccount.ImageProfileString;
             var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
             if (updatedAccount.ProfileImage != null)
             {

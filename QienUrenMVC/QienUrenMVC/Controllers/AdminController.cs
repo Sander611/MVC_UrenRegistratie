@@ -301,7 +301,7 @@ namespace QienUrenMVC.Controllers
             else 
             {
                 
-                string uniqueFilename = "user-circle-solid.svg";
+                string uniqueFilename = "profilephoto.png";
                 if (model.ProfileImage != null)
                 {
                     string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
@@ -315,7 +315,7 @@ namespace QienUrenMVC.Controllers
                 }
                 if (model.ProfileImage == null)
                 {
-                    string filename = "user-circle-solid.svg";
+                    string filename = "profilephoto.png";
                     string sourcePath = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
                     string targetPath = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
                     string sourceFile = Path.Combine(sourcePath, filename);
