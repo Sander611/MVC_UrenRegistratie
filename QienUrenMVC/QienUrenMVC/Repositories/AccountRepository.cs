@@ -485,7 +485,7 @@ namespace QienUrenMVC.Repositories
                               orderby pers.PersonailiaId descending select pers;
 
             //pak de laatste personalia in de gesorteerde lijst met personalia
-            UserPersonalia personalia = await personalias.LastAsync();
+            UserPersonalia personalia = await personalias.FirstAsync();
 
             account.FirstName = personalia.FirstName;
             account.LastName = personalia.LastName;
