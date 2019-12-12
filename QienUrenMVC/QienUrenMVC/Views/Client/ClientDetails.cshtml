@@ -6,41 +6,40 @@
 
 }
 
-
-    <div class="container">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th colspan="2" class="kaartheader">@Model.CompanyName</th>
-                </tr>
-            </thead>
-            <thead class="kaartinhoud">
-                <tr>
-                    <td class="inhoudtekst" style="font-weight:bold;">Naam van het bedrijf</td>
-                    <td class="inhoudtekst">@Html.DisplayFor(model => model.CompanyName)</td>
-                </tr>
-                <tr>
-                    <td class="inhoudtekst" style="font-weight:bold;">Contactpersoon 1</td>
-                    <td class="inhoudtekst">@Html.DisplayFor(model => model.ClientName1)</td>
-                </tr>
-                <tr>
-                    <td class="inhoudtekst" style="font-weight:bold;">E-mailadres</td>
-                    <td class="inhoudtekst">@Html.DisplayFor(model => model.ClientEmail1)</td>
-                </tr>
-                <tr>
-                    <td class="inhoudtekst" style="font-weight:bold;">Contactpersoon 2</td>
-                    <td class="inhoudtekst">@Html.DisplayFor(model => model.ClientName2)</td>
-                </tr>
-                <tr>
-                    <td class="inhoudtekst" style="font-weight:bold;">E-mailadres</td>
-                    <td class="inhoudtekst">@Html.DisplayFor(model => model.ClientEmail2)</td>
-                </tr>
-            </thead>
-        </table>
-        <div>
-            <a asp-action="GetAllClients" style="color:#9A33F8">Terug</a>
-        </div>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th colspan="2" class="kaartheader">@Model.CompanyName</th>
+            </tr>
+        </thead>
+        <thead class="kaartinhoud">
+            <tr>
+                <td class="inhoudtekst" style="font-weight:bold;">Naam van het bedrijf</td>
+                <td class="inhoudtekst">@Html.DisplayFor(model => model.CompanyName)</td>
+            </tr>
+            <tr>
+                <td class="inhoudtekst" style="font-weight:bold;">Contactpersoon 1</td>
+                <td class="inhoudtekst">@Html.DisplayFor(model => model.ClientName1)</td>
+            </tr>
+            <tr>
+                <td class="inhoudtekst" style="font-weight:bold;">E-mailadres</td>
+                <td class="inhoudtekst">@Html.DisplayFor(model => model.ClientEmail1)</td>
+            </tr>
+            <tr>
+                <td class="inhoudtekst" style="font-weight:bold;">Contactpersoon 2</td>
+                <td class="inhoudtekst">@Html.DisplayFor(model => model.ClientName2)</td>
+            </tr>
+            <tr>
+                <td class="inhoudtekst" style="font-weight:bold;">E-mailadres</td>
+                <td class="inhoudtekst">@Html.DisplayFor(model => model.ClientEmail2)</td>
+            </tr>
+        </thead>
+    </table>
+    <div>
+        <a asp-action="GetAllClients" style="color:#9A33F8">Terug</a>
     </div>
+</div>
 
     
         

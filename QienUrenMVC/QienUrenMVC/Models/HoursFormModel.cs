@@ -51,6 +51,5 @@ namespace QienUrenMVC.Models
         public bool IsLocked { get; set; }
         public Guid Verification_code { get; set; }
 
-        public IFormFile Attachment { get; set; }
     }
 }

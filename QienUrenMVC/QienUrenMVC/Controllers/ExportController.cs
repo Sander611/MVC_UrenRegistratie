@@ -1,15 +1,19 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using QienUrenMVC.Models;
 using QienUrenMVC.Repositories;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace QienUrenMVC.Controllers
 {
-    public class ExportController
+    public class ExportController : Controller
     {
         private readonly IHoursPerDayRepository hoursperdayRepo;
         private readonly IAccountRepository accountRepo;
@@ -57,7 +61,7 @@ namespace QienUrenMVC.Controllers
                     hoursWorksheet.Cells["F" + currentRow.ToString()].Value = hour.Training;
                     hoursWorksheet.Cells["G" + currentRow.ToString()].Value = hour.Other;
                     hoursWorksheet.Cells["H" + currentRow.ToString()].Value = hour.Reasoning;
-                    
+
                     currentRow++;
                 }
                 hoursWorksheet.View.FreezePanes(2, 1);
@@ -90,13 +94,62 @@ namespace QienUrenMVC.Controllers
 
             stream.Position = 0;
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            var fileName = $"UrenFormulier {account.FirstName} {account.LastName} {hoursForm.ProjectMonth} {hoursForm.Year}.csv";
+            var fileName = $"UrenFormulier {account.FirstName} {account.LastName} {hoursForm.ProjectMonth} {hoursForm.Year}.xls";
             FileStreamResult s = new FileStreamResult(stream, contentType)
             {
                 FileDownloadName = fileName
             };
 
             return s;
+        }
+        public async Task<FileContentResult> ExportSCV(int id)
+        {
+            AccountModel account = await accountRepo.GetAccountByFormId(id);
+            HoursFormModel hoursForm = await hoursFormRepo.GetFormById(id);
+            var csvString = await GenerateCSVString(id);
+            var fileName = $"Uren Formulier {account.LastName} { hoursForm.ProjectMonth} {hoursForm.Year}.csv";
+            return File(new System.Text.UTF8Encoding().GetBytes(csvString), "text/csv", fileName);
+        }
+        private async Task<string> GenerateCSVString(int id)
+        {
+            List<HoursPerDayModel> hours = await hoursperdayRepo.GetAllDaysForForm(id);
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Datum");
+            sb.Append(",");
+            sb.Append("Opdrachgever");
+            sb.Append(",");
+            sb.Append("Overwerk");
+            sb.Append(",");
+            sb.Append("Verlof");
+            sb.Append(",");
+            sb.Append("Ziek");
+            sb.Append(",");
+            sb.Append("Training");
+            sb.Append(",");
+            sb.Append("Overig");
+            sb.Append(",");
+            sb.Append("Verklaring");
+            sb.AppendLine();
+            foreach (var hour in hours)
+            {
+                sb.Append(hour.Day);
+                sb.Append(",");
+                sb.Append(hour.Hours);
+                sb.Append(",");
+                sb.Append(hour.OverTimeHours);
+                sb.Append(",");
+                sb.Append(hour.IsLeave);
+                sb.Append(",");
+                sb.Append(hour.IsSick);
+                sb.Append(",");
+                sb.Append(hour.Training);
+                sb.Append(",");
+                sb.Append(hour.Other);
+                sb.Append(",");
+                sb.Append(hour.Reasoning);
+                sb.AppendLine();
+            }
+            return sb.ToString();
         }
     }
 }

@@ -7,40 +7,40 @@
 @Html.HiddenFor(p =>p.ClientId)
 
     
-    <tr>
-        <td class="inhoudtekst">
-            @Model.Day - @Model.Month
-        </td>
+<tr>
+    <td class="inhoudtekst">
+        @Model.Day - @Model.Month
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.TextBoxFor(model => model.Hours, new { style = "width:50px" })
-        </td>
+    <td class="inhoudtekst">
+        @Html.TextBoxFor(model => model.Hours, new { style = "width:50px" })
+    </td>
 
-        <td class="inhoudtekst">
-            @ViewBag.NameClient
-        </td>
+    <td class="inhoudtekst">
+        @ViewBag.NameClient
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.TextBoxFor(model => model.IsSick, new { style = "width:50px" })
-        </td>
+    <td class="inhoudtekst">
+        @Html.TextBoxFor(model => model.IsSick, new { style = "width:50px" })
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.TextBoxFor(model => model.OverTimeHours, new { style = "width:50px" })
-        </td>
+    <td class="inhoudtekst">
+        @Html.TextBoxFor(model => model.OverTimeHours, new { style = "width:50px" })
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.TextBoxFor(model => model.IsLeave, new { style = "width:50px" })
-        </td>
-        <td class="inhoudtekst"> 
-            @Html.TextBoxFor(model => model.Training, new { style = "width:50px" })
-        </td>
-        <td class="inhoudtekst">
-            @Html.TextBoxFor(model => model.Other, new { style = "width:50px" })
-        </td>
+    <td class="inhoudtekst">
+        @Html.TextBoxFor(model => model.IsLeave, new { style = "width:50px" })
+    </td>
+    <td class="inhoudtekst"> 
+        @Html.TextBoxFor(model => model.Training, new { style = "width:50px" })
+    </td>
+    <td class="inhoudtekst">
+        @Html.TextBoxFor(model => model.Other, new { style = "width:50px" })
+    </td>
 
-        <td class="inhoudtekst">
-            @Html.TextBoxFor(model => model.Reasoning)
-        </td>
-    </tr>
+    <td class="inhoudtekst">
+        @Html.TextBoxFor(model => model.Reasoning)
+    </td>
+</tr>
 
 
