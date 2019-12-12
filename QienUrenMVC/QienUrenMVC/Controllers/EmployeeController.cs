@@ -150,11 +150,12 @@ namespace QienUrenMVC.Controllers
             ViewBag.FormId = formid;
             ViewBag.accountId = medewerkerInfo.AccountId;
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                return View(model);
+            }
 
-
-                List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
+            List<HoursPerDayModel> hpdModel = await hoursperdayRepo.Update(model);
 
                 int totalHours = 0;
                 int totalSick = 0;
@@ -244,8 +245,6 @@ namespace QienUrenMVC.Controllers
 
                 }
                 return View(model);
-            }
-            return View(model);
         }
 
         [HttpPost]
@@ -301,55 +300,53 @@ namespace QienUrenMVC.Controllers
             {
                 return View(updatedAccount);
             }
-                string uniqueFilename = "";
-                var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
-                if (updatedAccount.ProfileImage != null)
+            string uniqueFilename = updatedAccount.ImageProfileString;
+            var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
+            if (updatedAccount.ProfileImage != null)
+            {
+                string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
+                string filePath = Path.Combine(uploadsFolder, updatedAccount.ImageProfileString);
+                uniqueFilename = updatedAccount.ImageProfileString;
+                System.IO.File.Delete(filePath);
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
-                    string filePath = Path.Combine(uploadsFolder, updatedAccount.ImageProfileString);
-                    uniqueFilename = updatedAccount.ImageProfileString;
-                    System.IO.File.Delete(filePath);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        updatedAccount.ProfileImage.CopyTo(stream);
-                    }
+                    updatedAccount.ProfileImage.CopyTo(stream);
                 }
-                if (existingAccount == null)
-                {
-                    return View(updatedAccount);
-                }
-                AccountModel acc = new AccountModel()
-                {
-                    AccountId = updatedAccount.AccountId,
-                    FirstName = updatedAccount.FirstName,
-                    LastName = updatedAccount.LastName,
-                    Email = updatedAccount.Email,
-                    DateOfBirth = updatedAccount.DateOfBirth,
-                    Address = updatedAccount.Address,
-                    ZIP = updatedAccount.ZIP,
-                    MobilePhone = updatedAccount.MobilePhone,
-                    City = updatedAccount.City,
-                    IBAN = updatedAccount.IBAN,
-                    CreationDate = updatedAccount.CreationDate,
-                    ProfileImage = uniqueFilename,
-                    IsAdmin = updatedAccount.IsAdmin,
-                    IsActive = updatedAccount.IsActive,
-                    IsQienEmployee = updatedAccount.IsQienEmployee,
-                    IsSeniorDeveloper = updatedAccount.IsSeniorDeveloper,
-                    IsTrainee = updatedAccount.IsTrainee,
-                    IsChanged = updatedAccount.IsChanged
-
-                };
-
-                acc.IsChanged = true;
-                    
-                    await accountRepo.UpdateAccount(acc, uniqueFilename);
-                ViewBag.imageurl = uniqueFilename;
-                return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId});
             }
+            if (existingAccount == null)
+            {
+                return View(updatedAccount);
+            }
+            AccountModel acc = new AccountModel()
+            {
+                AccountId = updatedAccount.AccountId,
+                FirstName = updatedAccount.FirstName,
+                LastName = updatedAccount.LastName,
+                Email = updatedAccount.Email,
+                DateOfBirth = updatedAccount.DateOfBirth,
+                Address = updatedAccount.Address,
+                ZIP = updatedAccount.ZIP,
+                MobilePhone = updatedAccount.MobilePhone,
+                City = updatedAccount.City,
+                IBAN = updatedAccount.IBAN,
+                CreationDate = updatedAccount.CreationDate,
+                ProfileImage = uniqueFilename,
+                IsAdmin = updatedAccount.IsAdmin,
+                IsActive = updatedAccount.IsActive,
+                IsQienEmployee = updatedAccount.IsQienEmployee,
+                IsSeniorDeveloper = updatedAccount.IsSeniorDeveloper,
+                IsTrainee = updatedAccount.IsTrainee,
+                IsChanged = updatedAccount.IsChanged
 
-            
-        
+            };
+
+            acc.IsChanged = true;
+
+            await accountRepo.UpdateAccount(acc, uniqueFilename);
+            ViewBag.imageurl = uniqueFilename;
+            return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId });
+        }
+
 
         [HttpGet]
         public IActionResult ChangePassword()
@@ -385,8 +382,6 @@ namespace QienUrenMVC.Controllers
                 await _signInManager.RefreshSignInAsync(user);
                 return View("ChangePasswordConfirmation");
             
-
-          
         }
 
         [HttpGet]

@@ -7,154 +7,154 @@
 }
 
 
-    <div class="row">
+<div class="row">
         
-        <div class="dashboardkaart col-md-2">
-            <div class="kaartheader">
-                <img style="margin-bottom:10px; width:170px; height:170px; border-radius:50%; border: 1px solid #9A33F8; background-color:white;" class="img-fluid" src="~/Images/ProfileImages/admin-icon.svg" />
-            </div>
-                <p style="text-align:center; margin-top: 20px; font-weight:bold;">Ingelogd als:</p>
-
-                <p style="text-align:center;">Admin</p>
-               
-                <a style="text-align:center;" asp-controller="Admin" asp-action="AccountOverzicht" class="link">Accountbeheer</a>
-                <a style="text-align:center;" asp-controller="Client" asp-action="GetAllClients"  class="link">Werkgevers</a>
-                <a style="text-align:center;" asp-controller="Admin" asp-action="YearOverview" asp-route-Year="@DateTime.Now.Year"  class="link">Jaaroverzicht</a>
-                @*<a style="text-align:center;" asp-controller="Admin" asp-action=""  class="link">Mutatieformulier</a>*@            
+    <div class="dashboardkaart col-md-2">
+        <div class="kaartheader">
+            <img style="margin-bottom:10px; width:170px; height:170px; border-radius:50%; border: 1px solid #9A33F8; background-color:white;" class="img-fluid" src="~/Images/ProfileImages/admin-icon.svg" />
         </div>
+            <p style="text-align:center; margin-top: 20px; font-weight:bold;">Ingelogd als:</p>
+
+            <p style="text-align:center;">Admin</p>
+               
+            <a style="text-align:center;" asp-controller="Admin" asp-action="AccountOverzicht" class="link">Accountbeheer</a>
+            <a style="text-align:center;" asp-controller="Client" asp-action="GetAllClients"  class="link">Werkgevers</a>
+            <a style="text-align:center;" asp-controller="Admin" asp-action="YearOverview" asp-route-Year="@DateTime.Now.Year"  class="link">Jaaroverzicht</a>
+            @*<a style="text-align:center;" asp-controller="Admin" asp-action=""  class="link">Mutatieformulier</a>*@            
+    </div>
   
-        <div class="col-md-10">
-            <div class="row">
-                <div class="col-lg-12 col-md-12">
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
 
 
 
-                    <table class="tabel">
-                        <thead>
-                            <tr>
-                                <th colspan="5" class="kaartheader">Takenlijst</th>
-                            </tr>
-                        </thead>
-                        <thead class="kaartsubheader">
-                            <tr>
-                                <th class="headertekst">Naam</th>
-                                <th class="headertekst">Taak</th>
-                                <th class="headertekst">Ingeleverd</th>
-                                <th class="headertekst">Goedkeuring</th>
-                                <th class="headertekst">Controleren</th>
-                            </tr>
-                        </thead>
-                        <tbody class="kaartinhoud">
+                <table class="tabel">
+                    <thead>
+                        <tr>
+                            <th colspan="5" class="kaartheader">Takenlijst</th>
+                        </tr>
+                    </thead>
+                    <thead class="kaartsubheader">
+                        <tr>
+                            <th class="headertekst">Naam</th>
+                            <th class="headertekst">Taak</th>
+                            <th class="headertekst">Ingeleverd</th>
+                            <th class="headertekst">Goedkeuring</th>
+                            <th class="headertekst">Controleren</th>
+                        </tr>
+                    </thead>
+                    <tbody class="kaartinhoud">
 
-                            @foreach (var changedAccount in Model.changedAccounts)
+                        @foreach (var changedAccount in Model.changedAccounts)
                             {
-                                var account = changedAccount;
+                            var account = changedAccount;
                             <tr>
-                                <td class="inhoudtekst">
+                            <td class="inhoudtekst">
 
-                                    @Html.DisplayFor(modelItem => account.FirstName)
+                                @Html.DisplayFor(modelItem => account.FirstName)
 
-                                </td>
-                                <td class="inhoudtekst">
-                                    Aanvraag aanpassingen personalia
-                                </td>
+                            </td>
+                            <td class="inhoudtekst">
+                                Aanvraag aanpassingen personalia
+                            </td>
 
-                                <td class="inhoudtekst">
-                                    -
-                                </td>
-                                <td align=center class="inhoudtekst">
-                                    -
-                                </td>
+                            <td class="inhoudtekst">
+                                -
+                            </td>
+                            <td align=center class="inhoudtekst">
+                                -
+                            </td>
 
-                                <td class="inhoudtekst">
-                                    @Html.ActionLink("Inzien", "PersonaliaControleren", new
-                                    {
-                                       accountId = account.AccountId,
-                                       FirstName = account.FirstName,
-                                       LastName = account.LastName,
-                                       Email = account.Email,
-                                       DateOfBirth = account.DateOfBirth,
-                                       Adress = account.Address,
-                                       Zip = account.ZIP,
-                                       MobilePhone = account.MobilePhone,
-                                       City = account.City,
-                                       IBAN = account.IBAN,
-                                       CreationDate = account.CreationDate,
-                                       ProfileImage = account.CreationDate,
-                                       IsAdmin = account.IsAdmin,
-                                       IsTrainee = account.IsTrainee,
-                                       IsQienEmployee = account.IsQienEmployee,
-                                       IsSeniorDeveloper = account.IsSeniorDeveloper,
-                                       IsActive = account.IsActive,
-                                       IsChanged = account.IsChanged
-                                    }, new { @class = "link" })
-                                </td>
+                            <td class="inhoudtekst">
+                                @Html.ActionLink("Inzien", "PersonaliaControleren", new
+                                {
+                                    accountId = account.AccountId,
+                                    FirstName = account.FirstName,
+                                    LastName = account.LastName,
+                                    Email = account.Email,
+                                    DateOfBirth = account.DateOfBirth,
+                                    Adress = account.Address,
+                                    Zip = account.ZIP,
+                                    MobilePhone = account.MobilePhone,
+                                    City = account.City,
+                                    IBAN = account.IBAN,
+                                    CreationDate = account.CreationDate,
+                                    ProfileImage = account.CreationDate,
+                                    IsAdmin = account.IsAdmin,
+                                    IsTrainee = account.IsTrainee,
+                                    IsQienEmployee = account.IsQienEmployee,
+                                    IsSeniorDeveloper = account.IsSeniorDeveloper,
+                                    IsActive = account.IsActive,
+                                    IsChanged = account.IsChanged
+                                }, new { @class = "link" })
+                            </td>
                             </tr>
                             }
 
-                            @foreach (var item in Model.uncheckedForms)
-                            {
-                                <tr>
-                                    <td class="inhoudtekst">
+                        @foreach (var item in Model.uncheckedForms)
+                        {
+                            <tr>
+                                <td class="inhoudtekst">
 
-                                        @Html.DisplayFor(modelItem => item.FullName)
+                                    @Html.DisplayFor(modelItem => item.FullName)
+                                </td>
+                                <td class="inhoudtekst">
+                                    @Html.DisplayFor(modelItem => item.Info)
+                                </td>
+                                <td class="inhoudtekst">
+                                    @Html.DisplayFor(modelItem => item.HandInTime)
+                                </td>
+                                @if (item.stateClientCheck == 1)
+                                {
+                                    <td align=center>
+                                        <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" />
                                     </td>
-                                    <td class="inhoudtekst">
-                                        @Html.DisplayFor(modelItem => item.Info)
+                                }
+                                else if (item.stateClientCheck == 2)
+                                {
+                                    <td align=center>
+                                        <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" />
                                     </td>
-                                    <td class="inhoudtekst">
-                                        @Html.DisplayFor(modelItem => item.HandInTime)
+                                }
+                                else
+                                {
+                                    <td>
+                                        In afwachting..
                                     </td>
-                                    @if (item.stateClientCheck == 1)
-                                    {
-                                        <td align=center>
-                                            <img style="width: 15px; height:auto;" src="~/Images/check-circle-solid.svg" />
-                                        </td>
-                                    }
-                                    else if (item.stateClientCheck == 2)
-                                    {
-                                        <td align=center>
-                                            <img style="width: 15px; height:auto;" src="~/Images/times-circle-solid.svg" />
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>
-                                            In afwachting..
-                                        </td>
-                                    }
-                                    <td class="inhoudtekst">
-                                        @Html.ActionLink("Controleren", "Controleren", new { formId = item.formId, accountId = item.accountId, fullName = item.FullName, month = item.Month, year = item.Year, state = item.stateClientCheck }, new { @class = "link" })
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                }
+                                <td class="inhoudtekst">
+                                    @Html.ActionLink("Controleren", "Controleren", new { formId = item.formId, accountId = item.accountId, fullName = item.FullName, month = item.Month, year = item.Year, state = item.stateClientCheck }, new { @class = "link" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col">
-                    <table style="font-size:10px;" class="tabel">
-                        <thead>
-                            <tr>
-                                <th colspan="7" class="kaartheader">Totaaluren 2019</th>
-                            </tr>
-                        </thead>
-                        <thead class="kaartsubheader">
-                            <tr>
-                                <th class="headertekst">Maand</th>
-                                <th class="headertekst">Uren</th>
-                                <th class="headertekst">Ziek</th>
-                                <th class="headertekst">Overuren</th>
-                                <th class="headertekst">Training</th>
-                                <th class="headertekst">Verlof</th>
-                                <th class="headertekst">Overig</th>
-                            </tr>
-                        </thead>
-                        <tbody class="kaartinhoud">
-                            @foreach (var YearHours in Model.allHoursYear)
-                            {
+        <div class="row">
+            <div class="col">
+                <table style="font-size:10px;" class="tabel">
+                    <thead>
+                        <tr>
+                            <th colspan="7" class="kaartheader">Totaaluren 2019</th>
+                        </tr>
+                    </thead>
+                    <thead class="kaartsubheader">
+                        <tr>
+                            <th class="headertekst">Maand</th>
+                            <th class="headertekst">Uren</th>
+                            <th class="headertekst">Ziek</th>
+                            <th class="headertekst">Overuren</th>
+                            <th class="headertekst">Training</th>
+                            <th class="headertekst">Verlof</th>
+                            <th class="headertekst">Overig</th>
+                        </tr>
+                    </thead>
+                    <tbody class="kaartinhoud">
+                        @foreach (var YearHours in Model.allHoursYear)
+                        {
                             <tr>
                                 <td class="inhoudtekst">
                                     @Html.DisplayFor(modelItem => YearHours.Month)
@@ -178,37 +178,32 @@
                                     @Html.DisplayFor(modelItem => YearHours.TotalOther)
                                 </td>
                             </tr>
-                            }
+                        }
 
-                        </tbody>
-                    </table>
-                </div>
-               @using (Html.BeginForm("SendEmail", "Email", FormMethod.Post))
-                {
-                    
-                    <div class="col">
-                        <div class="kaartheader">
-                            <h3>Mail Service</h3>
-                        </div>
-                        <div class="kaartinhoud">
-                            <div class="form-group">
-                                <label for="sel1">Mail naar:</label>
-                                <div>
-                                    @Html.DropDownList("Roles", (List<SelectListItem>)ViewBag.Roles, "--- Select group ---")
-                                </div>
-                            </div>
-                            <div>
-                                @Html.TextArea("adminText", (string)ViewBag.textAdmin, new { style = "width: 100%; max-width: 100%; height: 397px; max-height: 100%;" })
-                            </div>
-                            <input style="width:200px;" value="Verstuur" class="btn btn-login" type="submit" asp-action="SendEmail" asp-controller="Email" />
-                        </div>
-                    </div>
-                    
-                }
-
-
-
+                    </tbody>
+                </table>
             </div>
-                
-        </div>
+
+            @using (Html.BeginForm("SendEmail", "Email", FormMethod.Post))
+            {
+                <div class="col">
+                    <div class="kaartheader">
+                        <h3>Mail Service</h3>
+                    </div>
+                    <div class="kaartinhoud">
+                        <div class="form-group">
+                            <label for="sel1">Mail naar:</label>
+                            <div>
+                                @Html.DropDownList("Roles", (List<SelectListItem>)ViewBag.Roles, "--- Select group ---")
+                            </div>
+                        </div>
+                        <div>
+                            @Html.TextArea("adminText", (string)ViewBag.textAdmin, new { style = "width: 100%; max-width: 100%; height: 397px; max-height: 100%;" })
+                        </div>
+                        <input style="width:200px;" value="Verstuur" class="btn btn-login" type="submit" asp-action="SendEmail" asp-controller="Email" />
+                    </div>
+                </div>
+            }
+        </div>            
     </div>
+</div>

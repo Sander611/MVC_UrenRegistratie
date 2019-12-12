@@ -1,17 +1,15 @@
 ﻿@model QienUrenMVC.Models.EmployeeDashboardModel;
+@using System.Security.Claims;
 @using Microsoft.AspNetCore.Identity;
 @inject UserManager<UserIdentity> UserManager;
 @{
     ViewData["Title"] = "EmployeeDashboard";
     Layout = "~/Views/Shared/_LayoutEmployee.cshtml";
 }
-@*@using (Html.BeginForm("CreateFormForAccount", "Employee", FormMethod.Post))
-    {
-        <input type="submit" value="Aanmaken" />
-    }*@
-@Html.HiddenFor(model => model.Account.AccountId)
-<div class="row">
 
+@Html.HiddenFor(model => model.Account.AccountId)
+
+<div class="row">
     <div class="dashboardkaart col-md-2">
         <div class="kaartheader">
             <img asp-append-version="true" style="margin-bottom:10px; width:170px; height:170px; border-radius:50%; border: 1px solid #9A33F8; background-color:white;" class="img-fluid" src="~/Images/ProfileImages/@Model.Account.ProfileImage" />
@@ -45,7 +43,7 @@
                     <p style="text-align:center;"> @Html.ActionLink("Personalia aanpassen", "EmployeePersonalia", new { accountID = Model.Account.AccountId }, new { @class = "personalialink" })</p>
                 </tr>
                 <tr>
-                    <p style="text-align:center;"> @Html.ActionLink("Jaar overzicht", "YearOverview", new { year = DateTime.Now.Year}, new { @class = "personalialink"})</p>
+                    <p style="text-align:center;"> @Html.ActionLink("Jaaroverzicht", "YearOverview", new { year = DateTime.Now.Year }, new { @class = "personalialink" })</p>
                 </tr>
             </tbody>
         </table>
@@ -144,38 +142,55 @@
             </div>
             <div class="col-lg-6 col-md-12">
                 <div class="kaartheader">
-                    <h3 style="font-size:25px;">Nieuws</h3>
+                    <h3 style="font-size:25px;">Tips en websites</h3>
                 </div>
+                    <div class="tab">
+                        <button class="tablinks" onclick="openTab(event, 'NET')" id="defaultOpen">.NET</button>
+                        <button class="tablinks" onclick="openTab(event, 'C#')">C#</button>
+                        <button class="tablinks" onclick="openTab(event, 'Divers')">Divers</button>
+                    </div>
+               
                 <div class="kaartinhoud">
-                    <table>
-                        <tbody>
-                            @for (int i = 0; i < 4; i++)
-                            {
-                                <tr>
-                                    <td align="left">
-                                        <img style="width: 20px; height:auto;" src="~/Images/newspaper-solid.svg" />
-                                    </td>
-                                    <td style="padding-left:20px">Urenregistratie is goedgekeurd</td>
-                                </tr>
+                    <div id="NET" class="tabcontent">
+                        <a href="https://dotnet.microsoft.com/" target="_blank" class="link">Microsoft ASP website</a> (Guide voor .NET) <br />
+                        <a href="https://www.nuget.org/" target="_blank" class="link">NuGet</a> (Database voor NuGet packages) <br />
+                        <a href="https://dotnet.microsoft.com/apps/aspnet/apis" targer="_blank" class="link">API</a> (API gebruiken voor .NET) <br />
+                        <a href="https://www.pluralsight.com/courses/understanding-aspdotnet-core-3x" target="_blank" class="link">.Net Core Cursus</a> (Cursus Roland Guijt)
+                    </div>
+
+                    <div id="C#" class="tabcontent">
+                       <a href="https://docs.microsoft.com/en-us/dotnet/csharp/" target="_blank" class="link">Microsoft</a> (C# documentatie Microsoft) <br />
+                        <a href="https://www.codecademy.com/learn/learn-c-sharp" target="_blank" class="link">Codecademy</a> (C# Cursus)<br />
+                       <a href="http://www.tutorialspoint.com/csharp/index.htm" target="_blank" class="link">Tutorialspoint</a> (Zelfstudie C#)
+                    </div>
+
+                    <div id="Divers" class="tabcontent">
+                        <a href="https://www.w3schools.com/" target="_blank" class="link">W3schools</a> (Tutorials voor HTML, CSS etc.)<br />
+                        <a href="https://stackoverflow.com/" target="_blank" class="link">Stackoverflow</a> (Antwoorden op al je codeerproblemen)<br />
+                        <a href="https://www.codecademy.com/" target="_blank" class="link">Codecademy</a> (Tutorials om te leren coderen)<br />
+                        <a href="https://www.pluralsight.com/" target="_blank" class="link">Pluralsight</a> (Tutorials om te leren coderen)<br />
+                        <a href="https://www.youtube.com/user/kudvenkat" target="_blank" class="link">Kudvenkat</a> (De goeroe van Youtube) 
+                    </div>
+                </div>
+                    <script>
+                        function openTab(evt, Name) {
+                            var i, tabcontent, tablinks;
+                            tabcontent = document.getElementsByClassName("tabcontent");
+                            for (i = 0; i < tabcontent.length; i++) {
+                                tabcontent[i].style.display = "none";
                             }
-                        </tbody>
-                    </table>
+                            tablinks = document.getElementsByClassName("tablinks");
+                            for (i = 0; i < tablinks.length; i++) {
+                                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                            }
+                            document.getElementById(Name).style.display = "block";
+                            evt.currentTarget.className += " active";
+                        }
+
+                        document.getElementById("defaultOpen").click();
+                    </script>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@*<div class="nieuws">
-            <h1 id="takenheader">Nieuws</h1>
-            <table>
-                <tbody>
-                    @for (int i = 0; i < 5; i++)
-                    {
-                        <tr>
-                            <td>Urenregistratie is goed gekeurd door Admin </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>*@
+

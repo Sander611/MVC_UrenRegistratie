@@ -92,21 +92,29 @@ namespace QienUrenMVC.Repositories
         public async Task<HoursPerDayModel> GetAllFormsByClientId(int id)
         {
             HoursPerDay entity = await context.HoursPerDays.Where(p => p.ClientId == id).FirstOrDefaultAsync();
-            HoursPerDayModel model = new HoursPerDayModel
+
+            HoursPerDayModel model = new HoursPerDayModel() { };
+            if (entity != null) {
+
+                model.FormId = entity.FormId;
+                model.Day = entity.Day;
+                model.Hours = entity.Hours;
+                model.Month = entity.Month;
+                model.Training = entity.Training;
+                model.IsLeave = entity.IsLeave;
+                model.IsSick = entity.IsSick;
+                model.Other = entity.Other;
+                model.OverTimeHours = entity.OverTimeHours;
+                model.ClientId = entity.ClientId;
+                model.HoursPerDayId = entity.HoursPerDayId;
+                model.Reasoning = entity.Reasoning;
+
+            }
+            else
             {
-                FormId = entity.FormId,
-                Day = entity.Day,
-                Hours = entity.Hours,
-                Month = entity.Month,
-                Training = entity.Training,
-                IsLeave = entity.IsLeave,
-                IsSick = entity.IsSick,
-                Other = entity.Other,
-                OverTimeHours = entity.OverTimeHours,
-                ClientId = entity.ClientId,
-                HoursPerDayId = entity.HoursPerDayId,
-                Reasoning = entity.Reasoning
-            };
+                model = null;
+            }
+
 
             return (model);
         }

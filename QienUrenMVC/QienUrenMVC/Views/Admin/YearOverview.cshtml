@@ -8,8 +8,8 @@
 
 @Html.DropDownList("year", (IEnumerable
         <SelectListItem>)ViewBag.formYears, new { onchange = "window.location.href='/Admin/YearOverview?Year=' + this.value;" })
-
-
+<br />
+<br />
 <table class="tabel">
     <thead>
         <tr>
@@ -42,7 +42,7 @@
     <tbody class="kaartinhoud table table-striped">
 
         @foreach (var item in Model)
-        {
+         {
             <tr>
                 <td class="inhoudtekst">
                     @Html.DisplayFor(modelItem => item.Month)
@@ -66,8 +66,7 @@
                     @Html.ActionLink("Alle Formulieren", "FormsForYear", new { year = item.Year, month = item.Month }, new { @class = "link" })
                 </td>
             </tr>
-        }
-
+         }
     </tbody>
 </table>
 

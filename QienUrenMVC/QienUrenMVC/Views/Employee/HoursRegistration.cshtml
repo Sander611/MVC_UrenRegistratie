@@ -37,7 +37,6 @@
 </div>
 
 <form asp-controller="Employee" asp-action="HoursRegistration" method="post">
-
     <input type="hidden" name="formid" value="@ViewBag.FormId" />
     <table class="tabel">
         <thead>
@@ -83,42 +82,37 @@
                 <div>
                     <textarea style="width: 100%; max-width: 100%; height: 200px;" disabled>@ViewBag.textAdmin</textarea>
                 </div>
-
             </div>
 
             <div class="col-md-4"></div>
 
             <div class="col-md-4">
-
                 <label style="font-weight:bold">Commentaar werkgever:</label>
                 <div>
                     <textarea style="width: 100%; max-width: 100%; height: 200px;" disabled>@ViewBag.textClient</textarea>
                 </div>
             </div>
-
-
         </div>
     }
 
-    <div class="row">
-        @if (ViewBag.status == 0 || ViewBag.status == 4)
-        {
-            <button type="submit" class="btn btn-login" style="margin-right:10px; margin-left:15px;">Bewaren</button>
-            <button type="submit" asp-route-versturen="true" asp-route-id="formid" class="btn btn-login">Bewaren en versturen</button>
-        }
-        else if (ViewBag.status == 1 || ViewBag.status == 2 || ViewBag.status == 3 || ViewBag.status == 5)
-        {
-            <button disabled type="submit" class="btn btn-login" style="margin-right:10px; margin-left:15px;">Bewaren</button>
-            <button disabled type="submit" asp-route-versturen="true" asp-route-id="formid" class="btn btn-login">Bewaren en versturen</button>
-            <input style="width:200px;margin-right:10px;" value="Download" class="btn btn-primary" type="submit" asp-action="CreateSpreadSheet" asp-controller="Export" asp-route-id=@ViewBag.FormId />
-        }
-
-    </div>
+<div class="row">
+    @if (ViewBag.status == 0 || ViewBag.status == 4)
+    {
+        <button type="submit" class="btn btn-login" style="margin-right:10px; margin-left:15px;">Bewaren</button>
+        <button type="submit" asp-route-versturen="true" asp-route-id="formid" class="btn btn-login">Bewaren en versturen</button>
+    }
+    else if (ViewBag.status == 1 || ViewBag.status == 2 || ViewBag.status == 3 || ViewBag.status == 5)
+    {
+        <button disabled type="submit" class="btn btn-login" style="margin-right:10px; margin-left:15px;">Bewaren</button>
+        <button disabled type="submit" asp-route-versturen="true" asp-route-id="formid" class="btn btn-login">Bewaren en versturen</button>
+        <input style="width:200px;" value="Download als .xls" class="btn btn-primary" type="submit" asp-action="CreateSpreadSheet" asp-controller="Export" asp-route-id=@ViewBag.formId />
+        <input style="width:200px;" value="Download als .csv" class="btn btn-info" type="submit" asp-action="ExportSCV" asp-controller="Export" asp-route-id=@ViewBag.formId />
+    }
+</div>
 
     <div>
         <div>
             @Html.ActionLink("Terug", "EmployeeDashboard", new { accountId = ViewBag.accountId })
         </div>
     </div>
-
 </form>

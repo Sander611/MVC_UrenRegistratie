@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -49,5 +50,6 @@ namespace QienUrenMVC.Models
         [DisplayName("Gesloten")]
         public bool IsLocked { get; set; }
         public Guid Verification_code { get; set; }
+
     }
 }
