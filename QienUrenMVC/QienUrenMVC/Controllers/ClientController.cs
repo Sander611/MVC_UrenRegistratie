@@ -30,6 +30,7 @@ namespace QienUrenMVC.Controllers
             hoursperdayRepo = HoursPerDayRepo;
         }
 
+        //Als admin ophalen van alle clients
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllClients(string searchString, string errorText)
@@ -39,6 +40,7 @@ namespace QienUrenMVC.Controllers
             return View(result);
         }
 
+        //Als admin ophalen van client details
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> ClientDetails(int id)
@@ -47,6 +49,7 @@ namespace QienUrenMVC.Controllers
             return View(result);
         }
 
+        //verwijzing naar het aanmaken van een client pagina
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult CreateClient()
@@ -54,6 +57,7 @@ namespace QienUrenMVC.Controllers
             return View();
         }
 
+        //aanmaken en opslaan van client
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateClient(ClientModel newClient)
@@ -61,7 +65,7 @@ namespace QienUrenMVC.Controllers
             ClientModel client = await clientRepo.CreateNewClient(newClient);
             return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
-
+        //als admin opvragen client properties voor het updaten van client 
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> UpdateClient(int id)
@@ -70,6 +74,7 @@ namespace QienUrenMVC.Controllers
             return View(result);
         }
 
+        //als admin aanpasingen opslaan in database
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> UpdateClient(ClientModel updatedClient)
@@ -82,6 +87,7 @@ namespace QienUrenMVC.Controllers
             return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
 
+        //als admin client verwijderen
         [Authorize(Roles = "Admin")]
         public async Task<RedirectToRouteResult> DeleteClient(int id)
         {
@@ -90,23 +96,24 @@ namespace QienUrenMVC.Controllers
 
             if (client == null || formsById != null)
             {
-                if(formsById != null)
+                if (formsById != null)
                 {
                     return RedirectToRoute(new { controller = "Client", action = "GetAllClients", errorText = "Deze werkgever kan niet worden verwijderd. Er zijn nog urenformulieren gekoppeld aan deze werkgever." });
                     //throw new Exception("Cannot delete the client because it has forms assigned to it.");
                 }
                 else
                 {
-                    
+
                     throw new Exception("Cannot delete the client because it doesn't exist.");
                 }
-                
+
             }
 
             await clientRepo.DeleteClient(id);
             return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
 
+        //als admin email versturen voor de client om goed/afkeuren
         [Authorize(Roles = "Admin")]
         public async Task SendEMail(bool keuring, int id)
         {
@@ -117,20 +124,20 @@ namespace QienUrenMVC.Controllers
             message.To.Add(new MailboxAddress($"{medewerkerInfo.FirstName} {medewerkerInfo.LastName}", medewerkerInfo.Email));
             if (keuring == true)
             {
-                message.Subject = "Uren zijn goedgekeurd";
+                message.Subject = "[Qien Urenregistratie-systeem] Uren zijn goedgekeurd";
                 message.Body = new TextPart("plain")
                 {
                     Text = $"Beste {medewerkerInfo.FirstName} {medewerkerInfo.LastName}" +
-                    $" Uw uren waren goedgekeurd!"
+                    $", uw ingeleverde urenformulier is goedgekeurd!"
                 };
             }
             else
             {
-                message.Subject = "Uren zijn afgekeurd";
+                message.Subject = "[Qien Urenregistratie-systeem] Uren zijn afgekeurd";
                 message.Body = new TextPart("plain")
                 {
                     Text = $"Beste {medewerkerInfo.FirstName} {medewerkerInfo.LastName}" +
-                    $" Uw uren waren afgekeurd!"
+                    $", uw ingeleverde urenformulier is afgekeurd!"
                 };
             }
             using (var smptcli = new SmtpClient())
@@ -146,13 +153,13 @@ namespace QienUrenMVC.Controllers
 
         /// De methodes hieronder kunnen door NIET-identity users benaderd worden.
 
-
+        //Verwijzing naar de hourform controleer pagina voor de client
         public async Task<IActionResult> ControlerenClient(int formId, string accountId, string fullName, string month, string year, Guid token)
         {
             HoursFormModel hoursForm = await hoursformRepo.GetFormById(formId);
             if (hoursForm.Verification_code == token)
             {
-                
+
                 ViewBag.TotalHours = hoursForm.TotalHours;
                 ViewBag.TotalSick = hoursForm.TotalSick;
                 ViewBag.TotalOver = hoursForm.TotalOver;
@@ -176,6 +183,7 @@ namespace QienUrenMVC.Controllers
             return View(formsForId);
         }
 
+        //als client uren formulier controleren
         [HttpPost]
         public async Task<IActionResult> CheckControleren([FromQuery]bool keuring, int id, string adminText, string clientText)
         {
@@ -198,7 +206,7 @@ namespace QienUrenMVC.Controllers
             });
         }
 
-        
+        //verwijzing naar de pagina met het resultaat van het controleren
         public IActionResult checkedPage(bool keuringBool)
         {
             ViewBag.keuring = "goedgekeurd!";
@@ -206,7 +214,7 @@ namespace QienUrenMVC.Controllers
             if (!keuringBool)
             {
                 ViewBag.keuring = "afgekeurd!";
-                
+
             }
 
             return View();

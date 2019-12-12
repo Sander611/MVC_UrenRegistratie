@@ -16,6 +16,8 @@ namespace QienUrenMVC.Repositories
             this.context = context;
         }
 
+        //When a user logs in this method checks if the account already has a Hoursform for a specific month and year.
+        //When there is no Hoursform connected to the account then one is created.
         public async Task<HoursFormModel> CheckIfExists(string id, string month, int year)
         {
             var form = await context.HoursForms.Where(p => p.AccountId == id && p.ProjectMonth == month && p.Year == year).SingleOrDefaultAsync();
@@ -42,17 +44,19 @@ namespace QienUrenMVC.Repositories
                 };
                 return model;
             }
-
-
             return null;
-
         }
 
+
+        //If the user picks a year this method will show all the Hoursforms with the specific year. 
+        //Example: If the user picks the year 2018. It will show all the Hoursforms where the year is 2018.
         public async Task<int> GetYearOfForm(int id)
         {
             return await context.HoursForms.Where(p => p.FormId == id).Select(m => m.Year).SingleOrDefaultAsync();
         }
 
+
+        //If the user or admin wants to see a specific hoursform this method search for the specific Hoursform ID which is selected.
         public async Task<HoursFormModel> GetFormById(int id)
         {
             var form = await context.HoursForms.Where(p => p.FormId == id).SingleOrDefaultAsync();
@@ -78,11 +82,11 @@ namespace QienUrenMVC.Repositories
                 Verification_code = form.Verification_code
 
             };
-
             return model;
         }
 
-        //returning all hoursforms, ordered by account Id
+        //The GetAllHoursForms() method returns all Hoursforms from all Accounts (Trainees, Employees, Developers).
+        //When the Hoursforms are picked up by the method they get ordered by the ID of the accounts.
         public async Task<List<HoursFormModel>> GetAllHoursForms()
         {
 
@@ -135,13 +139,12 @@ namespace QienUrenMVC.Repositories
 
                 });
             }
-
-
-
             return allAdminTasks;
             
         }
 
+
+        //This method gets all the forms that are available for an account en shows them to the user
         public async Task<List<HoursFormModel>> getAllFormPerAccount(string accountId)
         {
             var formsEntities = await context.HoursForms.Where(p => p.AccountId == accountId && p.IsAcceptedClient != 3).ToListAsync();
@@ -158,14 +161,13 @@ namespace QienUrenMVC.Repositories
                     ProjectMonth = form.ProjectMonth,
                     Year = form.Year,
                     IsAcceptedClient = form.IsAcceptedClient
-                    
-                    
-                    //Info = "Uren registratie " + form.ProjectMonth + " " + form.Year.ToString(),
                 });
             }
             return formPerUser;
         }
 
+
+        //When an account is deleted by the admin this method makes sure all the existing Hourform (and HoursPerDay) that are connected to the Account(ID) are also deleted.
         public async Task RemoveAllFormPerAccount(string accountId)
         {
             var daysforForm = await context.HoursPerDays.Where(p => p.Form.AccountId == accountId).ToListAsync();
@@ -178,7 +180,7 @@ namespace QienUrenMVC.Repositories
             await context.SaveChangesAsync();
         }
 
-
+        //Get all forms of a single account
         public async Task<List<HoursFormModel>> GetSingleAccountForms(string accountId, int year)
         {
             var formsEntities = await context.HoursForms.Where(p => p.AccountId == accountId && p.Year == year || p.AccountId == accountId && year == 0 ).OrderByDescending(m => m.Year).ToListAsync();
@@ -211,6 +213,8 @@ namespace QienUrenMVC.Repositories
 
         }
 
+        //When a user edits his or hers Hoursform (and HoursPerDay (for example changes the hour for a day)) this method makes sure the changes are saved.
+
         public async Task<HoursFormModel> EditForm(HoursFormModel editform)
         {
 
@@ -238,6 +242,10 @@ namespace QienUrenMVC.Repositories
             return editform;
         }
 
+
+        //When the admin creates an account at the same time this method is evoked.
+        //The method makes sure an HoursformModel is created with the right information
+        //the switch statement looks for the right months and adds the right amount of days to the HourPerDayModel
         public async Task<HoursFormModel> CreateNewForm(HoursFormModel hoursFormModel, int ClientId)
         {
             DateTime day = DateTime.Today;
@@ -338,6 +346,10 @@ namespace QienUrenMVC.Repositories
             return hoursFormModel;
         }
 
+
+        //This method looks up every hoursform from every Employee en counts up all hours (sick, vacation etc)
+        //It distincts every month of every year.
+        //It loops trough every month and every year and then loops trough all the trainees, employees and developers.
         public async Task<List<YearOverviewModel>> GetYearOverviews(int year, List<string> Traineeids, List<string> Employeeids, List<string> SoftDevids)
         {
             List<string> months = new List<string>() { "januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december" };
@@ -379,6 +391,8 @@ namespace QienUrenMVC.Repositories
             return yearOverviews;
         }
 
+        //This method gets all Hoursform of a specific month. 
+        //The year can be chosen in the view if you click on the link you get every Hourforms of the month you choose.
         public async Task<List<FormsForMonthModel>> GetFormsForYearAndMonth(int year, string month)
         {
             List<HoursForm> formsEntities = await context.HoursForms.Where(p => p.Year == year && p.ProjectMonth == month).ToListAsync();
@@ -406,6 +420,8 @@ namespace QienUrenMVC.Repositories
                 }) ;
             return formsForYearandMonth;
         }
+
+        //With this method you can choose one Hoursform by its ID
         public async Task<HoursFormModel> GetFormsById(int formid)
         {
             HoursForm hoursForm = await context.HoursForms.SingleAsync(a => a.FormId == formid);
@@ -419,6 +435,9 @@ namespace QienUrenMVC.Repositories
             };
         }
 
+        //This method changes the state of a Hoursform
+        //For Example: If an employee saves and sends his of hers Hoursform, the state changes and the employee can no longer change the Hoursform
+        // The same goes for CLient, if he or she accepts the hoursform the state changes so the admin can accept or reject the hoursform
         public async Task ChangeState(int state, int id, string textClient, string textAdmin = null)
         {
             HoursForm entity = await context.HoursForms.SingleAsync(p => p.FormId == id);
@@ -432,6 +451,8 @@ namespace QienUrenMVC.Repositories
 
             await context.SaveChangesAsync();
         }
+
+        //When someone changes his or hers Hoursform the totalhours gets updated.
         public async Task UpdateTotalHoursForm(int id, int totalHours, int totalSick, int totalOver, int totalLeave, int totalOther, int TotalTraining)
         {
             HoursForm entity = await context.HoursForms.SingleAsync(p => p.FormId == id);
@@ -444,6 +465,7 @@ namespace QienUrenMVC.Repositories
             await context.SaveChangesAsync();
         }
 
+        //Get all Hoursform from one account of a specific year.
         public async Task<List<HoursFormModel>> GetAllFormsForAccountForYear(int year, string id)
         {
             List<HoursForm> formsEntities = await context.HoursForms.Where(p => p.Year == year && p.AccountId == id).ToListAsync();
@@ -471,18 +493,23 @@ namespace QienUrenMVC.Repositories
             return formsForYearandMonth;
         }
 
+
+        //With this method the admin can get all hourforms of one user/account.
         public async Task<List<int>> GetAllYearsForUser(string id)
         {
             List<int> Years = await context.HoursForms.Where(p => p.AccountId == id).Select(m => m.Year).Distinct().OrderBy(x => x).ToListAsync();
             return Years;
         }
 
+        //This method is for the dropdown menu. If a year has an hoursform it can be selected in the dropdownmenu (it becomes an option)
         public async Task<List<int>> GetAllExistingYears(int year)
         {
             List<int> Years = await context.HoursForms.Select(m => m.Year).Distinct().OrderBy(x => x).ToListAsync();
             return Years;
         }
 
+        //This method is for the Admin Dashboard. There is a panel where you can see all the total hours of the current year.
+        //It sums up every totalhours of every form and shows the data on the dashboard per Month (and current year) 
         public async Task<List<AllHoursYearModel>> GetAllHoursYear(int currYear)
         {
             List<HoursForm> hoursForms = await context.HoursForms.Where(p => p.Year == currYear).ToListAsync();

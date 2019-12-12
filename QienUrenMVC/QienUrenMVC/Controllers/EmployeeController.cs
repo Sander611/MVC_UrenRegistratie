@@ -236,10 +236,10 @@ namespace QienUrenMVC.Controllers
                         var message = new MimeMessage();
                         message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
                         message.To.Add(new MailboxAddress($"{client1.ClientName1}", client1.ClientEmail1));
-                        message.Subject = "Check formulier";
+                        message.Subject = "[Qien Urenregistratie-systeem] Controleer het urenformulier van " + fullName;
                         message.Body = new TextPart("plain")
                         {
-                            Text = $"We would like you to check hours registration declaration it was filled by {Name}. Please click on the below link to check the data : {callbackUrl}"
+                            Text = $"Het urenformulier voor de maand {month} is ingevuld door {fullName}. Klik op deze link om het urenformulier te keuren :\n{callbackUrl}"
                         };
                         using (var smptcli = new SmtpClient())
                         {
