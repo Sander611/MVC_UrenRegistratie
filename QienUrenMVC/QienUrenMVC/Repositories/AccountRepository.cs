@@ -335,15 +335,20 @@ namespace QienUrenMVC.Repositories
         {
             //var PreviousPersonalia = await repositoryContext.UserIdentity.Where(p => p.Id == accountId).ToListAsync();
 
-
+            //oude personalia entity ophalen uit de database
             UserPersonalia oldPersonalia = await repositoryContext.UserPersonalia.FirstAsync(p => p.AccountId == accountId);
+
+            //huidige personalia entity ophalen via identity
             UserIdentity newPersonalia = await repositoryContext.UserIdentity.FirstAsync(p => p.Id == accountId);
 
+            //personalia model bevat 2 personalia models voor de view
             UserPersonaliaModel userPersonaliaModel = new UserPersonaliaModel();
 
+            //beide models instantieren
             userPersonaliaModel.previousPersonalia = new UserPersonaliaModel();
             userPersonaliaModel.newPersonalia = new UserPersonaliaModel();
-
+            
+            //ouder personalia krijgt entity gegevens
             userPersonaliaModel.previousPersonalia.FirstName = oldPersonalia.FirstName;
             userPersonaliaModel.previousPersonalia.LastName = oldPersonalia.LastName;
             userPersonaliaModel.previousPersonalia.AccountId = oldPersonalia.AccountId;
@@ -363,7 +368,7 @@ namespace QienUrenMVC.Repositories
 
 
 
-            //new personalia
+            //nieuwe personalia krijgt entity gegevens
             userPersonaliaModel.newPersonalia.FirstName = newPersonalia.FirstName;
             userPersonaliaModel.newPersonalia.LastName = newPersonalia.LastName;
             userPersonaliaModel.newPersonalia.AccountId = newPersonalia.Id;
@@ -472,13 +477,14 @@ namespace QienUrenMVC.Repositories
         }
         public async Task RevertAccountPersonalia(string accountId)
         {
-            UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
-
-
             
+            UserIdentity account = await repositoryContext.UserIdentity.SingleOrDefaultAsync(p => p.Id == accountId);
+            
+            //sorteer personalia via personalia id(int)
             var personalias = from pers in repositoryContext.UserPersonalia where pers.AccountId == accountId
                               orderby pers.PersonailiaId descending select pers;
 
+            //pak de laatste personalia in de gesorteerde lijst met personalia
             UserPersonalia personalia = await personalias.LastAsync();
 
             account.FirstName = personalia.FirstName;
