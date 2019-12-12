@@ -52,7 +52,7 @@ namespace QienUrenMVC.Controllers
                 message.Subject = "[Qien Urenregistratie-systeem] Bericht van Admin";
                 message.Body = new TextPart("plain")
                 {
-                    Text = $"Beste {account.FirstName} {account.LastName},\n" +
+                    Text = $"Beste {account.FirstName} {account.LastName},\n\n" +
                         $"{messageAdmin}"
                 };
                 using (var smptcli = new SmtpClient())
