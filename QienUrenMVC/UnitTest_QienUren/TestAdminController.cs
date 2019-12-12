@@ -44,13 +44,24 @@ namespace UnitTest_QienUren
             Assert.IsInstanceOfType(result, typeof(object));
         }
         [TestMethod]
-        public void Should_Approve_Personalia()
+        public void Should_Disapprove_Personalia()
         {
             //Arrange
-
+            var controller = new AdminController(null, null, null, null, null, null);
             //Act
-
+            var result = controller.DisapprovePersonalia("1234");
             //Assert
+            Assert.IsTrue(result.IsCompleted);
+        }
+        [TestMethod]
+        public void Should_Return_Forms_Of_An_AccountID()
+        {
+            //Arrange
+            var controller = new AdminController(null, null, null, new FakeHoursFormRepository(), null, null);
+            //Act
+            var result = controller.DisapprovePersonalia("1234");
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(List<HoursPerDayModel>));
         }
     }
 }
