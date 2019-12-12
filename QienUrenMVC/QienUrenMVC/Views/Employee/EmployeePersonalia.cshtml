@@ -44,19 +44,19 @@
                         <div class="form-group">
                             @Html.HiddenFor(model => model.AccountId)
                             @Html.HiddenFor(model => model.FirstName)
-                            @Html.DisplayNameFor(model => model.FirstName)
-                            <h4>
-                                @Html.DisplayFor(model => model.FirstName)
-                            </h4>
+
+                            <label asp-for="FirstName" class="control-label"></label>
+                            <input asp-for="FirstName" class="form-control" disabled />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             @Html.HiddenFor(model => model.LastName)
-                            @Html.DisplayNameFor(model => model.LastName)
-                            <h4>
-                                @Html.DisplayFor(model => model.LastName)
-                            </h4>
+
+                            <label asp-for="LastName" class="control-label"></label>
+                            <input asp-for="LastName" class="form-control" disabled />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
 
                     </div>
@@ -65,10 +65,10 @@
                     <div class="col-md-7">
                         <div class="form-group">
                             @Html.HiddenFor(model => model.Email)
-                            @Html.DisplayNameFor(model => model.Email)
-                            <h4>
-                                @Html.DisplayFor(model => model.Email)
-                            </h4>
+
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" disabled />
+                            <span asp-validation-for="Email" class="text-danger"></span>
                             <br />
                             @Html.ActionLink("Wachtwoord wijzigen", "ChangePassword", new { }, new { @class = "link" })
 
@@ -87,8 +87,9 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
+                            @Html.HiddenFor(model => model.DateOfBirth)
                             <label asp-for="DateOfBirth" class="control-label"></label>
-                            <input asp-for="DateOfBirth" class="form-control" />
+                            <input asp-for="DateOfBirth" class="form-control" disabled />
                             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                         </div>
                     </div>
@@ -103,15 +104,18 @@
                 <div class="row">
                     <div class="col-md-7">
                         <div class="form-group">
-                            @Html.DisplayNameFor(model => model.IBAN)
                             @Html.HiddenFor(model => model.IBAN)
+
+                            <label asp-for="IBAN" class="control-label"></label>
+                            <input asp-for="IBAN" class="form-control" disabled />
+                            <span asp-validation-for="IBAN" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <h>
                                 @Html.DisplayFor(model => model.IBAN)
                                 @Html.HiddenFor(model => model.IBAN)
                             </h>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
             </div>
