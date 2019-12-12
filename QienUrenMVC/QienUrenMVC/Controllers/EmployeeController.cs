@@ -20,11 +20,6 @@ namespace QienUrenMVC.Controllers
 {
     public class EmployeeController : Controller
     {
-        //private readonly ApiHelper helper;
-        //public EmployeeController(ApiHelper helper)
-        //{
-        //    this.helper = helper;
-        //}
         private readonly UserManager<UserIdentity> _userManager;
         private readonly SignInManager<UserIdentity> _signInManager;
 
@@ -59,12 +54,13 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> EmployeeDashboard(string accountId)
         {
-
+            //ophalen van account gegevens via accountId voor de model
             AccountModel result = await accountRepo.GetOneAccount(accountId);
 
+            //collectie ophalen van hoursforms via accountId voor de model
             List<HoursFormModel> result1 = await hoursformRepo.getAllFormPerAccount(accountId);
 
-
+            //nieuw account model aanmaken met de properties van de accountmodel die is binnengehaald
             AccountModel accountInfo = new AccountModel()
             {
                 FirstName = result.FirstName,
@@ -80,9 +76,13 @@ namespace QienUrenMVC.Controllers
 
             };
 
+            //nieuwe collectie met hourforms instantieren 
             List<HoursFormModel> formsOverview = new List<HoursFormModel>();
+
+            //hourforms die zijn gevonden worden toegevoegd aan de collectie met hourforms
             foreach (var form in result1)
             {
+                //voor elke hourform die is opgehaald een nieuwe hourform aanmaken met dezelfde properties
                 formsOverview.Add(new HoursFormModel
                 {
                     AccountId = form.AccountId,
@@ -94,20 +94,32 @@ namespace QienUrenMVC.Controllers
                 });
             }
             
+            //het model voor de view bevat AccountModel en HoursFormModel
             EmployeeDashboardModel EDM = new EmployeeDashboardModel();
+
+            //samenvoegen van de AccountModel en HourFormsModel in het model voor de view
             EDM.Account = accountInfo;
             EDM.Forms = formsOverview;
+
             return View(EDM);
         }
 
         [HttpGet]
         public async Task<IActionResult> HoursRegistration(int formid, int state)
         {
+            //Ophalen van HoursPerDay via de HoursForm id uit de database
             List<HoursPerDayModel> formsForId = await hoursperdayRepo.GetAllDaysForForm(formid);
+
+            //Ophalen van de huidige HoursForm om de info te laten zien
             HoursFormModel formInfo = await hoursformRepo.GetFormById(formid);
+
+            //clientIdMonth ophalen voor de 1ste gevonden hoursform
             var clientIDmonth = formsForId[0].ClientId;
 
+            //client naam ophalen via de clientIdMonth
             var ClientName = await clientRepo.GetNameByID(clientIDmonth.Value);
+
+            //viewbag krijgt de info die is opgehaald om te laten zien in de view
             ViewBag.NameClient = ClientName;
             ViewBag.TotalHours = formInfo.TotalHours;
             ViewBag.TotalSick = formInfo.TotalSick;
@@ -116,6 +128,7 @@ namespace QienUrenMVC.Controllers
             ViewBag.TotalOther = formInfo.TotalOther;
             ViewBag.TotalTraining = formInfo.TotalTraining;
 
+            //alle clients ophalen als collectie
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
 
@@ -123,27 +136,35 @@ namespace QienUrenMVC.Controllers
             ViewBag.month = formsForId[0].Month;
             ViewBag.year = await hoursformRepo.GetYearOfForm(formid);
             ViewBag.status = state;
+
+            //huidige account ophalen via de formid
             AccountModel account = await accountRepo.GetAccountByFormId(formid);
             ViewBag.accountId = account.AccountId;
 
+            //als state gelijk is aan 4 betekent het afgekeurd. 
             if (state == 4)
             {
-                
+                //laat opmerking zien via viewbag
                 ViewBag.textAdmin = formInfo.CommentAdmin;
                 ViewBag.textClient = formInfo.CommentClient;
             }
             return View(formsForId);
         }
 
+        //Opslaan en bewerken van een uren registratie. 
+        //Email sturen na het afronden van je uren registratie
         [HttpPost]
         public async Task<IActionResult> HoursRegistration(List<HoursPerDayModel> model, bool versturen, int formid)
         {
             AccountModel medewerkerInfo = await accountRepo.GetAccountByFormId(formid);
             string Name = $"{medewerkerInfo.FirstName} {medewerkerInfo.LastName}";
+
             HoursFormModel hoursForm = await hoursformRepo.GetFormById(formid);
             hoursForm.DateSend = DateTime.Now;
             await hoursformRepo.EditForm(hoursForm);
+
             var clientList = hoursperdayRepo.GetClientList();
+
             ViewBag.CompanyNames = clientList;
             ViewBag.month = model[0].Month;
             ViewBag.year = await hoursformRepo.GetYearOfForm(model[0].FormId);
@@ -247,6 +268,7 @@ namespace QienUrenMVC.Controllers
                 return View(model);
         }
 
+        //Uren formulier aanmaken voor de clientId
         [HttpPost]
         public async Task<IActionResult> CreateFormForAccount(HoursFormModel hoursformModel, int ClientId)
         {
@@ -263,6 +285,7 @@ namespace QienUrenMVC.Controllers
             return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard" });
         }
 
+        //Personalia opvragen via de accountId voor het Model
         [HttpGet]
         public async Task<IActionResult> EmployeePersonalia(string accountId)
         {
@@ -292,6 +315,7 @@ namespace QienUrenMVC.Controllers
             return View(tempacc);
         }
 
+        //Updaten personalia na het wijzigen en opslaan
         [HttpPost]
         public async Task<IActionResult> EmployeePersonalia(EmployeeUpdateAccountModel updatedAccount)
         {
@@ -347,13 +371,14 @@ namespace QienUrenMVC.Controllers
             return RedirectToRoute(new { controller = "Employee", action = "EmployeeDashboard", accountId = acc.AccountId });
         }
 
-
+        //verwijzing naar ChangePassword pagina
         [HttpGet]
         public IActionResult ChangePassword()
         {
             return View();
         }
 
+        //Veranderen van wachtwoord voor de huidige gebruiker
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -384,6 +409,7 @@ namespace QienUrenMVC.Controllers
             
         }
 
+        //Ophalen van alle urenformulieren per jaar voor de gebruiker die is ingelogd
         [HttpGet]
         public async Task<IActionResult> YearOverview(int year = 0)
         {
