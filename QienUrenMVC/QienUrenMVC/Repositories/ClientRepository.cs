@@ -17,6 +17,8 @@ namespace QienUrenMVC.Repositories
         {
             context = _context;
         }
+
+        //get all clients in search
         public async Task<List<ClientModel>> Get(string searchString)
         {
             var allClients = new List<ClientModel>();
@@ -34,6 +36,7 @@ namespace QienUrenMVC.Repositories
 
             return allClients;
         }
+        //find clients by id
         public async Task<ClientModel> GetById(int id)
         {
             
@@ -48,14 +51,14 @@ namespace QienUrenMVC.Repositories
                 CompanyName = oneClient.CompanyName
             };
         }
-
+        //get client name
         public  async Task<string> GetNameByID(int id)
         {
             var oneClient = await context.Clients.FindAsync(id);
             string CompanyName = oneClient.CompanyName;
             return CompanyName;
         }
-
+        //create a new client
         public async Task<ClientModel> CreateNewClient(ClientModel clientModel)
         {
             Client newClient = new Client()
@@ -71,12 +74,16 @@ namespace QienUrenMVC.Repositories
 
             return clientModel;
         }
+
+        //delete client
         public async Task DeleteClient(int id)
         {
             var client = await context.Clients.FindAsync(id);
             context.Clients.Remove(client);
             await context.SaveChangesAsync();
         }
+
+        //update client info
         public async Task<ClientModel> Update(ClientModel client)
         {
             Client clientEntity = context.Clients.Single(p => p.ClientId == client.ClientId);
@@ -88,9 +95,5 @@ namespace QienUrenMVC.Repositories
             await context.SaveChangesAsync();
             return client;
         }
-        //public async Task<Client> VerifyEmail(string email)
-        //{
-        //    return await context.Clients.Find(email);
-        //}
     }
 }
