@@ -473,11 +473,11 @@ namespace QienUrenMVC.Controllers
                 var message = new MimeMessage();
                 message.From.Add(new MailboxAddress("QienUrenRegistratie", "GroepTweeQien@gmail.com"));
                 message.To.Add(new MailboxAddress($"{acc.FirstName} {acc.LastName}", acc.Email));
-                message.Subject = "New account was created";
+                message.Subject = "[Qien Urenregistratie-systeem] Een account is aangemaakt voor u!";
 
                 message.Body = new TextPart("plain")
                 {
-                    Text = $"An account with this email was created. Here you can reset you password :{callbackUrl}"
+                    Text = $"Een account met dit emailadres is aangemaakt voor het Qien Urenregistratie-systeem, om uw account actief te maken klik hier en reset uw password:\n{callbackUrl}"
                 };
                 using (var client = new SmtpClient())
                 {

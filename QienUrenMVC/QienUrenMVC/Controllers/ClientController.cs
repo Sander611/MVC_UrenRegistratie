@@ -117,20 +117,20 @@ namespace QienUrenMVC.Controllers
             message.To.Add(new MailboxAddress($"{medewerkerInfo.FirstName} {medewerkerInfo.LastName}", medewerkerInfo.Email));
             if (keuring == true)
             {
-                message.Subject = "Uren zijn goedgekeurd";
+                message.Subject = "[Qien Urenregistratie-systeem] Uren zijn goedgekeurd";
                 message.Body = new TextPart("plain")
                 {
                     Text = $"Beste {medewerkerInfo.FirstName} {medewerkerInfo.LastName}" +
-                    $" Uw uren waren goedgekeurd!"
+                    $", uw ingeleverde urenformulier is goedgekeurd!"
                 };
             }
             else
             {
-                message.Subject = "Uren zijn afgekeurd";
+                message.Subject = "[Qien Urenregistratie-systeem] Uren zijn afgekeurd";
                 message.Body = new TextPart("plain")
                 {
                     Text = $"Beste {medewerkerInfo.FirstName} {medewerkerInfo.LastName}" +
-                    $" Uw uren waren afgekeurd!"
+                    $", uw ingeleverde urenformulier is afgekeurd!"
                 };
             }
             using (var smptcli = new SmtpClient())
