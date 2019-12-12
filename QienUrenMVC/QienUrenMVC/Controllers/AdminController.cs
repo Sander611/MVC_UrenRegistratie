@@ -14,6 +14,7 @@ using QienUrenMVC.Data;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 
 namespace QienUrenMVC.Controllers
 {
@@ -265,7 +266,7 @@ namespace QienUrenMVC.Controllers
             }
             else
             {
-                string uniqueFilename = "";
+                string uniqueFilename = updatedAccount.ImageProfileString;
                 var existingAccount = await accountRepo.GetOneAccount(updatedAccount.AccountId);
                 if (updatedAccount.ProfileImage != null)
                 {
@@ -328,7 +329,7 @@ namespace QienUrenMVC.Controllers
             else 
             {
                 
-                string uniqueFilename = "user-circle-solid.svg";
+                string uniqueFilename = "profilephoto.png";
                 if (model.ProfileImage != null)
                 {
                     string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
@@ -339,6 +340,17 @@ namespace QienUrenMVC.Controllers
                         model.ProfileImage.CopyTo(stream);
                     }
                     model.ProfileImage.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+                if (model.ProfileImage == null)
+                {
+                    string filename = "profilephoto.png";
+                    string sourcePath = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
+                    string targetPath = Path.Combine(hostingEnvironment.WebRootPath, "Images/ProfileImages");
+                    string sourceFile = Path.Combine(sourcePath, filename);
+                    uniqueFilename = Guid.NewGuid().ToString() + "_" + model.AccountId + filename;
+                    string destFile = Path.Combine(targetPath, uniqueFilename);
+
+                    System.IO.File.Copy(sourceFile, destFile, true);
                 }
 
                 var clientList = hoursperdayRepo.GetClientList();
