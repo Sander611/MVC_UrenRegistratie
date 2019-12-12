@@ -69,9 +69,6 @@ namespace QienUrenMVC.Controllers
 
             };
 
-
-            
-
             var roles = new List<SelectListItem>
             {
                 new SelectListItem{Value = "1", Text = "Iedereen"},
@@ -80,6 +77,7 @@ namespace QienUrenMVC.Controllers
                 new SelectListItem{Value = "4", Text = "Senior Medewerker"}
             };
             ViewBag.Roles = roles;
+
             return View(adminTaskModel);
         }
 
@@ -90,6 +88,7 @@ namespace QienUrenMVC.Controllers
             /// This method is executed when the Admin accepts changes made by a User for his/hers personalia.
             /// A method in the AccountRepository gets called in which the changes will be implemented.
             ///
+
             await accountRepo.SetAccountChanged(accountId, false);
             return RedirectToAction("Dashboard");
         }
@@ -101,6 +100,7 @@ namespace QienUrenMVC.Controllers
             /// This method is executed when the Admin declines changes made by a User for his/hers personalia.
             /// A method in the AccountRepository gets called in which the request will be dismissed.
             ///
+
             await accountRepo.RevertAccountPersonalia(accountId);
             return RedirectToAction("Dashboard");
         }
@@ -120,7 +120,6 @@ namespace QienUrenMVC.Controllers
             ViewBag.month = month;
             ViewBag.year = year;
             ViewBag.status = state;
-
 
             HoursFormModel formInfo = await hoursformRepo.GetFormById(formId);
             ViewBag.textAdmin = formInfo.CommentAdmin;
@@ -143,6 +142,7 @@ namespace QienUrenMVC.Controllers
             ///
             /// This method generates the view in which an admin can accept or dismiss the users changes made to their own personalia.
             ///
+
             UserPersonaliaModel personaliaModel = await accountRepo.ComparePersonaliaChanges(accountId);
 
             return View(personaliaModel);
@@ -165,6 +165,11 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> UrenFormulieren(string id, string name, int year)
         {
+            ///
+            /// This method gets all hourforms for a specific user. It also generates data for an dropdown element to select years.
+            /// It uses the HourFormRepository to obtain this data. 
+            /// At the end of the method the data gets sorted on month (jan -> dec).
+            ///
             ViewBag.currUser = name;
             ViewBag.currId = id;
 
@@ -193,11 +198,8 @@ namespace QienUrenMVC.Controllers
 
             ViewBag.formYears = SelectListYears;
 
-            
-
             List<HoursFormModel> allFormsForAccount = await hoursformRepo.GetSingleAccountForms(id, year);
             List<HoursFormModel> sorted = new List<HoursFormModel>();
-
 
             foreach (var month in months)
             {
@@ -217,6 +219,9 @@ namespace QienUrenMVC.Controllers
 
         public async Task<IActionResult> DeleteAccount(string accountID)
         {
+            ///
+            /// This method calls methods in the AccountRepository to delete an User and its hourforms/hourperdays data.
+            ///
 
             await accountRepo.RemoveAccount(accountID);
             await accountRepo.RemoveAllFormPerAccount(accountID);
@@ -227,6 +232,9 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> EditAccount(string accountID)
         {
+            ///
+            /// This method gets all data from a specific user using the id. And creates a view where the Admin can edit the users data.
+            ///
            
             AccountModel accountUser = await accountRepo.GetOneAccount(accountID);
             EmployeeUpdateAccountModel tempacc = new EmployeeUpdateAccountModel()
@@ -259,6 +267,10 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> EditAccount(EmployeeUpdateAccountModel updatedAccount)
         {
+            ///
+            /// After editing an User the model is checked here for validation. If validation is ok the user gets updated by
+            /// sending the data as model to the AccountRepository.
+            ///
 
             if (!ModelState.IsValid)
             {
@@ -312,6 +324,10 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateEmployee()
         {
+            ///
+            /// This method generates the View in which the Admin can create a new User.
+            ///
+
             var clientList = hoursperdayRepo.GetClientList();
             ViewBag.CompanyNames = clientList;
 
@@ -322,6 +338,13 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEmployee(AccountModelCreateView model, int ClientId)
         {
+            ///
+            /// This method gets an Model containing data for a new User account.
+            /// If an photo is uploaded the user obtains an unique string in which his/hers photo gets stored.
+            /// Also a hoursform gets generated for the specific month in which the Admin is creating the account.
+            /// At the end an email gets created that is send to the User. In this email an User obtains a link to reset its password.
+            ///
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -472,6 +495,11 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> YearOverview(int Year)
         {
+            ///
+            /// This method gets all the account Ids for different roles (trainee, employee, sr. software developer) 
+            /// All theses ids are then used to calculate all total hours of each role and is then displayed in a View.
+            ///
+
             if (Year == 0)
             {
                 Year = DateTime.Now.Year;
@@ -514,6 +542,10 @@ namespace QienUrenMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> FormsForYear(int year, string month)
         {
+            ///
+            /// This method gets all the Hoursforms for an specific year (all users).
+            /// It also calculates the total of each column (for that year).
+            ///
 
             List<FormsForMonthModel> specificFormsForDate = await hoursformRepo.GetFormsForYearAndMonth(year, month);
             
@@ -548,6 +580,11 @@ namespace QienUrenMVC.Controllers
         [HttpGet("{keuring}/{id}")]
         public async Task<IActionResult> CheckControleren(string keuring, int id, string adminText, string clientText, string CCaccountId, string CCfullName, string CCmonth, string CCyear, int CCstate)
         {
+            ///
+            /// If the Admin accepts or declines a hoursform send in by an User the script will come here and update data in the database.
+            /// State 3 == Accepted by Admin.
+            /// State 4 == Declined by Admin.
+            ///
 
             if (keuring == "true")
             {
