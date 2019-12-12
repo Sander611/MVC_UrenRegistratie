@@ -9,8 +9,8 @@
 
 @Html.DropDownList("year", (IEnumerable
         <SelectListItem>)ViewBag.formYears,"Alle Jaren", new { onchange = "window.location.href='/Admin/UrenFormulieren/" + ViewBag.currId +"?name=" + ViewBag.currUser + "&year=' + this.value;" })
-
-
+<br />
+<br />
 <table class="tabel">
     <thead>
         <tr>
@@ -95,9 +95,6 @@
                     @Html.DisplayFor(modelItem => item.TotalOther)
                 </td>
 
-
-
-
                 @if (item.IsAcceptedClient == 0)
                 {
                     <td class="inhoudtekst">
@@ -132,9 +129,6 @@
                         <img style="width: 15px; height:auto;" src="~/Images/paper-plane-solid.svg" /> In afwachting van keuring Opdrachtgever
                     </td>
                 }
-
-
-
 
 
                 @if (item.IsLocked == true)

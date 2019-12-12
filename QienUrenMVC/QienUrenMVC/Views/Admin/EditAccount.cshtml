@@ -120,12 +120,7 @@
                 <hr />
                 <div class="row">
                     <div class="col">
-                        @*<div class="form-group form-check">
-                        <input class="form-check-input" asp-for="IsTrainee" type="radio" name="functieRadios" id="functieTrainee" value="True">
-                        <label class="form-check-label" for="functieTrainee">
-                            Trainee
-                        </label>
-                    </div>*@
+                    
                         <div class="form-group form-check">
                             <label class="form-check-label">
                                 <input id="checkTrainee" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsTrainee" /> @Html.DisplayNameFor(model => model.IsTrainee)
@@ -133,12 +128,6 @@
                         </div>
                     </div>
                     <div class="col">
-                        @*<div class="form-group form-check">
-                        <input class="form-check-input" asp-for="IsQienEmployee" type="radio" name="functieRadios" id="functieQienEmployee" value="True">
-                        <label class="form-check-label" for="functieQienEmployee">
-                            Medewerker Qien
-                        </label>
-                    </div>*@
                         <div class="form-group form-check">
                             <label class="form-check-label">
                                 <input id="checkQienEmployee" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsQienEmployee" /> @Html.DisplayNameFor(model => model.IsQienEmployee)
@@ -146,12 +135,6 @@
                         </div>
                     </div>
                     <div class="col">
-                        @*<div class="form-group form-check">
-                        <input class="form-check-input" asp-for="IsSeniorDeveloper" type="radio" name="functieRadios" id="functieSeniorDeveloper" value="True">
-                        <label class="form-check-label" for="functieSeniorDeveloper">
-                            Senior Developer
-                        </label>
-                    </div>*@
                         <div class="form-group form-check">
                             <label class="form-check-label">
                                 <input id="checkSeniorDeveloper" onclick="onlySelectOne(this.id)" class="form-check-input" asp-for="IsSeniorDeveloper" /> @Html.DisplayNameFor(model => model.IsSeniorDeveloper)
@@ -159,53 +142,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-                @*<div class="form-group">
-                <label asp-for="HashedPassword" class="control-label"></label>
-                <input asp-for="HashedPassword" class="form-control" />
-                <span asp-validation-for="HashedPassword" class="text-danger"></span>
-            </div>*@
-
-                @*<div class="form-group">
-                <label asp-for="CreationDate" class="control-label"></label>
-                <input asp-for="CreationDate" class="form-control" />
-                <span asp-validation-for="CreationDate" class="text-danger"></span>
-            </div>*@
-                @*<div class="form-group">
-                <label asp-for="ProfileImage" class="control-label"></label>
-                <input asp-for="ProfileImage" class="form-control" />
-                <span asp-validation-for="ProfileImage" class="text-danger"></span>
-            </div>*@
-
-
-
-
-
-
-
-                @*<div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsAdmin" /> @Html.DisplayNameFor(model => model.IsAdmin)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsTrainee" /> @Html.DisplayNameFor(model => model.IsTrainee)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsQienEmployee" /> @Html.DisplayNameFor(model => model.IsQienEmployee)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsSeniorDeveloper" /> @Html.DisplayNameFor(model => model.IsSeniorDeveloper)
-                </label>
-            </div>*@
                 <hr />
                 <div class="form-group form-check">
                     <label class="form-check-label">
