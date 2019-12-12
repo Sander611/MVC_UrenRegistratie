@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace UnitTest_QienUren.FakeRepositories
 {
-    class FakeHoursPerDayRepository : IHoursPerDayRepository
+    public class FakeHoursPerDayRepository : IHoursPerDayRepository
     {
         public Task<List<HoursPerDayModel>> GetAllDaysForForm(int formId)
         {
