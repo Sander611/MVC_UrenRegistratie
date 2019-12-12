@@ -17,21 +17,40 @@ namespace UnitTest_QienUren
         public void Should_Return_Admin_Dashboard()
         {
             //Arrange
-            var controller = new AdminController(new FakeAccountRepository(), new FakeClientRepository(), new FakeHoursFormRepository(), new FakeHoursPerDayRepository());
+            var controller = new AdminController(null, new FakeAccountRepository(), null, new FakeHoursFormRepository(), null, null);
             //Act
             var result = controller.Dashboard();
             //Assert
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            Assert.IsInstanceOfType(result, typeof(object));
         }
         [TestMethod]
         public void Should_Return_NewAccount()
         {
             //Arrange
-            var controller = new AdminController(new FakeAccountRepository());
+            var controller = new AdminController(null, new FakeAccountRepository(), null, null, null, null);
             //Act
             var result = controller.CreateEmployee();
             //Assert
             Assert.IsInstanceOfType(result, typeof(object));
+        }
+        [TestMethod]
+        public void Should_Return_View_AccountDeleted()
+        {
+            //Arrange
+            var controller = new AdminController(null, new FakeAccountRepository(), null, null, null, null);
+            //Act
+            var result = controller.DeleteAccount("string");
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(object));
+        }
+        [TestMethod]
+        public void Should_Approve_Personalia()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
         }
     }
 }
