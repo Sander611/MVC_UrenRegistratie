@@ -9,6 +9,21 @@ namespace UnitTest_QienUren.FakeRepositories
 {
     class FakeClientRepository : IClientRepository
     {
+
+        private List<ClientModel> clients = new List<ClientModel>
+        {
+            new ClientModel
+            {
+                CompanyName = "Macaw",
+                ClientId = 1,
+                ClientName1 = "Peter",
+                ClientName2 = "Jan Jan",
+                ClientEmail1 = "test@test.com",
+                ClientEmail2 = "test1@test.com"
+            }
+
+        };
+
         public Task<ClientModel> CreateNewClient(ClientModel clientModel)
         {
             throw new NotImplementedException();
@@ -19,19 +34,19 @@ namespace UnitTest_QienUren.FakeRepositories
             throw new NotImplementedException();
         }
 
-        public Task<List<ClientModel>> Get(string searchString)
+        public async Task<List<ClientModel>> Get(string searchString)
         {
-            throw new NotImplementedException();
+            return clients;
         }
 
-        public Task<ClientModel> GetById(int id)
+        public async Task<ClientModel> GetById(int id)
         {
-            throw new NotImplementedException();
+            return clients[0];
         }
 
-        public Task<string> GetNameByID(int id)
+        public async Task<string> GetNameByID(int id)
         {
-            throw new NotImplementedException();
+            return "Macaw";
         }
 
         public Task<ClientModel> Update(ClientModel client)
@@ -39,4 +54,5 @@ namespace UnitTest_QienUren.FakeRepositories
             throw new NotImplementedException();
         }
     }
+    
 }

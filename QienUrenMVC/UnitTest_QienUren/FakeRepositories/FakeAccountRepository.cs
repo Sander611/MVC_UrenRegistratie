@@ -12,33 +12,34 @@ namespace UnitTest_QienUren.FakeRepositories
         private List<AccountModel> accounts = new List<AccountModel>
         {
             new AccountModel{
-            AccountId = "1",
-            FirstName = "Ron",
-            LastName = "Dijkstra",
-            Address = "blbl",
-            ZIP = "1234AB",
-            City = "Amersfoort",
-            IBAN = "asdsadas",
-            IsActive = true,
-            HashedPassword = "asdasdasd",
-            ProfileImage = "sadasdasd",
-            MobilePhone = "1232312",
-            Email = "sadasdasd",
-            IsAdmin = false,
-            IsQienEmployee = false,
-            IsSeniorDeveloper = false,
-            IsTrainee = true,
-            IsChanged = false,
-            CreationDate = new DateTime(2019, 03, 03),
-            DateOfBirth = new DateTime(1992, 03, 23)
+                AccountId = "1",
+                FirstName = "Ron",
+                LastName = "Dijkstra",
+                Address = "blbl",
+                ZIP = "1234AB",
+                City = "Amersfoort",
+                IBAN = "asdsadas",
+                IsActive = true,
+                HashedPassword = "asdasdasd",
+                ProfileImage = "sadasdasd",
+                MobilePhone = "1232312",
+                Email = "sadasdasd",
+                IsAdmin = false,
+                IsQienEmployee = false,
+                IsSeniorDeveloper = false,
+                IsTrainee = true,
+                IsChanged = false,
+                CreationDate = new DateTime(2019, 03, 03),
+                DateOfBirth = new DateTime(1992, 03, 23)
 
             }
-            };
+        };
 
+       
 
         public async Task<AccountModel> AddNewAccount(AccountModel account)
         {
-            return account;
+          return account;
         }
 
         public async Task<AccountModel> AdminUpdateAccount(AccountModel account, string uniqueFilename)
@@ -64,7 +65,8 @@ namespace UnitTest_QienUren.FakeRepositories
 
         public async Task<List<AccountModel>> GetAllAccounts(string searchString)
         {
-            return accounts;      
+
+            return accounts;
         }
 
         public async Task<List<AccountModel>> GetAllAccountsWithoutString()
@@ -138,6 +140,7 @@ namespace UnitTest_QienUren.FakeRepositories
             return accounts[0];
 
 
+            
         }
     }
 }
