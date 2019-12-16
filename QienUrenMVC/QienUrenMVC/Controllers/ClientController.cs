@@ -62,7 +62,11 @@ namespace QienUrenMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateClient(ClientModel newClient)
         {
-            ClientModel client = await clientRepo.CreateNewClient(newClient);
+            if (!ModelState.IsValid)
+            {
+                return View(newClient);
+            }
+                ClientModel client = await clientRepo.CreateNewClient(newClient);
             return RedirectToRoute(new { controller = "Client", action = "GetAllClients" });
         }
         //als admin opvragen client properties voor het updaten van client 
