@@ -18,7 +18,7 @@ namespace UnitTest_QienUren
     public class TestClientController
     {
         [TestMethod]
-        public async Task ReturnsIActionResult()
+        public async Task ClientDetailsReturnsIActionResult()
         {
             int testSessionId = 1;
             var mockRepoClient = new Mock<IClientRepository>();
@@ -29,15 +29,124 @@ namespace UnitTest_QienUren
                 .Returns(Task.FromResult((GetTestClients().FirstOrDefault(s => s.ClientId == testSessionId))));
             var controller = new ClientController(mockRepoAccount.Object, mockRepoClient.Object, mockRepoHoursForm.Object, mockRepoHoursPerDay.Object);
 
-            // Act
             var result = await controller.ClientDetails(testSessionId);
-
-            // Assert
-            Assert.IsInstanceOfType(result, typeof(IActionResult));
-            //var returnValue = Assert.IsType<ClientModel>(okResult.Value);
-            //var idea = returnValue.FirstOrDefault();
-            //Assert.Equals("One", idea.);
+            Assert.IsInstanceOfType(result, typeof(IActionResult));;
         }
+        [TestMethod]
+        public async Task CreateClient_ReturnsViewResult_WhenModelStateIsInvalid()
+        {
+            var mockRepoClient = new Mock<IClientRepository>();
+            var mockRepoAccount = new Mock<IAccountRepository>();
+            var mockRepoHoursForm = new Mock<IHoursFormRepository>();
+            var mockRepoHoursPerDay = new Mock<IHoursPerDayRepository>();
+            var controller = new ClientController(mockRepoAccount.Object, mockRepoClient.Object, mockRepoHoursForm.Object, mockRepoHoursPerDay.Object);
+            controller.ModelState.AddModelError("CompanyName", "Required");
+            
+            var newClient_No_CompanyName = new ClientModel()
+            {
+
+                ClientId = 1,
+                ClientName1 = "Peter Peter",
+                ClientName2 = "Jan Jan",
+                ClientEmail1 = "test@test.com",
+                ClientEmail2 = "test1@test.com"
+            };
+            mockRepoClient.Setup(repo => repo.CreateNewClient(newClient_No_CompanyName)).Returns(Task.FromResult(GetTestClient()));
+            controller.ModelState.AddModelError("CompanyName", "Required");
+
+            var result = await controller.CreateClient(newClient_No_CompanyName);
+
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
+        [TestMethod]
+        public async Task CreateClient_ReturnsARedirectAndAddsClient_WhenModelStateIsValid()
+        {
+            // Arrange
+            var mockRepoClient = new Mock<IClientRepository>();
+            var mockRepoAccount = new Mock<IAccountRepository>();
+            var mockRepoHoursForm = new Mock<IHoursFormRepository>();
+            var mockRepoHoursPerDay = new Mock<IHoursPerDayRepository>();
+            mockRepoClient.Setup(repo => repo.CreateNewClient(GetTestClient())).Returns(Task.FromResult(GetTestClient()));
+            var controller = new ClientController(mockRepoAccount.Object, mockRepoClient.Object, mockRepoHoursForm.Object, mockRepoHoursPerDay.Object);
+            var newClient = new ClientModel()
+            {
+                CompanyName = "Macaw",
+                ClientId = 1,
+                ClientName1 = "Peter Peter",
+                ClientName2 = "Jan Jan",
+                ClientEmail1 = "test@test.com",
+                ClientEmail2 = "test1@test.com"
+            };
+
+            var result = await controller.CreateClient(newClient);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        }
+        [TestMethod]
+        public async Task UpdateClient_ReturnsViewResult_WhenModelStateIsInvalid()
+        {
+            var mockRepoClient = new Mock<IClientRepository>();
+            var mockRepoAccount = new Mock<IAccountRepository>();
+            var mockRepoHoursForm = new Mock<IHoursFormRepository>();
+            var mockRepoHoursPerDay = new Mock<IHoursPerDayRepository>();
+            var controller = new ClientController(mockRepoAccount.Object, mockRepoClient.Object, mockRepoHoursForm.Object, mockRepoHoursPerDay.Object);
+            controller.ModelState.AddModelError("CompanyName", "Required");
+
+            var newClient_No_CompanyName = new ClientModel()
+            {
+
+                ClientId = 1,
+                ClientName1 = "Peter Peter",
+                ClientName2 = "Jan Jan",
+                ClientEmail1 = "test@test.com",
+                ClientEmail2 = "test1@test.com"
+            };
+            mockRepoClient.Setup(repo => repo.Update(newClient_No_CompanyName)).Returns(Task.FromResult(GetTestClient()));
+            controller.ModelState.AddModelError("CompanyName", "Required");
+
+            var result = await controller.UpdateClient(newClient_No_CompanyName);
+
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
+        [TestMethod]
+        public async Task UpdateClient_ReturnsARedirectAndAddsClient_WhenModelStateIsValid()
+        {
+            // Arrange
+            var mockRepoClient = new Mock<IClientRepository>();
+            var mockRepoAccount = new Mock<IAccountRepository>();
+            var mockRepoHoursForm = new Mock<IHoursFormRepository>();
+            var mockRepoHoursPerDay = new Mock<IHoursPerDayRepository>();
+            mockRepoClient.Setup(repo => repo.Update(GetTestClient())).Returns(Task.FromResult(GetTestClient()));
+            var controller = new ClientController(mockRepoAccount.Object, mockRepoClient.Object, mockRepoHoursForm.Object, mockRepoHoursPerDay.Object);
+            var newClient = new ClientModel()
+            {
+                CompanyName = "Macaw",
+                ClientId = 1,
+                ClientName1 = "Peter Peter",
+                ClientName2 = "Jan Jan",
+                ClientEmail1 = "test@test.com",
+                ClientEmail2 = "test1@test.com"
+            };
+
+            var result = await controller.UpdateClient(newClient);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        }
+        [TestMethod]
+        public async Task SendEmail_Returns_Task()
+        {
+            var mockRepoClient = new Mock<IClientRepository>();
+            var mockRepoAccount = new Mock<IAccountRepository>();
+            var mockRepoHoursForm = new Mock<IHoursFormRepository>();
+            var mockRepoHoursPerDay = new Mock<IHoursPerDayRepository>();
+            mockRepoClient.Setup(repo => repo.Update(GetTestClient())).Returns(Task.FromResult(GetTestClient()));
+            var controller = new ClientController(mockRepoAccount.Object, mockRepoClient.Object, mockRepoHoursForm.Object, mockRepoHoursPerDay.Object);
+
+            var result = controller.SendEMail(true, 1);
+
+            Assert.IsInstanceOfType(result, typeof(Task));
+        }
+
         private List<ClientModel> GetTestClients()
         {
             var clients = new List<ClientModel>();
@@ -60,6 +169,18 @@ namespace UnitTest_QienUren
                 ClientEmail2 = "baas@test.com"
             });
             return clients;
+        }
+        private ClientModel GetTestClient()
+        {
+            var client = new ClientModel
+                {
+                ClientId = 1,
+                ClientName1 = "Peter Peter",
+                ClientName2 = "Jan Jan",
+                ClientEmail1 = "test@test.com",
+                ClientEmail2 = "test1@test.com"
+            };
+            return client;
         }
     }
 }
