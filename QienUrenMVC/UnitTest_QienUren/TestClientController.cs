@@ -154,7 +154,7 @@ namespace UnitTest_QienUren
             {
                 CompanyName = "Macaw",
                 ClientId = 1,
-                ClientName1 = "Peter Peter",
+                ClientName1 = "Peter",
                 ClientName2 = "Jan Jan",
                 ClientEmail1 = "test@test.com",
                 ClientEmail2 = "test1@test.com"
