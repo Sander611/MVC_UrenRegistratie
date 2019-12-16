@@ -9,6 +9,81 @@ namespace UnitTest_QienUren.FakeRepositories
 {
     class FakeHoursFormRepository : IHoursFormRepository
     {
+        
+
+        private List<HoursFormModel> hoursforms = new List<HoursFormModel>
+        {
+
+            new HoursFormModel
+            {
+                AccountId = "1",
+                FormId = 1,
+                CommentAdmin = "",
+                CommentClient = "",
+                TotalHours = 0,
+                IsAcceptedClient = 0,
+                DateSend = new DateTime(2019, 03,23),
+                DateDue = new DateTime (2019,11,23),
+                IsLocked = false,
+                ProjectMonth = "november",
+                TotalLeave = 0,
+                TotalOther = 0,
+                TotalOver = 0,
+                TotalSick = 0,
+                TotalTraining = 0,
+                Year = 2019,
+                Verification_code = new Guid ("62FA647C-AD54-4BCC-A860-E5A2664B019D")
+            },
+
+            new HoursFormModel
+            {
+                AccountId = "1",
+                FormId = 2,
+                CommentAdmin = "",
+                CommentClient = "",
+                TotalHours = 0,
+                IsAcceptedClient = 0,
+                DateSend = new DateTime(2019, 03,23),
+                DateDue = new DateTime (2019,11,23),
+                IsLocked = false,
+                ProjectMonth = "november",
+                TotalLeave = 0,
+                TotalOther = 0,
+                TotalOver = 0,
+                TotalSick = 0,
+                TotalTraining = 0,
+                Year = 2019,
+                Verification_code = new Guid ("62FA647C-AD54-4BCC-A860-E5A2664B019D")
+            }
+
+        };
+
+        private List<FormsForMonthModel> formsForMonths = new List<FormsForMonthModel>
+        {
+            new FormsForMonthModel
+            {
+                AccountId = "1",
+                FormId = 1,
+                Year = 2019,
+                CommentAdmin = "",
+                CommentClient = "",
+                DateDue = new DateTime(2019,03,23),
+                DateSend = new DateTime(2019,03,23),
+                fullName = "Ron Dijkstra",
+                IsAcceptedClient = 0,
+                IsLocked = false,
+                ProjectMonth = "november",
+                TotalHours = 0,
+                TotalLeave = 0,
+                TotalOther = 0,
+                TotalOver = 0,
+                TotalSick = 0,
+                TotalTraining = 0
+
+
+            }
+        };
+
         public Task ChangeState(int state, int id, string textAdmin, string textClient)
         {
             throw new NotImplementedException();
@@ -24,9 +99,9 @@ namespace UnitTest_QienUren.FakeRepositories
             throw new NotImplementedException();
         }
 
-        public Task<HoursFormModel> EditForm(HoursFormModel editform)
+        public async Task<HoursFormModel> EditForm(HoursFormModel editform)
         {
-            throw new NotImplementedException();
+            return hoursforms[0];
         }
 
         public Task<List<AdminTaskModel>> GetAllClientAcceptedForms()
@@ -39,9 +114,9 @@ namespace UnitTest_QienUren.FakeRepositories
             throw new NotImplementedException();
         }
 
-        public Task<List<HoursFormModel>> getAllFormPerAccount(string accountId)
+        public async Task<List<HoursFormModel>> getAllFormPerAccount(string accountId)
         {
-            throw new NotImplementedException();
+            return hoursforms;
         }
 
         public Task<List<HoursFormModel>> GetAllFormsForAccountForYear(int year, string id)
@@ -49,9 +124,9 @@ namespace UnitTest_QienUren.FakeRepositories
             throw new NotImplementedException();
         }
 
-        public Task<List<HoursFormModel>> GetAllHoursForms()
+        public async Task<List<HoursFormModel>> GetAllHoursForms()
         {
-            throw new NotImplementedException();
+            return hoursforms;
         }
 
         public Task<List<AllHoursYearModel>> GetAllHoursYear(int currYear)
@@ -64,19 +139,19 @@ namespace UnitTest_QienUren.FakeRepositories
             throw new NotImplementedException();
         }
 
-        public Task<HoursFormModel> GetFormById(int id)
+        public async Task<HoursFormModel> GetFormById(int id)
         {
-            throw new NotImplementedException();
+            return hoursforms[0];
         }
 
-        public Task<HoursFormModel> GetFormsById(int formid)
+        public async Task<HoursFormModel> GetFormsById(int formid)
         {
-            throw new NotImplementedException();
+            return hoursforms[0];
         }
 
-        public Task<List<FormsForMonthModel>> GetFormsForYearAndMonth(int year, string month)
+        public async Task<List<FormsForMonthModel>> GetFormsForYearAndMonth(int year, string month)
         {
-            throw new NotImplementedException();
+            return formsForMonths;
         }
 
         public Task<List<HoursFormModel>> GetSingleAccountForms(string id, int year)
@@ -84,9 +159,9 @@ namespace UnitTest_QienUren.FakeRepositories
             throw new NotImplementedException();
         }
 
-        public Task<int> GetYearOfForm(int id)
+        public async Task<int> GetYearOfForm(int id)
         {
-            throw new NotImplementedException();
+            return 2019;
         }
 
         public Task<List<YearOverviewModel>> GetYearOverviews(int year, List<string> Traineeids, List<string> Employeeids, List<string> SoftDevids)
