@@ -84,11 +84,26 @@ namespace UnitTest_QienUren
             Assert.IsInstanceOfType(result, typeof(System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>));
 
         }
+        [TestMethod]
+        public void Should_Return_IActionResult()
+        {
+            //Arrange
+            var controller = new AdminController(null, new FakeAccountRepository(), null, null, null, null);
+            //Act
+            var result = controller.CreateEmployee();
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>));
+                }
 
-
-        //create employee
-        //year overview
-        //formsforyear
-        //checkcontroleren
+        [TestMethod]
+        public void Should_Also_Return_IActionResult()
+        {
+            //Arrange
+            var controller = new AdminController(null, null, null, new FakeHoursFormRepository(), null, null);
+            //Act
+            var result = controller.CreateEmployee();
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult>));
+        }
 }
 }

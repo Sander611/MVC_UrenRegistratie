@@ -9,17 +9,41 @@ namespace UnitTest_QienUren.FakeRepositories
 {
     public class FakeAccountRepository : IAccountRepository
     {
-        public Task<AccountModel> AddNewAccount(AccountModel account)
+        private List<AccountModel> accounts = new List<AccountModel>
         {
-            throw new NotImplementedException();
+            new AccountModel{
+            AccountId = "1",
+            FirstName = "Ron",
+            LastName = "Dijkstra",
+            Address = "blbl",
+            ZIP = "1234AB",
+            City = "Amersfoort",
+            IBAN = "asdsadas",
+            IsActive = true,
+            HashedPassword = "asdasdasd",
+            ProfileImage = "sadasdasd",
+            MobilePhone = "1232312",
+            Email = "sadasdasd",
+            IsAdmin = false,
+            IsQienEmployee = false,
+            IsSeniorDeveloper = false,
+            IsTrainee = true,
+            IsChanged = false,
+            CreationDate = new DateTime(2019, 03, 03),
+            DateOfBirth = new DateTime(1992, 03, 23)
+
+            }
+            };
 
 
+        public async Task<AccountModel> AddNewAccount(AccountModel account)
+        {
+            return account;
         }
 
         public async Task<AccountModel> AdminUpdateAccount(AccountModel account, string uniqueFilename)
         {
             var userpersonalia = new UserPersonaliaModel();
-
             return account;
         }
 
@@ -28,9 +52,9 @@ namespace UnitTest_QienUren.FakeRepositories
             throw new NotImplementedException();
         }
 
-        public Task<AccountModel> GetAccountByFormId(int formId)
+        public async Task<AccountModel> GetAccountByFormId(int formId)
         {
-            throw new NotImplementedException();
+            return accounts[0];
         }
 
         public Task<List<string>> GetAccountIdsByRole(string role)
@@ -40,8 +64,7 @@ namespace UnitTest_QienUren.FakeRepositories
 
         public async Task<List<AccountModel>> GetAllAccounts(string searchString)
         {
-            var allAccounts = new List<AccountModel>();
-            return allAccounts;       
+            return accounts;      
         }
 
         public async Task<List<AccountModel>> GetAllAccountsWithoutString()
@@ -70,9 +93,9 @@ namespace UnitTest_QienUren.FakeRepositories
             throw new NotImplementedException();
         }
 
-        public Task<AccountModel> GetOneAccount(string accountId)
+        public async Task<AccountModel> GetOneAccount(string accountId)
         {
-            throw new NotImplementedException();
+            return accounts[0];
         }
 
         public Task<List<AccountModel>> getPersonaliaFromAccount(string accountId)
@@ -110,9 +133,11 @@ namespace UnitTest_QienUren.FakeRepositories
             throw new NotImplementedException();
         }
 
-        public Task<AccountModel> UpdateAccount(AccountModel account, string UniqueFilename)
+        public async Task<AccountModel> UpdateAccount(AccountModel account, string UniqueFilename)
         {
-            throw new NotImplementedException();
+            return accounts[0];
+
+
         }
     }
 }
